@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_padding">10dp</dimen>
+    <dimen name="horizontal_padding">16dp</dimen>
+    <dimen name="top_padding">14dp</dimen>
+    <dimen name="inbetween_padding">8dp</dimen>
+    <dimen name="button_top">24dp</dimen> //24? 80
+
+    <dimen name="main_text_size">26sp</dimen>
+</resources>
