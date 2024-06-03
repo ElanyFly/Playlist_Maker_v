@@ -6,16 +6,16 @@
     android:id="@+id/main"
     android:background="@color/bg_blue"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/horizontal_padding"
+    android:paddingHorizontal="@dimen/padding_16dp"
     >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/top_padding"
+        android:paddingVertical="@dimen/padding_14dp"
         android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="@dimen/main_text_size"
+        android:textSize="@dimen/font_26sp"
         android:textStyle="bold"
         />
 
@@ -24,46 +24,64 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="12dp"
-        android:layout_marginTop="@dimen/button_top"
+        android:layout_marginTop="@dimen/pudding_24dp"
         >
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/inbetween_padding"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:layout_weight="1"
             android:background="@drawable/button"
             android:backgroundTint="@color/white"
             android:text="@string/search"
             android:textColor="@color/text_dark"
-            android:textSize="@dimen/main_text_size"
-            android:textStyle="bold"
+            android:textSize="@dimen/font_22sp"
             app:backgroundTint = "@color/white"
             app:icon="@drawable/search_icon"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/text_dark"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:backgroundTint="@color/white"
+            android:text="@string/media"
+            android:textColor="@color/text_dark"
+            android:textSize="@dimen/font_22sp"
+            app:backgroundTint = "@color/white"
+            app:icon="@drawable/music_icon"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconTint="@color/text_dark"
 
             />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:layout_weight="1"
             android:background="@drawable/button"
-            android:layout_marginBottom="@dimen/inbetween_padding"
-            android:text="@string/media"
+            android:backgroundTint="@color/white"
+            android:text="@string/pref"
+            android:textColor="@color/text_dark"
+            android:textSize="@dimen/font_22sp"
+            app:backgroundTint = "@color/white"
+            app:icon="@drawable/pref_icon"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/text_dark"
+
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/button"
-            android:layout_marginBottom="@dimen/inbetween_padding"
-            android:text="@string/pref"
-            />
+
 
     </LinearLayout>
 </LinearLayout>
