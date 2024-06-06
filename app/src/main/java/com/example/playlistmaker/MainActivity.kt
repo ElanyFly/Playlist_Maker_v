@@ -26,12 +26,14 @@ class MainActivity : AppCompatActivity() {
         val prefButton = findViewById<Button>(R.id.main_pref_button)
 
         val buttonSearchClickListener : View.OnClickListener = View.OnClickListener {
-            Toast.makeText(this@MainActivity, "Нажали Поиск", Toast.LENGTH_SHORT).show()
+            val searchIntent = Intent(this, SearchActivity::class.java)
+            startActivity(searchIntent)
         }
         searchButton.setOnClickListener(buttonSearchClickListener)
 
         mediaButton.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Нажали Медиатеку", Toast.LENGTH_SHORT).show()
+            val mediaIntent = Intent(this, MediaActivity::class.java)
+            startActivity(mediaIntent)
         }
 
         prefButton.setOnClickListener {
