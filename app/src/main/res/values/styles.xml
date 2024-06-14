@@ -9,11 +9,32 @@
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="android:textSize">@dimen/font_22sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="iconTint">@color/text_dark</item>
         <item name="iconPadding">@dimen/padding_8dp</item>
         <item name="iconGravity">textStart</item>
         <item name="backgroundTint">@color/white</item>
+    </style>
 
+    <style name="PrefText" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/font_16sp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="PrefLayout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/padding_16dp</item>
+        <item name="android:paddingVertical">@dimen/padding_21dp</item>
+    </style>
+
+    <style name="ScreenHeader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/font_22sp</item>
     </style>
 
 
