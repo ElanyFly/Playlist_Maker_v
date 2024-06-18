@@ -59,9 +59,11 @@
         android:textSize="@dimen/font_16sp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-    <LinearLayout style="@style/PrefLayout">
+    <LinearLayout style="@style/PrefLayout"
+        android:id="@+id/settings_share_button">
 
         <TextView
+
             style="@style/PrefText"
             android:text="@string/share_app" />
 
