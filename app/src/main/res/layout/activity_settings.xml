@@ -91,7 +91,8 @@
 
     </LinearLayout>
 
-    <LinearLayout style="@style/PrefLayout">
+    <LinearLayout style="@style/PrefLayout"
+        android:id="@+id/settings_user_agreement_button">
 
         <TextView
             style="@style/PrefText"

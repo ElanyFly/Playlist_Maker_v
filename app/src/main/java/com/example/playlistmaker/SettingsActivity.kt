@@ -29,22 +29,27 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val shareButton = findViewById<LinearLayout>(R.id.settings_share_button)
-        shareButton.setOnClickListener{
+        shareButton.setOnClickListener {
             shareLink(getString(R.string.android_developer_course_link))
         }
 
         val helpdeskButton = findViewById<LinearLayout>(R.id.settings_helpdesk_button)
-        helpdeskButton.setOnClickListener{
-
+        helpdeskButton.setOnClickListener {
             sendEmail(
                 arrayOf(getString(R.string.helpdesk_email)),
                 getString(R.string.helpdesk_mail_header),
-                getString(R.string.helpdesk_mail_message))
+                getString(R.string.helpdesk_mail_message)
+            )
+        }
+
+        val agreementButton = findViewById<LinearLayout>(R.id.settings_user_agreement_button)
+        agreementButton.setOnClickListener {
+            openAgreement(getString(R.string.settings_agreement_link))
         }
 
     }
 
-    private fun Context.shareLink(url: String) {
+    private fun shareLink(url: String) {
         val sendIntent = Intent(
             Intent.ACTION_SEND
         ).apply {
@@ -57,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(shareIntent)
     }
 
-    private fun Context.sendEmail(email: Array<String>, header: String, message: String) {
+    private fun sendEmail(email: Array<String>, header: String, message: String) {
         val sendIntent = Intent(
             Intent.ACTION_SENDTO
         ).apply {
@@ -67,6 +72,14 @@ class SettingsActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_TEXT, message)
         }
         startActivity(Intent.createChooser(sendIntent, null))
+    }
+
+    private fun openAgreement(url: String) {
+        val showAgreement = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(url)
+        )
+        startActivity(showAgreement)
     }
 
 }
