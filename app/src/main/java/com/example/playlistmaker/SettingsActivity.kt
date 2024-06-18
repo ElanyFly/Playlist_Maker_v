@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -28,26 +29,18 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val shareButton = findViewById<LinearLayout>(R.id.settings_share_button)
-//        shareButton.setOnClickListener {
-//            val sendIntent = Intent(
-//                Intent.ACTION_SEND
-//            ).apply {
-//                putExtra(
-//                    Intent.EXTRA_TEXT,
-//                    getString(R.string.android_developer_course_link)
-//                )
-//                type = "text/plain"
-//            }
-//            val shareIntent = Intent.createChooser(
-//                sendIntent, null
-//            )
-//            startActivity(shareIntent)
-//        }
-
         shareButton.setOnClickListener{
             shareLink(getString(R.string.android_developer_course_link))
         }
 
+        val helpdeskButton = findViewById<LinearLayout>(R.id.settings_helpdesk_button)
+        helpdeskButton.setOnClickListener{
+
+            sendEmail(
+                arrayOf(getString(R.string.helpdesk_email)),
+                getString(R.string.helpdesk_mail_header),
+                getString(R.string.helpdesk_mail_message))
+        }
 
     }
 
@@ -62,6 +55,18 @@ class SettingsActivity : AppCompatActivity() {
             sendIntent, null
         )
         startActivity(shareIntent)
+    }
+
+    private fun Context.sendEmail(email: Array<String>, header: String, message: String) {
+        val sendIntent = Intent(
+            Intent.ACTION_SENDTO
+        ).apply {
+            setData(Uri.parse("mailto:"))
+            putExtra(Intent.EXTRA_EMAIL, email)
+            putExtra(Intent.EXTRA_SUBJECT, header)
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+        startActivity(Intent.createChooser(sendIntent, null))
     }
 
 }

@@ -76,7 +76,8 @@
 
     </LinearLayout>
 
-    <LinearLayout style="@style/PrefLayout">
+    <LinearLayout style="@style/PrefLayout"
+        android:id="@+id/settings_helpdesk_button">
 
         <TextView
             style="@style/PrefText"
