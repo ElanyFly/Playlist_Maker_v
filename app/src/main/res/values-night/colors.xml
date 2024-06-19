@@ -3,7 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bg_activity_main">#1A1B22</color>
+    <color name="bg_activity_white">#1A1B22</color>
     <color name="text_activity_main">#1A1B22</color>
     <color name="text_dark">#FFFFFFFF</color>
     <color name="light_grey">#FFFFFFFF</color>
+    <color name="search_grey">#FFFFFFFF</color>
+    <color name="search_light_grey">#1A1B22</color>
+
 </resources>
