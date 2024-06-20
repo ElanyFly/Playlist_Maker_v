@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,12 +25,18 @@ class SearchActivity : AppCompatActivity() {
 
         val inputText = findViewById<EditText>(R.id.inputText)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
+        val backButton = findViewById<FrameLayout>(R.id.search_back_button)
 
         clearButton.setOnClickListener {
             inputText.setText("")
         }
 
+        backButton.setOnClickListener {
+            finish()
+        }
+
         val textWatcher = object  : TextWatcher {
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -43,6 +50,8 @@ class SearchActivity : AppCompatActivity() {
             }
 
         }
+
+        inputText.addTextChangedListener(textWatcher)
 
 
     }
