@@ -58,6 +58,9 @@
         android:text="@string/dark_theme"
         android:textColor="@color/text_dark"
         android:textSize="@dimen/font_16sp"
+        android:thumbTint="@drawable/tumbler_head"
+        android:trackTint="@drawable/tumbler_head"
+        tools:checked="true"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <LinearLayout style="@style/PrefLayout"
