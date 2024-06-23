@@ -1,10 +1,12 @@
 package com.example.playlistmaker
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -12,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 
 class SearchActivity : AppCompatActivity() {
 
@@ -34,6 +38,7 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton.setOnClickListener {
             inputText.setText("")
+            hideKeyboard(inputText)
         }
 
         backButton.setOnClickListener {
@@ -57,7 +62,13 @@ class SearchActivity : AppCompatActivity() {
 
         }
 
-        inputText.addTextChangedListener(textWatcher)
+        inputText.doAfterTextChanged {
+            if (it != null) {
+                savedText = it.toString()
+                clearButton.isVisible = savedText.isNotEmpty()
+            }
+
+        }
 
     }
 
@@ -71,19 +82,22 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(INPUT_TEXT_KEY, inputText.text.toString())
+        outState.putString(INPUT_TEXT_KEY, savedText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         val text = savedInstanceState.getString(INPUT_TEXT_KEY) ?: ""
-        Log.e("123", text)
         inputText.setText(text)
     }
 
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
     companion object {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
-
+        var savedText = ""
     }
 
 }
