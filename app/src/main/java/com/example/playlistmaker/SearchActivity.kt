@@ -23,6 +23,8 @@ class SearchActivity : AppCompatActivity() {
     private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
 
+    private var savedText = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -53,7 +55,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                clearButton.visibility = clearButtonVisibility(s)
+                    savedText = s.toString()
+                    clearButton.isVisible = savedText.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -62,13 +65,7 @@ class SearchActivity : AppCompatActivity() {
 
         }
 
-        inputText.doAfterTextChanged {
-            if (it != null) {
-                savedText = it.toString()
-                clearButton.isVisible = savedText.isNotEmpty()
-            }
-
-        }
+        inputText.addTextChangedListener(textWatcher)
 
     }
 
@@ -88,16 +85,18 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         val text = savedInstanceState.getString(INPUT_TEXT_KEY) ?: ""
+        savedText = text
         inputText.setText(text)
     }
 
     private fun hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     companion object {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
-        var savedText = ""
     }
 
 }
