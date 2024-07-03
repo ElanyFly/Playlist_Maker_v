@@ -2,7 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bg_blue">#3772E7</color>
+    <color name="bg_activity_main">#3772E7</color>
+    <color name="bg_activity_white">#FFFFFFFF</color>
+    <color name="text_activity_main">#1A1B22</color>
     <color name="text_dark">#1A1B22</color>
     <color name="light_grey">#AEAFB4</color>
+    <color name="search_grey">#E6E8EB</color>
+    <color name="search_light_grey">#AEAFB4</color>
+    <color name="tumbler_track">#9FBBF3</color>
+    <color name="tumbler_track_off">#E6E8EB</color>
+    <color name="tumbler_head">#3772E7</color>
+    <color name="tumbler_head_off">#AEAFB4</color>
 </resources>
