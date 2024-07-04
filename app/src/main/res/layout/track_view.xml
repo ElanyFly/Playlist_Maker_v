@@ -75,7 +75,7 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="12dp"
         android:src="@drawable/arrow_forward"
-        app:tint="@color/light_grey" />
+        app:tint="@color/text_dark" />
 
 
 </LinearLayout>
