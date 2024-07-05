@@ -18,14 +18,17 @@ class TrackViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
     private val trackCover: ImageView = itemView.findViewById(R.id.trackCover)
 
+
     fun bind(model: Track) {
         trackName.text = model.trackName
         artistName.text = model.artistName
         trackTime.text = model.trackTime
+        val coverUrl: String = model.artworkUrl100
 
-        Glide.with(itemView)
-            .load(model.artworkUrl100)
+        Glide.with(itemView.context)
+            .load(coverUrl)
             .placeholder(R.drawable.bgcat)
+            .centerCrop()
             .transform(RoundedCorners(10))
             .into(trackCover)
 
