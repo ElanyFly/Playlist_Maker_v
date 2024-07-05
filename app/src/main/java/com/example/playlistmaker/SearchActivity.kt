@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity() {
 
@@ -35,7 +36,7 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
 
         clearButton.setOnClickListener {
@@ -66,6 +67,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         inputText.addTextChangedListener(textWatcher)
+
 
     }
 

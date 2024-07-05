@@ -75,6 +75,7 @@
                 android:maxLines="5"
                 android:textColorHint="@color/search_light_grey"
                 android:textSize="@dimen/font_16sp">
+
                 <requestFocus />
             </EditText>
 
@@ -84,15 +85,18 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/padding_14dp"
+                android:foregroundGravity="center_vertical"
                 android:src="@drawable/close_16"
                 android:visibility="gone"
-                app:tint="@color/search_light_grey"
-                android:foregroundGravity="center_vertical"/>
+                app:tint="@color/search_light_grey" />
 
         </FrameLayout>
-
-
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>
