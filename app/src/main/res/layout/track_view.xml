@@ -42,12 +42,13 @@
 
             <TextView
                 android:id="@+id/artistName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="@color/light_grey"
                 android:textSize="11sp"
                 android:singleLine="true"
-                tools:text="Nirvana" />
+                tools:text="Nirvaыва ываываываыва ываыывпв ываываы ываываna" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -62,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_grey"
                 android:textSize="11sp"
-                android:singleLine="true"
                 tools:text="5:01" />
 
         </LinearLayout>
