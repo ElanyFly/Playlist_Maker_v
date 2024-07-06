@@ -12,6 +12,7 @@
     <dimen name="track_view_image_size_45dp">45dp</dimen>
     <dimen name="track_view_layout_height_61dp">61dp</dimen>
     <dimen name="track_view_small_text_11sp">11sp</dimen>
+    <dimen name="image_round_corners">2dp</dimen>
 
     <dimen name="font_16sp">16sp</dimen>
     <dimen name="font_22sp">22sp</dimen>

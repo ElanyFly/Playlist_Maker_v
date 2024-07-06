@@ -1,10 +1,7 @@
 package com.example.playlistmaker
 
-import android.content.Context
-import android.media.Image
+
 import android.view.LayoutInflater
-import android.view.RoundedCorner
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,11 +24,12 @@ class TrackViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater
 
         Glide.with(itemView.context)
             .load(coverUrl)
-            .placeholder(R.drawable.bgcat)
+            .placeholder(R.drawable.placeholder_45)
             .centerCrop()
-            .transform(RoundedCorners(10))
+            .transform(RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.image_round_corners)))
             .into(trackCover)
 
 
     }
+
 }
