@@ -16,6 +16,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.utils.Constants
 
 class SearchActivity : AppCompatActivity() {
 
@@ -24,6 +26,7 @@ class SearchActivity : AppCompatActivity() {
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
 
     private var savedText = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
 
         clearButton.setOnClickListener {
@@ -66,6 +69,9 @@ class SearchActivity : AppCompatActivity() {
         }
 
         inputText.addTextChangedListener(textWatcher)
+
+        recyclerView.adapter = TrackAdapter(Constants.mockTrackView)
+
 
     }
 
