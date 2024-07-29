@@ -18,6 +18,10 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.utils.Constants
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://itunes.apple.com"
 
@@ -60,8 +64,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                    savedText = s.toString()
-                    clearButton.isVisible = savedText.isNotEmpty()
+                savedText = s.toString()
+                clearButton.isVisible = savedText.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -101,6 +105,26 @@ class SearchActivity : AppCompatActivity() {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun getClient(baseURL: String = BASE_URL): Retrofit {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val httpClient = OkHttpClient.Builder().apply {
+            addInterceptor(logging)
+        }
+
+        val newRetrofit =Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        return newRetrofit
+    }
+    private fun showErrorMessage() {
+
     }
 
     companion object {

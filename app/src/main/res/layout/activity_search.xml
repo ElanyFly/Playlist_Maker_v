@@ -125,7 +125,7 @@
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nothing_found_error_message"/>
+                android:text="@string/search_nothing_found_error_message"/>
 
         </LinearLayout>
 
@@ -149,7 +149,7 @@
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Проблемы со связью"
+                android:text="@string/search_no_internet_part1"
                 android:textAlignment="center"
                 android:paddingBottom="@dimen/padding_16dp"/>
 
@@ -157,7 +157,7 @@
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Загрузка не удалась. Проверьте подключение к интернету"
+                android:text="@string/search_no_internet_part2"
                 android:textAlignment="center"
                 android:paddingBottom="@dimen/padding_24dp"/>
 
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/refresh_button_height"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="Обновить"/>
+                android:text="@string/search_refresh_button"/>
 
 
         </LinearLayout>
