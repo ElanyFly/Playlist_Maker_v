@@ -19,6 +19,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.utils.Constants
 
+const val BASE_URL = "https://itunes.apple.com"
+
 class SearchActivity : AppCompatActivity() {
 
     private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
