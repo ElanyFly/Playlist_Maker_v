@@ -94,10 +94,87 @@
         </FrameLayout>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/track_view"/>
+
+        <LinearLayout
+            android:id="@+id/nothingFoundMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="top|center"
+            android:paddingTop="@dimen/paddingTop_100dp"
+            android:background="@color/bg_activity_white"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nf_icon"
+                android:paddingBottom="@dimen/padding_16dp"/>
+
+            <TextView
+                style="@style/ErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nothing_found_error_message"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/noInternetMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="top|center"
+            android:paddingTop="@dimen/paddingTop_100dp"
+            android:background="@color/bg_activity_white"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ni_icon"
+                android:paddingBottom="@dimen/padding_16dp"/>
+
+            <TextView
+                style="@style/ErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Проблемы со связью"
+                android:textAlignment="center"
+                android:paddingBottom="@dimen/padding_16dp"/>
+
+            <TextView
+                style="@style/ErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Загрузка не удалась. Проверьте подключение к интернету"
+                android:textAlignment="center"
+                android:paddingBottom="@dimen/padding_24dp"/>
+
+            <Button
+                style="@style/RefreshButton"
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/refresh_button_height"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="Обновить"/>
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

@@ -12,4 +12,5 @@
     <string name="helpdesk_mail_header">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="helpdesk_mail_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="settings_agreement_link">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="nothing_found_error_message">Ничего не нашлось</string>
 </resources>

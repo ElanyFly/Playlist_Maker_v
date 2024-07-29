@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    val glideVersion = "4.11.0"
+    val glideVersion = "4.16.0"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     annotationProcessor ("com.github.bumptech.glide:compiler:$glideVersion")
 
