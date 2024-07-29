@@ -9,3 +9,7 @@ data class Track(
     val trackTime: String,
     val artworkUrl100: String,
 )
+
+data class TrackResponse(
+    val results:List<Track>
+)
