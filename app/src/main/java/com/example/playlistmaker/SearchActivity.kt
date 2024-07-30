@@ -7,9 +7,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +20,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -32,6 +34,10 @@ class SearchActivity : AppCompatActivity() {
     private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
     private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
+    private val nothingFoundMessage by lazy { findViewById<LinearLayout>(R.id.nothingFoundMessage) }
+    private val noInternetMessage by lazy { findViewById<LinearLayout>(R.id.noInternetMessage) }
+    private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
+    private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
 
     private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
@@ -51,12 +57,13 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val tracksRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
 
 
         clearButton.setOnClickListener {
             inputText.setText("")
             hideKeyboard(inputText)
+            clearTrackList()
         }
 
         backButton.setOnClickListener {
@@ -86,54 +93,67 @@ class SearchActivity : AppCompatActivity() {
         tracksRecyclerView.adapter = trackAdapter
 
         inputText.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val query = v.text.toString()
-                val trackData = iTunesService.searchTracks(query)
-                if (query.isNotEmpty()) {
-                    trackData.clone().enqueue(object : Callback<TrackResponse> {
-                        override fun onResponse(
-                            call: Call<TrackResponse>,
-                            response: Response<TrackResponse>
-                        ) {
-                            if (response.code() == 200) {
-                                trackList.clear()
-                                val searchResult = response.body()?.results
-                                if (searchResult?.isNotEmpty() == true) {
-                                    trackList.addAll(searchResult)
-                                    trackAdapter.notifyDataSetChanged()
-                                }
-                                if (trackList.isEmpty()) {
-                                    TODO("окно - ничего не найдено становится видимым")
-                                } else {
-                                    Toast.makeText(this@SearchActivity, "HMMMMmmmm change it", Toast.LENGTH_SHORT).show()
-                                }
-                            } else {
-                                TODO("видимость окна - проблемы с сетью")
+            getTracks(actionId, v)
+        }
+
+        refreshButton.setOnClickListener {
+            getTracks()
+        }
+
+
+    }
+
+    private fun getTracks(
+        actionId: Int = EditorInfo.IME_ACTION_DONE,
+        v: TextView = inputText
+    ): Boolean {
+        showErrorMessage()
+        clearTrackList()
+        return if (actionId == EditorInfo.IME_ACTION_DONE) {
+            val query = v.text.toString()
+            val trackData = iTunesService.searchTracks(query)
+            if (query.isNotEmpty()) {
+                trackData.clone().enqueue(object : Callback<TrackResponse> {
+                    override fun onResponse(
+                        call: Call<TrackResponse>,
+                        response: Response<TrackResponse>
+                    ) {
+                        if (response.code() == 200) {
+
+                            val searchResult = response.body()?.results
+                            if (searchResult?.isNotEmpty() == true) {
+
+                                trackList.addAll(searchResult)
+                                trackAdapter.notifyDataSetChanged()
                             }
+                            if (trackList.isEmpty()) {
+                                showErrorMessage(isShowNothingFound = true)
+                            } else {
+                                showErrorMessage()
+                            }
+                        } else {
+                            showErrorMessage(isShowNetworkError = true)
                         }
+                    }
 
-                        override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                            TODO("видимость окна - проблемы с сетью")
-                        }
+                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        showErrorMessage(isShowNetworkError = true)
+                    }
 
-                    })
-                }
-                true
-            } else {
-                false
+                })
             }
-        }
-
-
-    }
-
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
+            true
         } else {
-            View.VISIBLE
+            false
         }
     }
+
+    private fun clearTrackList() {
+        trackList.clear()
+        trackAdapter.notifyDataSetChanged()
+        showErrorMessage()
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -170,7 +190,12 @@ class SearchActivity : AppCompatActivity() {
         return newRetrofit
     }
 
-    private fun showErrorMessage() {
+    private fun showErrorMessage(
+        isShowNothingFound: Boolean = false,
+        isShowNetworkError: Boolean = false
+    ) {
+        nothingFoundMessage.isVisible = isShowNothingFound
+        noInternetMessage.isVisible = isShowNetworkError
 
     }
 

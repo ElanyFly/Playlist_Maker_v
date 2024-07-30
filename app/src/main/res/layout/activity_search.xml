@@ -71,11 +71,11 @@
                 android:drawablePadding="@dimen/padding_8dp"
                 android:drawableTint="@color/search_light_grey"
                 android:hint="@string/search"
-                android:inputType="text"
-                android:textColorHint="@color/search_light_grey"
-                android:textSize="@dimen/font_16sp"
                 android:imeOptions="actionDone"
-                android:singleLine="true">
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColorHint="@color/search_light_grey"
+                android:textSize="@dimen/font_16sp">
 
                 <requestFocus />
             </EditText>
@@ -103,29 +103,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/track_view"/>
+            tools:listitem="@layout/track_view" />
 
         <LinearLayout
             android:id="@+id/nothingFoundMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="top|center"
-            android:paddingTop="@dimen/paddingTop_100dp"
             android:background="@color/bg_activity_white"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTop_100dp"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/nf_icon"
-                android:paddingBottom="@dimen/padding_16dp"/>
+                android:paddingBottom="@dimen/padding_16dp"
+                android:src="@drawable/nf_icon" />
 
             <TextView
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/search_nothing_found_error_message"/>
+                android:text="@string/search_nothing_found_error_message" />
 
         </LinearLayout>
 
@@ -133,48 +133,47 @@
             android:id="@+id/noInternetMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="top|center"
-            android:paddingTop="@dimen/paddingTop_100dp"
             android:background="@color/bg_activity_white"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTop_100dp"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ni_icon"
-                android:paddingBottom="@dimen/padding_16dp"/>
+                android:paddingBottom="@dimen/padding_16dp"
+                android:src="@drawable/ni_icon" />
 
             <TextView
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_16dp"
                 android:text="@string/search_no_internet_part1"
-                android:textAlignment="center"
-                android:paddingBottom="@dimen/padding_16dp"/>
+                android:textAlignment="center" />
 
             <TextView
                 style="@style/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_24dp"
                 android:text="@string/search_no_internet_part2"
-                android:textAlignment="center"
-                android:paddingBottom="@dimen/padding_24dp"/>
+                android:textAlignment="center" />
 
             <Button
-                style="@style/RefreshButton"
                 android:id="@+id/refreshButton"
+                style="@style/RefreshButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/refresh_button_height"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="@string/search_refresh_button"/>
+                android:text="@string/search_refresh_button" />
 
 
         </LinearLayout>
 
 
     </FrameLayout>
-
 
 
 </LinearLayout>
