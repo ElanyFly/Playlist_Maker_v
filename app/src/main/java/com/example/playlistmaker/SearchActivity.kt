@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,14 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 
 class SearchActivity : AppCompatActivity() {
@@ -34,9 +34,11 @@ class SearchActivity : AppCompatActivity() {
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
 
     private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
-    private val iTunesService by lazy {retrofit.create(TrackAPIService::class.java)}
+    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
+    private val trackList = ArrayList<Track>()
+    private val trackAdapter: TrackAdapter = TrackAdapter(trackList)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,7 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val tracksRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
 
         clearButton.setOnClickListener {
@@ -81,12 +83,41 @@ class SearchActivity : AppCompatActivity() {
 
         inputText.addTextChangedListener(textWatcher)
 
-        recyclerView.adapter = TrackAdapter(Constants.mockTrackView)
+        tracksRecyclerView.adapter = trackAdapter
 
         inputText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val query = v.text.toString()
-                Toast.makeText(this, "Input: $query", Toast.LENGTH_SHORT).show()
+                val trackData = iTunesService.searchTracks(query)
+                if (query.isNotEmpty()) {
+                    trackData.clone().enqueue(object : Callback<TrackResponse> {
+                        override fun onResponse(
+                            call: Call<TrackResponse>,
+                            response: Response<TrackResponse>
+                        ) {
+                            if (response.code() == 200) {
+                                trackList.clear()
+                                val searchResult = response.body()?.results
+                                if (searchResult?.isNotEmpty() == true) {
+                                    trackList.addAll(searchResult)
+                                    trackAdapter.notifyDataSetChanged()
+                                }
+                                if (trackList.isEmpty()) {
+                                    TODO("окно - ничего не найдено становится видимым")
+                                } else {
+                                    Toast.makeText(this@SearchActivity, "HMMMMmmmm change it", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                TODO("видимость окна - проблемы с сетью")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                            TODO("видимость окна - проблемы с сетью")
+                        }
+
+                    })
+                }
                 true
             } else {
                 false
