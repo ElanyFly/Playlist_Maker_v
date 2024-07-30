@@ -6,10 +6,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,13 +25,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "https://itunes.apple.com"
+
 
 class SearchActivity : AppCompatActivity() {
 
     private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
     private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
+
+    private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
+    private val iTunesService by lazy {retrofit.create(TrackAPIService::class.java)}
 
     private var savedText = ""
 
@@ -78,6 +83,16 @@ class SearchActivity : AppCompatActivity() {
 
         recyclerView.adapter = TrackAdapter(Constants.mockTrackView)
 
+        inputText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val query = v.text.toString()
+                Toast.makeText(this, "Input: $query", Toast.LENGTH_SHORT).show()
+                true
+            } else {
+                false
+            }
+        }
+
 
     }
 
@@ -115,7 +130,7 @@ class SearchActivity : AppCompatActivity() {
             addInterceptor(logging)
         }
 
-        val newRetrofit =Retrofit.Builder()
+        val newRetrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
@@ -123,12 +138,14 @@ class SearchActivity : AppCompatActivity() {
 
         return newRetrofit
     }
+
     private fun showErrorMessage() {
 
     }
 
     companion object {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
+        const val BASE_URL = "https://itunes.apple.com"
     }
 
 }

@@ -72,10 +72,10 @@
                 android:drawableTint="@color/search_light_grey"
                 android:hint="@string/search"
                 android:inputType="text"
-                android:lines="1"
-                android:maxLines="5"
                 android:textColorHint="@color/search_light_grey"
-                android:textSize="@dimen/font_16sp">
+                android:textSize="@dimen/font_16sp"
+                android:imeOptions="actionDone"
+                android:singleLine="true">
 
                 <requestFocus />
             </EditText>
@@ -137,7 +137,7 @@
             android:gravity="top|center"
             android:paddingTop="@dimen/paddingTop_100dp"
             android:background="@color/bg_activity_white"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
