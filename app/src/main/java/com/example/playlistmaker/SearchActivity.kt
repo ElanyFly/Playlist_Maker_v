@@ -57,9 +57,6 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
-
-
         clearButton.setOnClickListener {
             inputText.setText("")
             hideKeyboard(inputText)

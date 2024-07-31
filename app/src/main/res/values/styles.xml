@@ -34,6 +34,13 @@
         <item name="android:paddingVertical">@dimen/padding_21dp</item>
     </style>
 
+    <style name="SearchEditText">
+        <item name="android:textColor">@color/text_activity_main</item>
+        <item name="android:textColorHint">@color/search_light_grey</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+        <item name="android:textSize">@dimen/font_16sp</item>
+    </style>
+
     <style name="ScreenHeader">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">@dimen/font_22sp</item>
@@ -53,10 +60,7 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:textAllCaps">false</item>
         <item name="backgroundTint">@color/text_dark</item>
-
-
     </style>
-
 
     <style name="myBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:colorPrimary">@android:color/white</item>
