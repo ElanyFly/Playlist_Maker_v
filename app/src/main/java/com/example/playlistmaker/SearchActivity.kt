@@ -4,28 +4,47 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.utils.Constants
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class SearchActivity : AppCompatActivity() {
 
     private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
     private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
     private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
+    private val nothingFoundMessage by lazy { findViewById<LinearLayout>(R.id.nothingFoundMessage) }
+    private val noInternetMessage by lazy { findViewById<LinearLayout>(R.id.noInternetMessage) }
+    private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
+    private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
+
+    private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
+    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
+    private val trackList = ArrayList<Track>()
+    private val trackAdapter: TrackAdapter = TrackAdapter(trackList)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +57,10 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-
-
         clearButton.setOnClickListener {
             inputText.setText("")
             hideKeyboard(inputText)
+            clearTrackList()
         }
 
         backButton.setOnClickListener {
@@ -58,8 +75,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                    savedText = s.toString()
-                    clearButton.isVisible = savedText.isNotEmpty()
+                savedText = s.toString()
+                clearButton.isVisible = savedText.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -70,18 +87,70 @@ class SearchActivity : AppCompatActivity() {
 
         inputText.addTextChangedListener(textWatcher)
 
-        recyclerView.adapter = TrackAdapter(Constants.mockTrackView)
+        tracksRecyclerView.adapter = trackAdapter
+
+        inputText.setOnEditorActionListener { v, actionId, event ->
+            getTracks(actionId, v)
+        }
+
+        refreshButton.setOnClickListener {
+            getTracks()
+        }
 
 
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
+    private fun getTracks(
+        actionId: Int = EditorInfo.IME_ACTION_DONE,
+        v: TextView = inputText
+    ): Boolean {
+        showErrorMessage()
+        clearTrackList()
+        return if (actionId == EditorInfo.IME_ACTION_DONE) {
+            val query = v.text.toString()
+            val trackData = iTunesService.searchTracks(query)
+            if (query.isNotEmpty()) {
+                trackData.clone().enqueue(object : Callback<TrackResponse> {
+                    override fun onResponse(
+                        call: Call<TrackResponse>,
+                        response: Response<TrackResponse>
+                    ) {
+                        if (response.code() == 200) {
+
+                            val searchResult = response.body()?.results
+                            if (searchResult?.isNotEmpty() == true) {
+
+                                trackList.addAll(searchResult)
+                                trackAdapter.notifyDataSetChanged()
+                            }
+                            if (trackList.isEmpty()) {
+                                showErrorMessage(isShowNothingFound = true)
+                            } else {
+                                showErrorMessage()
+                            }
+                        } else {
+                            showErrorMessage(isShowNetworkError = true)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        showErrorMessage(isShowNetworkError = true)
+                    }
+
+                })
+            }
+            true
         } else {
-            View.VISIBLE
+            false
         }
     }
+
+    private fun clearTrackList() {
+        trackList.clear()
+        trackAdapter.notifyDataSetChanged()
+        showErrorMessage()
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -101,8 +170,35 @@ class SearchActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    private fun getClient(baseURL: String = BASE_URL): Retrofit {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val httpClient = OkHttpClient.Builder().apply {
+            addInterceptor(logging)
+        }
+
+        val newRetrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
+            .build()
+
+        return newRetrofit
+    }
+
+    private fun showErrorMessage(
+        isShowNothingFound: Boolean = false,
+        isShowNetworkError: Boolean = false
+    ) {
+        nothingFoundMessage.isVisible = isShowNothingFound
+        noInternetMessage.isVisible = isShowNetworkError
+
+    }
+
     companion object {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
+        const val BASE_URL = "https://itunes.apple.com"
     }
 
 }
