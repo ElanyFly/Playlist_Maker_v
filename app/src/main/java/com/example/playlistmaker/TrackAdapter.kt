@@ -35,15 +35,26 @@ class TrackAdapter(
 
     fun addTrackToList(track: Track) {
         val mutableHistoryList = historyList.toMutableList()
-        mutableHistoryList.add(0, track)
+        checkHistoryMaxSize(mutableHistoryList, track)
+
         historyList = mutableHistoryList.toList()
         Log.i("addTrack", "historyList - $historyList")
 //        notifyDataSetChanged()
     }
 
-    fun checkHistoryMaxSize() {}
+    private fun checkHistoryMaxSize(
+        mutableHistoryList: MutableList<Track>,
+        track: Track
+    ) {
+        if (mutableHistoryList.size == 9) {
+            mutableHistoryList.removeLast()
+            mutableHistoryList.add(0, track)
+        } else {
+            mutableHistoryList.add(0, track)
+        }
+    }
 
-    fun checkTrackRepeat() {}
+    fun checkTrackRepeat(track: Track) {}
 
 
 
