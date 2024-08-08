@@ -43,8 +43,9 @@ class SearchActivity : AppCompatActivity() {
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
-    private val trackList = ArrayList<Track>()
-    private val trackAdapter: TrackAdapter = TrackAdapter(trackList)
+    //private val trackList = ArrayList<Track>()
+    private val historyList = ArrayList<Track>()
+    private val trackAdapter: TrackAdapter = TrackAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,14 +117,12 @@ class SearchActivity : AppCompatActivity() {
                         response: Response<TrackResponse>
                     ) {
                         if (response.code() == 200) {
-
                             val searchResult = response.body()?.results
-                            if (searchResult?.isNotEmpty() == true) {
 
-                                trackList.addAll(searchResult)
-                                trackAdapter.notifyDataSetChanged()
+                            if (searchResult?.isNotEmpty() == true) {
+                                trackAdapter.updateTrackList(searchResult)
                             }
-                            if (trackList.isEmpty()) {
+                            if (trackAdapter.getTrackList().isEmpty()) {
                                 showErrorMessage(isShowNothingFound = true)
                             } else {
                                 showErrorMessage()
@@ -146,8 +145,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun clearTrackList() {
-        trackList.clear()
-        trackAdapter.notifyDataSetChanged()
+        trackAdapter.clearTrackList()
         showErrorMessage()
     }
 
