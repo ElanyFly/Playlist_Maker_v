@@ -30,9 +30,6 @@ class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
 
     fun updateTrackList(searchResult: List<Track>) {
         trackList = searchResult
-//        val mutableList = trackList.toMutableList()
-//        mutableList.addAll(searchResult)
-//        trackList = mutableList.toList()
         notifyDataSetChanged()
     }
 

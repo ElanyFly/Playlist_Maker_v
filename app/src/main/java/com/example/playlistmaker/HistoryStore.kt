@@ -10,10 +10,33 @@ object HistoryStore {
         return historyList
     }
     fun addTrackToList(track: Track) {
-        val mutableHistoryList = historyList.toMutableList()
+        val mutableHistoryList = historyList
+            .removeTrackRepeat(track)
+            .toMutableList()
+
+
         mutableHistoryList.add(0, track)
         historyList = mutableHistoryList.take(MAX_SIZE)
         Log.i("addTrack", "historyList - $historyList")
 //        notifyDataSetChanged()
+    }
+
+    private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {
+        var trackToRemove: Track? = null
+
+        for (trackCh in this) {
+            if (track.trackId == trackCh.trackId) {
+                trackToRemove = trackCh
+                break
+            }
+        }
+
+        if (trackToRemove == null) {
+            return this
+        }
+        return this
+            .toMutableList()
+            .apply { remove(trackToRemove) }
+            .toList()
     }
 }
