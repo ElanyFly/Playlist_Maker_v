@@ -39,4 +39,8 @@ object HistoryStore {
             .apply { remove(trackToRemove) }
             .toList()
     }
+
+    fun clearHistoryList() {
+        historyList = emptyList()
+    }
 }

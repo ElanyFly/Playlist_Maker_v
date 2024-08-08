@@ -34,9 +34,7 @@ class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
     }
 
     fun clearTrackList() {
-        val mutableList = trackList.toMutableList()
-        mutableList.clear()
-        this.trackList = mutableList.toList()
+        trackList = emptyList()
         notifyDataSetChanged()
     }
 
