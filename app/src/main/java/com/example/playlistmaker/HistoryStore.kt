@@ -4,21 +4,23 @@ import android.util.Log
 
 object HistoryStore {
     private const val MAX_SIZE = 10
-    private var historyList: List<Track> = emptyList()
+    private var historyList: List<Track> = SharedPreferencesManager.getHistory()
 
     fun getHistoryList(): List<Track> {
         return historyList
     }
     fun addTrackToList(track: Track) {
+        val oldList = historyList
         val mutableHistoryList = historyList
             .removeTrackRepeat(track)
             .toMutableList()
 
-
         mutableHistoryList.add(0, track)
         historyList = mutableHistoryList.take(MAX_SIZE)
         Log.i("addTrack", "historyList - $historyList")
-//        notifyDataSetChanged()
+        if (oldList != historyList) {
+            SharedPreferencesManager.saveHistory(historyList)
+        }
     }
 
     private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {

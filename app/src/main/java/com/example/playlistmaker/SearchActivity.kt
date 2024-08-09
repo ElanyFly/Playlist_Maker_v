@@ -13,15 +13,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.utils.deserialize
-import com.example.playlistmaker.utils.serialize
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -41,12 +38,13 @@ class SearchActivity : AppCompatActivity() {
     private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
 
+    private val historyHeader by lazy { findViewById<TextView>(R.id.historyHeader) }
+    private val btnClearHistory by lazy { findViewById<Button>(R.id.btnClearHistory) }
+
     private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
-    //private val trackList = ArrayList<Track>()
-    private val historyList = ArrayList<Track>()
     private val trackAdapter: TrackAdapter = TrackAdapter()
 
 
@@ -60,10 +58,16 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
+        val historyList = HistoryStore.getHistoryList()
+        if (historyList.isNotEmpty()) {
+            showHistory(historyList)
+        }
+
         clearButton.setOnClickListener {
             inputText.setText("")
             hideKeyboard(inputText)
             clearTrackList()
+            showHistory()
         }
 
         backButton.setOnClickListener {
@@ -80,6 +84,11 @@ class SearchActivity : AppCompatActivity() {
 
                 savedText = s.toString()
                 clearButton.isVisible = savedText.isNotEmpty()
+                if (inputText.hasFocus() && s?.isEmpty() == true) {
+                    showHistory()
+                } else {
+                    hideHistory()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -93,6 +102,7 @@ class SearchActivity : AppCompatActivity() {
         tracksRecyclerView.adapter = trackAdapter
 
         inputText.setOnEditorActionListener { v, actionId, event ->
+            hideHistory()
             getTracks(actionId, v)
         }
 
@@ -154,6 +164,18 @@ class SearchActivity : AppCompatActivity() {
     private fun clearTrackList() {
         trackAdapter.clearTrackList()
         showErrorMessage()
+    }
+
+    private fun showHistory(historyList: List<Track> = HistoryStore.getHistoryList()) {
+        trackAdapter.updateTrackList(historyList)
+        historyHeader.isVisible = true
+        btnClearHistory.isVisible = true
+    }
+
+    private fun hideHistory() {
+        trackAdapter.updateTrackList(emptyList())
+        historyHeader.isVisible = false
+        btnClearHistory.isVisible = false
     }
 
 
