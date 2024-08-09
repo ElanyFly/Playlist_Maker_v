@@ -20,6 +20,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.utils.deserialize
+import com.example.playlistmaker.utils.serialize
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -121,6 +123,11 @@ class SearchActivity : AppCompatActivity() {
 
                             if (searchResult?.isNotEmpty() == true) {
                                 trackAdapter.updateTrackList(searchResult)
+
+//                                val string = searchResult!!.serialize()
+//                                val result = string.deserialize<Array<Track>>().toList()
+//                                trackAdapter.updateTrackList(result)
+
                             }
                             if (trackAdapter.getTrackList().isEmpty()) {
                                 showErrorMessage(isShowNothingFound = true)
