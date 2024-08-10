@@ -74,6 +74,11 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
+        btnClearHistory.setOnClickListener {
+            HistoryStore.clearHistoryList()
+            hideHistory()
+        }
+
         val textWatcher = object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

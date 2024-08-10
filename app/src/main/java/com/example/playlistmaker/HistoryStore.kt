@@ -44,5 +44,6 @@ object HistoryStore {
 
     fun clearHistoryList() {
         historyList = emptyList()
+        SharedPreferencesManager.saveHistory(historyList)
     }
 }
