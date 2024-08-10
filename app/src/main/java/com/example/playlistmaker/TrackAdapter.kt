@@ -1,10 +1,13 @@
 package com.example.playlistmaker
 
 import android.view.LayoutInflater
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
+class TrackAdapter(
+    private val onClick: (Track) -> Unit
+) : RecyclerView.Adapter<TrackViewHolder>() {
 
     private var trackList: List<Track> = emptyList()
 
@@ -20,7 +23,7 @@ class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
-            HistoryStore.addTrackToList(trackList[position])
+            onClick.invoke(trackList[position])
         }
     }
 

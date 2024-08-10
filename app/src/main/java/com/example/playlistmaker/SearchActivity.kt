@@ -45,7 +45,12 @@ class SearchActivity : AppCompatActivity() {
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
-    private val trackAdapter: TrackAdapter = TrackAdapter()
+    private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
+        HistoryStore.addTrackToList(track)
+        if (inputText.hasFocus() && inputText.text.isEmpty()) {
+            showHistory()
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +73,7 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(inputText)
             clearTrackList()
             showHistory()
+
         }
 
         backButton.setOnClickListener {
@@ -76,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
 
         btnClearHistory.setOnClickListener {
             HistoryStore.clearHistoryList()
-            hideHistory()
+            hideEmptyHistory()
         }
 
         val textWatcher = object : TextWatcher {
@@ -92,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
                 if (inputText.hasFocus() && s?.isEmpty() == true) {
                     showHistory()
                 } else {
-                    hideHistory()
+                    hideEmptyHistory()
                 }
             }
 
@@ -107,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
         tracksRecyclerView.adapter = trackAdapter
 
         inputText.setOnEditorActionListener { v, actionId, event ->
-            hideHistory()
+            hideEmptyHistory()
             getTracks(actionId, v)
         }
 
@@ -138,11 +144,6 @@ class SearchActivity : AppCompatActivity() {
 
                             if (searchResult?.isNotEmpty() == true) {
                                 trackAdapter.updateTrackList(searchResult)
-
-//                                val string = searchResult!!.serialize()
-//                                val result = string.deserialize<Array<Track>>().toList()
-//                                trackAdapter.updateTrackList(result)
-
                             }
                             if (trackAdapter.getTrackList().isEmpty()) {
                                 showErrorMessage(isShowNothingFound = true)
@@ -173,11 +174,14 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showHistory(historyList: List<Track> = HistoryStore.getHistoryList()) {
         trackAdapter.updateTrackList(historyList)
-        historyHeader.isVisible = true
-        btnClearHistory.isVisible = true
+        if (historyList.isNotEmpty()) {
+            historyHeader.isVisible = true
+            btnClearHistory.isVisible = true
+        }
+
     }
 
-    private fun hideHistory() {
+    private fun hideEmptyHistory() {
         trackAdapter.updateTrackList(emptyList())
         historyHeader.isVisible = false
         btnClearHistory.isVisible = false
@@ -225,7 +229,6 @@ class SearchActivity : AppCompatActivity() {
     ) {
         nothingFoundMessage.isVisible = isShowNothingFound
         noInternetMessage.isVisible = isShowNetworkError
-
     }
 
     companion object {

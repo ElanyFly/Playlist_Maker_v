@@ -21,6 +21,7 @@ object HistoryStore {
         if (oldList != historyList) {
             SharedPreferencesManager.saveHistory(historyList)
         }
+
     }
 
     private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {
