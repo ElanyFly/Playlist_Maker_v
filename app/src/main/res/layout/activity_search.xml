@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -118,10 +118,18 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="0dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/track_view" />
+                app:layout_constraintBottom_toTopOf="@+id/btnClearHistory"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintHeight_default="wrap"
+                tools:itemCount="30"
+                tools:listitem="@layout/track_view"
+
+
+                />
 
             <Button
                 android:id="@+id/btnClearHistory"
@@ -132,9 +140,13 @@
                 android:layout_gravity="center_horizontal"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="@string/search_clear_history"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="visible"/>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout
