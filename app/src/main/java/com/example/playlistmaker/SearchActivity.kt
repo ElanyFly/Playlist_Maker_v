@@ -36,21 +36,11 @@ class SearchActivity : AppCompatActivity() {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding for SearchActivityBinding must not be null")
 
-//    private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
-//    private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
-//    private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
-//    private val nothingFoundMessage by lazy { findViewById<LinearLayout>(R.id.nothingFoundMessage) }
-//    private val noInternetMessage by lazy { findViewById<LinearLayout>(R.id.noInternetMessage) }
-//    private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
-//    private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
-//
-//    private val historyHeader by lazy { findViewById<TextView>(R.id.historyHeader) }
-//    private val btnClearHistory by lazy { findViewById<Button>(R.id.btnClearHistory) }
-
     private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
+    private var previousQuery = ""
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
         HistoryStore.addTrackToList(track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
@@ -123,12 +113,12 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerView.adapter = trackAdapter
 
         binding.inputText.setOnEditorActionListener { v, actionId, event ->
-            hideHistory()
+
             getTracks(actionId, v)
         }
 
         binding.refreshButton.setOnClickListener {
-            getTracks()
+            getTracks(isRefresh = true)
         }
 
 
@@ -136,12 +126,18 @@ class SearchActivity : AppCompatActivity() {
 
     private fun getTracks(
         actionId: Int = EditorInfo.IME_ACTION_DONE,
-        v: TextView = binding.inputText
+        v: TextView = binding.inputText,
+        isRefresh: Boolean = false
     ): Boolean {
+        val query = v.text.toString()
+        if (previousQuery == query && !isRefresh) {
+            return true
+        }
+        previousQuery = query
+        hideHistory()
         showErrorMessage()
         clearTrackList()
         return if (actionId == EditorInfo.IME_ACTION_DONE) {
-            val query = v.text.toString()
             val trackData = iTunesService.searchTracks(query)
             if (query.isNotEmpty()) {
                 trackData.clone().enqueue(object : Callback<TrackResponse> {
