@@ -82,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
 
         btnClearHistory.setOnClickListener {
             HistoryStore.clearHistoryList()
-            hideEmptyHistory()
+            hideHistory()
         }
 
         val textWatcher = object : TextWatcher {
@@ -98,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
                 if (inputText.hasFocus() && s?.isEmpty() == true) {
                     showHistory()
                 } else {
-                    hideEmptyHistory()
+                    hideHistory()
                 }
             }
 
@@ -113,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
         tracksRecyclerView.adapter = trackAdapter
 
         inputText.setOnEditorActionListener { v, actionId, event ->
-            hideEmptyHistory()
+            hideHistory()
             getTracks(actionId, v)
         }
 
@@ -181,7 +181,7 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    private fun hideEmptyHistory() {
+    private fun hideHistory() {
         trackAdapter.updateTrackList(emptyList())
         historyHeader.isVisible = false
         btnClearHistory.isVisible = false
