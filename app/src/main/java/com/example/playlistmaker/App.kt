@@ -8,7 +8,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         App.applicationContext = this
-        val isDarkTheme = SharedPreferencesManager.getSwitchState()
+        val isDarkTheme = SharedPreferencesManager.instance.getSwitchState()
         switchTheme(isDarkTheme)
     }
 
@@ -22,7 +22,7 @@ class App : Application() {
                     AppCompatDelegate.MODE_NIGHT_NO
                 }
             )
-            SharedPreferencesManager.saveSwitchState(isDarkTheme)
+            SharedPreferencesManager.instance.saveSwitchState(isDarkTheme)
         }
     }
 

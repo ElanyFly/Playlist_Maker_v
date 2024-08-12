@@ -3,13 +3,10 @@ package com.example.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.Switch
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.databinding.ActivityMainBinding
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
 
@@ -31,7 +28,7 @@ class SettingsActivity : AppCompatActivity() {
         _binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.settingsThemeSwitch.isChecked = SharedPreferencesManager.getSwitchState()
+        binding.settingsThemeSwitch.isChecked = SharedPreferencesManager.instance.getSwitchState()
         binding.settingsThemeSwitch.setOnCheckedChangeListener { switcher, isChecked ->
             App.switchTheme(isChecked)
         }
