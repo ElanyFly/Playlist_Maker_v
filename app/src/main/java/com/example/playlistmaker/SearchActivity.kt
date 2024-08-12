@@ -19,6 +19,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -30,16 +32,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
 
-    private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
-    private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
-    private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
-    private val nothingFoundMessage by lazy { findViewById<LinearLayout>(R.id.nothingFoundMessage) }
-    private val noInternetMessage by lazy { findViewById<LinearLayout>(R.id.noInternetMessage) }
-    private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
-    private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
+    private var _binding: ActivitySearchBinding? = null
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Binding for SearchActivityBinding must not be null")
 
-    private val historyHeader by lazy { findViewById<TextView>(R.id.historyHeader) }
-    private val btnClearHistory by lazy { findViewById<Button>(R.id.btnClearHistory) }
+//    private val inputText by lazy { findViewById<EditText>(R.id.inputText) }
+//    private val clearButton by lazy { findViewById<ImageView>(R.id.clearIcon) }
+//    private val backButton by lazy { findViewById<FrameLayout>(R.id.search_back_button) }
+//    private val nothingFoundMessage by lazy { findViewById<LinearLayout>(R.id.nothingFoundMessage) }
+//    private val noInternetMessage by lazy { findViewById<LinearLayout>(R.id.noInternetMessage) }
+//    private val tracksRecyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
+//    private val refreshButton by lazy { findViewById<Button>(R.id.refreshButton) }
+//
+//    private val historyHeader by lazy { findViewById<TextView>(R.id.historyHeader) }
+//    private val btnClearHistory by lazy { findViewById<Button>(R.id.btnClearHistory) }
 
     private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
@@ -47,7 +53,7 @@ class SearchActivity : AppCompatActivity() {
     private var savedText = ""
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
         HistoryStore.addTrackToList(track)
-        if (inputText.hasFocus() && inputText.text.isEmpty()) {
+        if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory()
         }
     }
@@ -63,24 +69,27 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
+        _binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val historyList = HistoryStore.getHistoryList()
         if (historyList.isNotEmpty()) {
             showHistory(historyList)
         }
 
-        clearButton.setOnClickListener {
-            inputText.setText("")
-            hideKeyboard(inputText)
+        binding.clearIcon.setOnClickListener {
+            binding.inputText.setText("")
+            hideKeyboard(binding.inputText)
             clearTrackList()
             showHistory()
 
         }
 
-        backButton.setOnClickListener {
+        binding.searchBackButton.setOnClickListener {
             finish()
         }
 
-        btnClearHistory.setOnClickListener {
+        binding.btnClearHistory.setOnClickListener {
             HistoryStore.clearHistoryList()
             hideHistory()
         }
@@ -94,8 +103,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                 savedText = s.toString()
-                clearButton.isVisible = savedText.isNotEmpty()
-                if (inputText.hasFocus() && s?.isEmpty() == true) {
+                binding.clearIcon.isVisible = savedText.isNotEmpty()
+                if (binding.inputText.hasFocus() && s?.isEmpty() == true) {
                     showHistory()
                 } else {
                     hideHistory()
@@ -108,16 +117,16 @@ class SearchActivity : AppCompatActivity() {
 
         }
 
-        inputText.addTextChangedListener(textWatcher)
+        binding.inputText.addTextChangedListener(textWatcher)
 
-        tracksRecyclerView.adapter = trackAdapter
+        binding.recyclerView.adapter = trackAdapter
 
-        inputText.setOnEditorActionListener { v, actionId, event ->
+        binding.inputText.setOnEditorActionListener { v, actionId, event ->
             hideHistory()
             getTracks(actionId, v)
         }
 
-        refreshButton.setOnClickListener {
+        binding.refreshButton.setOnClickListener {
             getTracks()
         }
 
@@ -126,7 +135,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun getTracks(
         actionId: Int = EditorInfo.IME_ACTION_DONE,
-        v: TextView = inputText
+        v: TextView = binding.inputText
     ): Boolean {
         showErrorMessage()
         clearTrackList()
@@ -175,16 +184,16 @@ class SearchActivity : AppCompatActivity() {
     private fun showHistory(historyList: List<Track> = HistoryStore.getHistoryList()) {
         trackAdapter.updateTrackList(historyList)
         if (historyList.isNotEmpty()) {
-            historyHeader.isVisible = true
-            btnClearHistory.isVisible = true
+            binding.historyHeader.isVisible = true
+            binding.btnClearHistory.isVisible = true
         }
 
     }
 
     private fun hideHistory() {
         trackAdapter.updateTrackList(emptyList())
-        historyHeader.isVisible = false
-        btnClearHistory.isVisible = false
+        binding.historyHeader.isVisible = false
+        binding.btnClearHistory.isVisible = false
     }
 
 
@@ -197,7 +206,7 @@ class SearchActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         val text = savedInstanceState.getString(INPUT_TEXT_KEY) ?: ""
         savedText = text
-        inputText.setText(text)
+        binding.inputText.setText(text)
     }
 
     private fun hideKeyboard(view: View) {
@@ -227,8 +236,8 @@ class SearchActivity : AppCompatActivity() {
         isShowNothingFound: Boolean = false,
         isShowNetworkError: Boolean = false
     ) {
-        nothingFoundMessage.isVisible = isShowNothingFound
-        noInternetMessage.isVisible = isShowNetworkError
+        binding.nothingFoundMessage.isVisible = isShowNothingFound
+        binding.noInternetMessage.isVisible = isShowNetworkError
     }
 
     companion object {
