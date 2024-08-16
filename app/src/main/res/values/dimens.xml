@@ -6,8 +6,10 @@
     <dimen name="padding_12dp">12dp</dimen>
     <dimen name="padding_14dp">14dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_18dp">18dp</dimen>
     <dimen name="padding_21dp">21dp</dimen>
     <dimen name="padding_24dp">24dp</dimen>
+    <dimen name="padding_42dp">42dp</dimen>
     <dimen name="paddingTop_100dp">100dp</dimen>
 
     <dimen name="track_view_image_size_45dp">45dp</dimen>

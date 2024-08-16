@@ -1,40 +1,49 @@
 package com.example.playlistmaker
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
 
 class SettingsActivity : AppCompatActivity() {
+
+    private var _binding: ActivitySettingsBinding? = null
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Binding for SettingsBinding must not be null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings)) { v, insets ->
+
+        _binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.settings) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val backButton = findViewById<FrameLayout>(R.id.settings_back_button)
-        backButton.setOnClickListener {
+        binding.settingsThemeSwitch.isChecked = SharedPreferencesManager.instance.getSwitchState()
+        binding.settingsThemeSwitch.setOnCheckedChangeListener { switcher, isChecked ->
+            App.switchTheme(isChecked)
+        }
+
+        binding.settingsBackButton.setOnClickListener {
             finish()
         }
 
-        val shareButton = findViewById<LinearLayout>(R.id.settings_share_button)
-        shareButton.setOnClickListener {
+        binding.settingsShareButton.setOnClickListener {
             shareLink(getString(R.string.android_developer_course_link))
         }
 
-        val helpdeskButton = findViewById<LinearLayout>(R.id.settings_helpdesk_button)
-        helpdeskButton.setOnClickListener {
+        binding.settingsHelpdeskButton.setOnClickListener {
             sendEmail(
                 arrayOf(getString(R.string.helpdesk_email)),
                 getString(R.string.helpdesk_mail_header),
@@ -42,8 +51,7 @@ class SettingsActivity : AppCompatActivity() {
             )
         }
 
-        val agreementButton = findViewById<LinearLayout>(R.id.settings_user_agreement_button)
-        agreementButton.setOnClickListener {
+        binding.settingsUserAgreementButton.setOnClickListener {
             openAgreement(getString(R.string.settings_agreement_link))
         }
 

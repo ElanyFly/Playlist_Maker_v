@@ -1,24 +1,45 @@
 package com.example.playlistmaker
 
 import android.view.LayoutInflater
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.utils.Constants
 
 class TrackAdapter(
-    private val track: List<Track>
+    private val onClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder>() {
+
+    private var trackList: List<Track> = emptyList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
         return TrackViewHolder(view as ViewGroup)
     }
 
     override fun getItemCount(): Int {
-        return track.size
+        return trackList.size
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(track[position])
+        holder.bind(trackList[position])
+        holder.itemView.setOnClickListener {
+            onClick.invoke(trackList[position])
+        }
     }
+
+    fun getTrackList(): List<Track> {
+        return trackList
+    }
+
+    fun updateTrackList(searchResult: List<Track>) {
+        trackList = searchResult
+        notifyDataSetChanged()
+    }
+
+    fun clearTrackList() {
+        trackList = emptyList()
+        notifyDataSetChanged()
+    }
+
 
 }

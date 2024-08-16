@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
 }
 
 android {
@@ -33,7 +34,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
+
+
 
 dependencies {
 
@@ -54,6 +61,8 @@ dependencies {
     //okHttp
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
+    implementation (libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

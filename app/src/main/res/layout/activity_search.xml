@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/padding_16dp"
-            android:layout_marginBottom="@dimen/padding_16dp"
+            android:layout_marginBottom="@dimen/padding_8dp"
             android:layout_weight="1"
             android:background="@drawable/search_button">
 
@@ -94,16 +94,59 @@
         </FrameLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/historyHeader"
+        style="@style/ErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/padding_42dp"
+        android:layout_marginBottom="@dimen/padding_12dp"
+        android:text="@string/search_history_header"
+        android:visibility="gone"/>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/track_view" />
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/btnClearHistory"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintHeight_default="wrap"
+                tools:itemCount="30"
+                tools:listitem="@layout/track_view"
+
+
+                />
+
+            <Button
+                android:id="@+id/btnClearHistory"
+                style="@style/RefreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/padding_24dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/search_clear_history"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <LinearLayout
             android:id="@+id/nothingFoundMessage"
