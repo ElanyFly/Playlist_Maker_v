@@ -51,12 +51,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_24dp"
-        android:singleLine="true"
         android:textColor="@color/text_dark"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/audioplayerCover"
-        tools:text="Track name is here" />
+        tools:text="Track name is hereTrack name is hereTrack name is hereTrack name is here" />
 
     <TextView
         android:id="@+id/groupName"
@@ -124,13 +123,23 @@
         android:layout_height="wrap_content"
         style="@style/AudioPlayerTrackFields"
 
-        android:text="Длительность"
+        android:text="@string/audio_track_time"
 
         app:layout_constraintStart_toEndOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/trackTimeInProgress"
-        app:layout_constraintBottom_toTopOf="@id/fieldAlbum"
+        app:layout_constraintBottom_toTopOf="@id/fieldAlbum"/>
 
-        />
+    <TextView
+        android:id="@+id/audioTrackTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AudioPlayerTrackShownInfo"
+
+        app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+        app:layout_constraintBaseline_toBaselineOf="@id/fieldTime"
+        app:layout_constraintStart_toEndOf="@id/fieldTime"
+
+        tools:text="4:56"/>
 
     <TextView
         android:id="@+id/fieldAlbum"
@@ -138,13 +147,23 @@
         android:layout_height="wrap_content"
         style="@style/AudioPlayerTrackFields"
 
-        android:text="Альбом"
+        android:text="@string/audio_album_name"
 
         app:layout_constraintStart_toEndOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/fieldTime"
-        app:layout_constraintBottom_toTopOf="@id/fieldYear"
+        app:layout_constraintBottom_toTopOf="@id/fieldYear"/>
 
-        />
+    <TextView
+        android:id="@+id/audioAlbumName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AudioPlayerTrackShownInfo"
+
+        app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+        app:layout_constraintBaseline_toBaselineOf="@id/fieldAlbum"
+        app:layout_constraintStart_toEndOf="@id/fieldTime"
+
+        tools:text="Generations gone to hell Generations gone to hesdfsdfsdf ssdfsdfsf sdfsdf sdfll Generations gone to hell"/>
 
     <TextView
         android:id="@+id/fieldYear"
@@ -152,13 +171,23 @@
         android:layout_height="wrap_content"
         style="@style/AudioPlayerTrackFields"
 
-        android:text="Год"
+        android:text="@string/audio_year"
 
         app:layout_constraintStart_toEndOf="@id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@id/fieldAlbum"
-        app:layout_constraintBottom_toTopOf="@id/fieldGenre"
+        app:layout_constraintTop_toBottomOf="@id/audioAlbumName"
+        app:layout_constraintBottom_toTopOf="@id/fieldGenre"/>
 
-        />
+    <TextView
+        android:id="@+id/audioYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AudioPlayerTrackShownInfo"
+
+        app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+        app:layout_constraintBaseline_toBaselineOf="@id/fieldYear"
+        app:layout_constraintStart_toEndOf="@id/fieldTime"
+
+        tools:text="1984"/>
 
     <TextView
         android:id="@+id/fieldGenre"
@@ -166,13 +195,24 @@
         android:layout_height="wrap_content"
         style="@style/AudioPlayerTrackFields"
 
-        android:text="Жанр"
+        android:text="@string/audio_genre"
 
         app:layout_constraintStart_toEndOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/fieldYear"
-        app:layout_constraintBottom_toTopOf="@id/fieldCountry"
+        app:layout_constraintBottom_toTopOf="@id/fieldCountry"/>
 
-        />
+    <TextView
+        android:id="@+id/audioGenre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AudioPlayerTrackShownInfo"
+
+        app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+        app:layout_constraintBaseline_toBaselineOf="@id/fieldGenre"
+        app:layout_constraintStart_toEndOf="@id/fieldTime"
+
+        tools:text="classic"/>
+
 
     <TextView
         android:id="@+id/fieldCountry"
@@ -180,13 +220,23 @@
         android:layout_height="wrap_content"
         style="@style/AudioPlayerTrackFields"
 
-        android:text="Страна"
+        android:text="@string/audio_country"
 
         app:layout_constraintStart_toEndOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/fieldGenre"
-        app:layout_constraintBottom_toBottomOf="@id/lowerView"
+        app:layout_constraintBottom_toBottomOf="@id/lowerView"/>
 
-        />
+    <TextView
+        android:id="@+id/audioCountry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/AudioPlayerTrackShownInfo"
+
+        app:layout_constraintEnd_toStartOf="@id/rightGuideline"
+        app:layout_constraintBaseline_toBaselineOf="@id/fieldCountry"
+        app:layout_constraintStart_toEndOf="@id/fieldTime"
+
+        tools:text="Norway"/>
 
     <View
         android:id="@+id/lowerView"
