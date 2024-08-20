@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import com.example.playlistmaker.utils.convertMS
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
 import java.text.SimpleDateFormat
@@ -60,12 +61,12 @@ class AudioplayerActivity : AppCompatActivity() {
     private fun getDataToView(track: Track) {
         binding.trackName.text = track.trackName
         binding.groupName.text = track.artistName
-        binding.audioTrackTime.text = track.trackTime
-        binding.audioYear.text = track.releaseDate
+        binding.audioTrackTime.text = track.trackTime.toLong().convertMS()
+        binding.audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
         binding.audioGenre.text = track.primaryGenreName
         binding.audioCountry.text = track.country
 
-        binding.trackTimeInProgress.text = track.trackTime
+        binding.trackTimeInProgress.text = track.trackTime.toLong().convertMS()
 
         if (track.collectionName.isNullOrBlank()){
             binding.groupAlbum.isVisible = false
@@ -99,8 +100,3 @@ class AudioplayerActivity : AppCompatActivity() {
         }
     }
 }
-
-
-//private fun convertMS(milliseconds: Long): String {
-//    return SimpleDateFormat("mm:ss", Locale.getDefault()).format(milliseconds)
-//}

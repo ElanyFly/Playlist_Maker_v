@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.utils.convertMS
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -23,7 +24,7 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(model: Track) {
         trackName.text = model.trackName
         artistName.text = model.artistName
-        trackTime.text = convertMS(model.trackTime.toLong())
+        trackTime.text = model.trackTime.toLong().convertMS()
 
         val coverUrl: String = model.artworkUrl100
 
@@ -35,10 +36,6 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             .into(trackCover)
 
 
-    }
-
-    private fun convertMS(milliseconds: Long): String {
-        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(milliseconds)
     }
 
 }
