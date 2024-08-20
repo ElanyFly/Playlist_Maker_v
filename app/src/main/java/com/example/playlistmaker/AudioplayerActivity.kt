@@ -44,8 +44,6 @@ class AudioplayerActivity : AppCompatActivity() {
             finish()
             return
         }
-        Log.i("track_info", "track deserialized = $track")
-
         getCover(track)
         getDataToView(track)
 
@@ -89,7 +87,6 @@ class AudioplayerActivity : AppCompatActivity() {
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()
-            Log.i("track_info", "track serialized = $trackString")
             val playerIntent = Intent(context, AudioplayerActivity::class.java).apply {
 
                 putExtra(TRACK_ID, trackString)
