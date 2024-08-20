@@ -15,8 +15,6 @@ import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.example.playlistmaker.utils.convertMS
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class AudioplayerActivity : AppCompatActivity() {
 
@@ -77,7 +75,7 @@ class AudioplayerActivity : AppCompatActivity() {
     }
 
     private fun getCover(track: Track) {
-        val biggerCover = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
+        val biggerCover = track.pictureURL.replaceAfterLast('/', "512x512bb.jpg")
         Glide.with(this)
             .load(biggerCover)
             .placeholder(R.drawable.placeholder_45)

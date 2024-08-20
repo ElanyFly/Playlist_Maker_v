@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.utils.convertMS
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
@@ -26,7 +24,7 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         artistName.text = model.artistName
         trackTime.text = model.trackTime.toLong().convertMS()
 
-        val coverUrl: String = model.artworkUrl100
+        val coverUrl: String = model.pictureURL
 
         Glide.with(itemView.context)
             .load(coverUrl)
