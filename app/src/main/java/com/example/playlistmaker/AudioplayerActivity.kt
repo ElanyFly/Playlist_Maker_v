@@ -55,20 +55,22 @@ class AudioplayerActivity : AppCompatActivity() {
     }
 
     private fun getDataToView(track: Track) {
-        binding.trackName.text = track.trackName
-        binding.groupName.text = track.artistName
-        binding.audioTrackTime.text = track.trackTime.toLong().convertMS()
-        binding.audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
-        binding.audioGenre.text = track.primaryGenreName
-        binding.audioCountry.text = track.country
+        with(binding) {
+            trackName.text = track.trackName
+            groupName.text = track.artistName
+            audioTrackTime.text = track.trackTime.toLong().convertMS()
+            audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
+            audioGenre.text = track.primaryGenreName
+            audioCountry.text = track.country
 
-        binding.trackTimeInProgress.text = track.trackTime.toLong().convertMS()
+            trackTimeInProgress.text = track.trackTime.toLong().convertMS()
 
-        if (track.collectionName.isNullOrBlank()){
-            binding.groupAlbum.isVisible = false
-        } else {
-            binding.groupAlbum.isVisible = true
-            binding.audioAlbumName.text = track.collectionName
+            if (track.collectionName.isNullOrBlank()){
+                groupAlbum.isVisible = false
+            } else {
+                groupAlbum.isVisible = true
+                audioAlbumName.text = track.collectionName
+            }
         }
     }
 
