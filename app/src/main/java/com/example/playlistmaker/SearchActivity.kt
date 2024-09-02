@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -43,6 +44,9 @@ class SearchActivity : AppCompatActivity() {
     private var previousQuery = ""
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
         HistoryStore.addTrackToList(track)
+        AudioplayerActivity.showActivity(this, track)
+//        val audioPlayerIntent = Intent(this, AudioplayerActivity::class.java)
+//        startActivity(audioPlayerIntent)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory()
         }
