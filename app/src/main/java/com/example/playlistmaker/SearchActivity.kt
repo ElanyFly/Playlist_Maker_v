@@ -112,10 +112,10 @@ class SearchActivity : AppCompatActivity() {
 
         binding.recyclerView.adapter = trackAdapter
 
-        binding.inputText.setOnEditorActionListener { v, actionId, event ->
-
-            getTracks(actionId, v)
-        }
+//        binding.inputText.setOnEditorActionListener { v, actionId, event ->
+//
+//            getTracks(actionId, v)
+//        }
 
         binding.refreshButton.setOnClickListener {
             getTracks(isRefresh = true)
