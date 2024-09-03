@@ -2,8 +2,10 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,6 +26,9 @@ class AudioplayerActivity : AppCompatActivity() {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
 
+    private lateinit var mediaPLayer: MediaPlayer
+    private var playerState = STATE_DEFAULT
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,7 +43,6 @@ class AudioplayerActivity : AppCompatActivity() {
             insets
         }
 
-
         this.track = intent.getStringExtra(TRACK_ID)?.deserialize<Track>()
             ?: run {
             finish()
@@ -47,11 +51,26 @@ class AudioplayerActivity : AppCompatActivity() {
         getCover(track)
         getDataToView(track)
 
+        preparePlayer(track)
+
+        binding.btnPlay.setOnClickListener {
+            playbackControl()
+        }
 
         binding.backArrow.setOnClickListener {
             finish()
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPLayer.release()
     }
 
     private fun getDataToView(track: Track) {
@@ -84,8 +103,57 @@ class AudioplayerActivity : AppCompatActivity() {
             .into(binding.audioplayerCover)
     }
 
+    private fun preparePlayer(track: Track) {
+        mediaPLayer = MediaPlayer()
+        with(mediaPLayer) {
+            setDataSource(track.previewUrl)
+            prepareAsync()
+            setOnPreparedListener {
+                binding.btnPlay.isEnabled = true    //делает кнопку активной , если в xml enabled = false (тоесть нажатьб на неё нельзя)
+                playerState = STATE_PREPARED
+            }
+            setOnCompletionListener {
+                //Тут надо будет вернуть отображение иконки плей. Вызывается после завершения воспроизведения.
+                // State prepared - т.к. по сути состояние не изменилось, и мы можем нажать повторно кнопку для запуска плеера.
+                playerState = STATE_PREPARED
+            }
+        }
+    }
+
+    private fun startPlayer() {
+        mediaPLayer.start()
+        // ставит кнопка пауза
+        playerState = STATE_PLAYING
+    }
+
+    private fun pausePlayer() {
+        mediaPLayer.pause()
+        //возвращается кнопка play
+        playerState = STATE_PAUSED
+    }
+
+    private fun playbackControl() {
+        //Если текущее состояние медиаплеера равно STATE_PLAYING, то нажатие на кнопку
+        // должно ставить воспроизведение на паузу (вызываем функцию pausePlayer()).
+        // А если текущее состояние STATE_PAUSED или STATE_PREPARED,
+        // то нажатие на кнопку должно запускать воспроизведение (вызываем функцию startPlayer()).
+        when(playerState) {
+            STATE_PLAYING -> {
+                pausePlayer()
+            }
+            STATE_PREPARED -> {
+                startPlayer()
+            }
+        }
+    }
+
     companion object {
         private const val TRACK_ID = "track_id"
+
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()
