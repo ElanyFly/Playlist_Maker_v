@@ -71,7 +71,6 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(binding.inputText)
             clearTrackList()
             showHistory()
-
         }
 
         binding.searchBackButton.setOnClickListener {
@@ -105,23 +104,15 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
 
             }
-
         }
 
         binding.inputText.addTextChangedListener(textWatcher)
 
         binding.recyclerView.adapter = trackAdapter
 
-//        binding.inputText.setOnEditorActionListener { v, actionId, event ->
-//
-//            getTracks(actionId, v)
-//        }
-
         binding.refreshButton.setOnClickListener {
             getTracks(isRefresh = true)
         }
-
-
     }
 
     private fun getTracks(
@@ -134,17 +125,22 @@ class SearchActivity : AppCompatActivity() {
             return true
         }
         previousQuery = query
-        hideHistory()
-        showErrorMessage()
-        clearTrackList()
+
         return if (actionId == EditorInfo.IME_ACTION_DONE) {
             val trackData = iTunesService.searchTracks(query)
             if (query.isNotEmpty()) {
+
+                hideHistory()
+                showErrorMessage()
+                clearTrackList()
+                showProgressBar(true)
+
                 trackData.clone().enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
                         call: Call<TrackResponse>,
                         response: Response<TrackResponse>
                     ) {
+                        showProgressBar(false)
                         if (response.code() == 200) {
                             val searchResult = response.body()?.results
 
@@ -162,6 +158,7 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        showProgressBar(false)
                         showErrorMessage(isShowNetworkError = true)
                     }
 
@@ -240,6 +237,12 @@ class SearchActivity : AppCompatActivity() {
     fun inputDebounce() {
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, INPUT_DELAY)
+    }
+
+    private fun showProgressBar(
+        isShown: Boolean = false
+    ) {
+        binding.progressBar.isVisible = isShown
     }
 
     companion object {
