@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +16,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.convertMS
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
@@ -28,7 +31,14 @@ class AudioplayerActivity : AppCompatActivity() {
             ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
 
     private lateinit var mediaPLayer: MediaPlayer
-    private var playerState = STATE_DEFAULT
+    private var playerState = StatePlayer.DEFAULT
+
+    private val handler = Handler(Looper.getMainLooper())
+    private val timeRunnable = Runnable {
+        getCurrentTrackPosition()
+        getPositionDelay()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +93,7 @@ class AudioplayerActivity : AppCompatActivity() {
             audioGenre.text = track.primaryGenreName
             audioCountry.text = track.country
 
-            trackTimeInProgress.text = track.trackTime.toLong().convertMS()
+//            trackTimeInProgress.text = track.trackTime.toLong().convertMS()
 
             if (track.collectionName.isNullOrBlank()) {
                 groupAlbum.isVisible = false
@@ -110,14 +120,12 @@ class AudioplayerActivity : AppCompatActivity() {
             setDataSource(track.previewUrl)
             prepareAsync()
             setOnPreparedListener {
-                binding.btnPlay.isEnabled = true    //делает кнопку активной , если в xml enabled = false (тоесть нажатьб на неё нельзя)
-                playerState = STATE_PREPARED
+                playerState = StatePlayer.PREPARED
             }
             setOnCompletionListener {
-                //Тут надо будет вернуть отображение иконки плей. Вызывается после завершения воспроизведения.
-                // State prepared - т.к. по сути состояние не изменилось, и мы можем нажать повторно кнопку для запуска плеера.
                 binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-                playerState = STATE_PREPARED
+                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
+                playerState = StatePlayer.PREPARED
             }
         }
     }
@@ -125,38 +133,55 @@ class AudioplayerActivity : AppCompatActivity() {
     private fun startPlayer() {
         mediaPLayer.start()
         binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
-        playerState = STATE_PLAYING
+        playerState = StatePlayer.PLAYING
     }
 
     private fun pausePlayer() {
         mediaPLayer.pause()
         binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-        playerState = STATE_PAUSED
+        playerState = StatePlayer.PAUSED
     }
 
     private fun playbackControl() {
         when (playerState) {
-            STATE_PLAYING -> {
+            StatePlayer.PLAYING -> {
                 pausePlayer()
             }
 
-            STATE_PREPARED -> {
+            StatePlayer.PREPARED -> {
                 startPlayer()
+                getPositionDelay()
+
             }
 
-            STATE_PAUSED -> {
+            StatePlayer.PAUSED -> {
                 startPlayer()
+                getPositionDelay()
             }
+
+            StatePlayer.DEFAULT -> Unit
+        }
+    }
+
+    private fun getCurrentTrackPosition() {
+        binding.trackTimeInProgress.text = mediaPLayer.currentPosition.toLong().convertMS()
+    }
+
+    private fun getPositionDelay() {
+        when(playerState) {
+            StatePlayer.PLAYING -> {
+                handler.removeCallbacks(timeRunnable)
+                handler.postDelayed(timeRunnable, POSITION_DELAY)
+            }
+            StatePlayer.DEFAULT,
+            StatePlayer.PREPARED,
+            StatePlayer.PAUSED -> Unit
         }
     }
 
     companion object {
         private const val TRACK_ID = "track_id"
-
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
+        private const val POSITION_DELAY = 500L
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()

@@ -23,4 +23,5 @@
     <string name="audio_year">Год</string>
     <string name="audio_genre">Жанр</string>
     <string name="audio_country">Страна</string>
+    <string name="player_time_default">00:00</string>
 </resources>
