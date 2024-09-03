@@ -24,7 +24,8 @@ class AudioplayerActivity : AppCompatActivity() {
 
     private var _binding: ActivityAudioplayerBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
 
     private lateinit var mediaPLayer: MediaPlayer
     private var playerState = STATE_DEFAULT
@@ -45,9 +46,9 @@ class AudioplayerActivity : AppCompatActivity() {
 
         this.track = intent.getStringExtra(TRACK_ID)?.deserialize<Track>()
             ?: run {
-            finish()
-            return
-        }
+                finish()
+                return
+            }
         getCover(track)
         getDataToView(track)
 
@@ -84,7 +85,7 @@ class AudioplayerActivity : AppCompatActivity() {
 
             trackTimeInProgress.text = track.trackTime.toLong().convertMS()
 
-            if (track.collectionName.isNullOrBlank()){
+            if (track.collectionName.isNullOrBlank()) {
                 groupAlbum.isVisible = false
             } else {
                 groupAlbum.isVisible = true
@@ -115,6 +116,7 @@ class AudioplayerActivity : AppCompatActivity() {
             setOnCompletionListener {
                 //Тут надо будет вернуть отображение иконки плей. Вызывается после завершения воспроизведения.
                 // State prepared - т.к. по сути состояние не изменилось, и мы можем нажать повторно кнопку для запуска плеера.
+                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
                 playerState = STATE_PREPARED
             }
         }
@@ -122,26 +124,27 @@ class AudioplayerActivity : AppCompatActivity() {
 
     private fun startPlayer() {
         mediaPLayer.start()
-        // ставит кнопка пауза
+        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer() {
         mediaPLayer.pause()
-        //возвращается кнопка play
+        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
         playerState = STATE_PAUSED
     }
 
     private fun playbackControl() {
-        //Если текущее состояние медиаплеера равно STATE_PLAYING, то нажатие на кнопку
-        // должно ставить воспроизведение на паузу (вызываем функцию pausePlayer()).
-        // А если текущее состояние STATE_PAUSED или STATE_PREPARED,
-        // то нажатие на кнопку должно запускать воспроизведение (вызываем функцию startPlayer()).
-        when(playerState) {
+        when (playerState) {
             STATE_PLAYING -> {
                 pausePlayer()
             }
+
             STATE_PREPARED -> {
+                startPlayer()
+            }
+
+            STATE_PAUSED -> {
                 startPlayer()
             }
         }
