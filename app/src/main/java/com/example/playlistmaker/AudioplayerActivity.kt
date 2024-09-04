@@ -124,6 +124,7 @@ class AudioplayerActivity : AppCompatActivity() {
             }
             setOnCompletionListener {
                 binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+                handler.removeCallbacks(timeRunnable)
                 binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
                 playerState = StatePlayer.PREPARED
             }
