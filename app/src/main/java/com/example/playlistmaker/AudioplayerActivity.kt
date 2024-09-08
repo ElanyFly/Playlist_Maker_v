@@ -39,7 +39,6 @@ class AudioplayerActivity : AppCompatActivity() {
         getPositionDelay()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -74,9 +73,10 @@ class AudioplayerActivity : AppCompatActivity() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         pausePlayer()
+
     }
 
     override fun onDestroy() {
@@ -92,8 +92,6 @@ class AudioplayerActivity : AppCompatActivity() {
             audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
             audioGenre.text = track.primaryGenreName
             audioCountry.text = track.country
-
-//            trackTimeInProgress.text = track.trackTime.toLong().convertMS()
 
             if (track.collectionName.isNullOrBlank()) {
                 groupAlbum.isVisible = false
@@ -135,30 +133,24 @@ class AudioplayerActivity : AppCompatActivity() {
         mediaPLayer.start()
         binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
         playerState = StatePlayer.PLAYING
+        getPositionDelay()
     }
 
     private fun pausePlayer() {
-        mediaPLayer.pause()
+        if (mediaPLayer.isPlaying) {
+            mediaPLayer.pause()
+        }
         binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
         playerState = StatePlayer.PAUSED
+        handler.removeCallbacks(timeRunnable)
     }
 
     private fun playbackControl() {
         when (playerState) {
-            StatePlayer.PLAYING -> {
-                pausePlayer()
-            }
+            StatePlayer.PLAYING -> pausePlayer()
 
-            StatePlayer.PREPARED -> {
-                startPlayer()
-                getPositionDelay()
-
-            }
-
-            StatePlayer.PAUSED -> {
-                startPlayer()
-                getPositionDelay()
-            }
+            StatePlayer.PREPARED,
+            StatePlayer.PAUSED -> startPlayer()
 
             StatePlayer.DEFAULT -> Unit
         }
@@ -182,7 +174,7 @@ class AudioplayerActivity : AppCompatActivity() {
 
     companion object {
         private const val TRACK_ID = "track_id"
-        private const val POSITION_DELAY = 500L
+        private const val POSITION_DELAY = 300L
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()
