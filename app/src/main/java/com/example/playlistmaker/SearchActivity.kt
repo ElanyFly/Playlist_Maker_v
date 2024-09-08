@@ -36,16 +36,23 @@ class SearchActivity : AppCompatActivity() {
 
     private var savedText = ""
     private var previousQuery = ""
+
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { getTracks() }
+
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
+        if (!isClickAllowed) return@TrackAdapter
+
+        isClickAllowed = false
+        handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+
         HistoryStore.addTrackToList(track)
         AudioplayerActivity.showActivity(this, track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory()
         }
     }
-
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { getTracks() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -249,6 +256,7 @@ class SearchActivity : AppCompatActivity() {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
         const val BASE_URL = "https://itunes.apple.com"
         private const val INPUT_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 
 }
