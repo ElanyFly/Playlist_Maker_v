@@ -1,27 +1,21 @@
 package com.example.playlistmaker
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -42,16 +36,23 @@ class SearchActivity : AppCompatActivity() {
 
     private var savedText = ""
     private var previousQuery = ""
+
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { getTracks() }
+
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
+        if (!isClickAllowed) return@TrackAdapter
+
+        isClickAllowed = false
+        handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+
         HistoryStore.addTrackToList(track)
         AudioplayerActivity.showActivity(this, track)
-//        val audioPlayerIntent = Intent(this, AudioplayerActivity::class.java)
-//        startActivity(audioPlayerIntent)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory()
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,6 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(binding.inputText)
             clearTrackList()
             showHistory()
-
         }
 
         binding.searchBackButton.setOnClickListener {
@@ -104,28 +104,22 @@ class SearchActivity : AppCompatActivity() {
                 } else {
                     hideHistory()
                 }
+
+                inputDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
 
             }
-
         }
 
         binding.inputText.addTextChangedListener(textWatcher)
 
         binding.recyclerView.adapter = trackAdapter
 
-        binding.inputText.setOnEditorActionListener { v, actionId, event ->
-
-            getTracks(actionId, v)
-        }
-
         binding.refreshButton.setOnClickListener {
             getTracks(isRefresh = true)
         }
-
-
     }
 
     private fun getTracks(
@@ -138,17 +132,22 @@ class SearchActivity : AppCompatActivity() {
             return true
         }
         previousQuery = query
-        hideHistory()
-        showErrorMessage()
-        clearTrackList()
+
         return if (actionId == EditorInfo.IME_ACTION_DONE) {
             val trackData = iTunesService.searchTracks(query)
             if (query.isNotEmpty()) {
+
+                hideHistory()
+                showErrorMessage()
+                clearTrackList()
+                showProgressBar(true)
+
                 trackData.clone().enqueue(object : Callback<TrackResponse> {
                     override fun onResponse(
                         call: Call<TrackResponse>,
                         response: Response<TrackResponse>
                     ) {
+                        showProgressBar(false)
                         if (response.code() == 200) {
                             val searchResult = response.body()?.results
 
@@ -166,6 +165,7 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        showProgressBar(false)
                         showErrorMessage(isShowNetworkError = true)
                     }
 
@@ -241,9 +241,22 @@ class SearchActivity : AppCompatActivity() {
         binding.noInternetMessage.isVisible = isShowNetworkError
     }
 
+    fun inputDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, INPUT_DELAY)
+    }
+
+    private fun showProgressBar(
+        isShown: Boolean = false
+    ) {
+        binding.progressBar.isVisible = isShown
+    }
+
     companion object {
         const val INPUT_TEXT_KEY = "INPUT_TEXT"
         const val BASE_URL = "https://itunes.apple.com"
+        private const val INPUT_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 
 }
