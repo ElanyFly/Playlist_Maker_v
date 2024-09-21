@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.playlistmaker.App
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.storage.SharedPreferencesManager
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
 

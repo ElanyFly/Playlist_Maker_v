@@ -1,6 +1,8 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.domain
 
 import android.util.Log
+import com.example.playlistmaker.data.storage.SharedPreferencesManager
+import com.example.playlistmaker.domain.models.Track
 
 object HistoryStore {
     private const val MAX_SIZE = 10

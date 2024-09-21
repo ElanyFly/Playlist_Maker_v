@@ -16,16 +16,16 @@
         android:theme="@style/myBaseTheme"
         tools:targetApi="31">
         <activity
-            android:name=".AudioplayerActivity"
+            android:name=".ui.audio_player.AudioplayerActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".MediaActivity"
+            android:name=".ui.media.MediaActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
