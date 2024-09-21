@@ -21,7 +21,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.data.network.TrackAPIService
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.domain.models.TrackResponse
+import com.example.playlistmaker.data.dto.TrackResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
