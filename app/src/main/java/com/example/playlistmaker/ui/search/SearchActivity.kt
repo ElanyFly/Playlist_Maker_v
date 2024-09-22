@@ -11,10 +11,12 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.ui.audio_player.AudioplayerActivity
 import com.example.playlistmaker.domain.HistoryStore
 import com.example.playlistmaker.R
@@ -32,6 +34,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SearchActivity : AppCompatActivity() {
+
+    private val searchActivityViewModel: SearchActivityViewModel by viewModels()
 
     private var _binding: ActivitySearchBinding? = null
     private val binding
@@ -134,6 +138,9 @@ class SearchActivity : AppCompatActivity() {
         isRefresh: Boolean = false
     ): Boolean {
         val query = v.text.toString()
+        searchActivityViewModel.makeAction(action = SearchAction.SearchTrack(inputQuery = query, isRefreshed = isRefresh))
+
+        return true
         if (previousQuery == query && !isRefresh) {
             return true
         }
@@ -158,7 +165,7 @@ class SearchActivity : AppCompatActivity() {
                             val searchResult = response.body()?.results
 
                             if (searchResult?.isNotEmpty() == true) {
-                                trackAdapter.updateTrackList(searchResult)
+//                                trackAdapter.updateTrackList(searchResult)
                             }
                             if (trackAdapter.getTrackList().isEmpty()) {
                                 showErrorMessage(isShowNothingFound = true)
