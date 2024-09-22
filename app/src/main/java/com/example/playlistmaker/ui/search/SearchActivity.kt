@@ -43,11 +43,8 @@ class SearchActivity : AppCompatActivity() {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding for SearchActivityBinding must not be null")
 
-    private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
-    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
     private var savedText = ""
-    private var previousQuery = ""
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -62,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         HistoryStore.addTrackToList(track)
         AudioplayerActivity.showActivity(this, track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
-            showHistory()
+            showHistory(true)
         }
     }
 
@@ -80,18 +77,12 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-//        val historyList = HistoryStore.getHistoryList()
-//        if (historyList.isNotEmpty()) {
-//            showHistory(historyList)
-//        }
 
         searchActivityViewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
             binding.inputText.setText("")
             hideKeyboard(binding.inputText)
-            clearTrackList()
-//            showHistory()
 
             searchActivityViewModel.makeAction(SearchAction.ClearSearchQuery)
         }
@@ -102,7 +93,6 @@ class SearchActivity : AppCompatActivity() {
 
         binding.btnClearHistory.setOnClickListener {
             searchActivityViewModel.makeAction(SearchAction.ClearTrackHistory)
-//            HistoryStore.clearHistoryList()
             hideHistory()
         }
 
@@ -117,7 +107,7 @@ class SearchActivity : AppCompatActivity() {
                 savedText = s.toString()
                 binding.clearIcon.isVisible = savedText.isNotEmpty()
                 if (binding.inputText.hasFocus() && s?.isEmpty() == true) {
-                    showHistory()
+//                    showHistory()
                 } else {
                     hideHistory()
                 }
@@ -146,87 +136,31 @@ class SearchActivity : AppCompatActivity() {
                     isShowNothingFound = state.isNothingFound,
                     isShowNetworkError = state.isNetworkError
                 )
+                showHistory(state.isHistoryShown)
             }
         }
 
     }
 
     private fun getTracks(
-        actionId: Int = EditorInfo.IME_ACTION_DONE,
         v: TextView = binding.inputText,
         isRefresh: Boolean = false
-    ): Boolean {
-
+    ) {
         val query = v.text.toString()
         searchActivityViewModel.makeAction(action = SearchAction.SearchTrack(inputQuery = query, isRefreshed = isRefresh))
-        return true
-        if (previousQuery == query && !isRefresh) {
-            return true
-        }
-        previousQuery = query
-
-        return if (actionId == EditorInfo.IME_ACTION_DONE) {
-            val trackData = iTunesService.searchTracks(query)
-            if (query.isNotEmpty()) {
-
-                hideHistory()
-                showErrorMessage()
-                clearTrackList()
-                showProgressBar(true)
-
-                trackData.clone().enqueue(object : Callback<TrackResponse> {
-                    override fun onResponse(
-                        call: Call<TrackResponse>,
-                        response: Response<TrackResponse>
-                    ) {
-                        showProgressBar(false)
-                        if (response.code() == 200) {
-                            val searchResult = response.body()?.results
-
-                            if (searchResult?.isNotEmpty() == true) {
-//                                trackAdapter.updateTrackList(searchResult)
-                            }
-                            if (trackAdapter.getTrackList().isEmpty()) {
-                                showErrorMessage(isShowNothingFound = true)
-                            } else {
-                                showErrorMessage()
-                            }
-                        } else {
-                            showErrorMessage(isShowNetworkError = true)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        showProgressBar(false)
-                        showErrorMessage(isShowNetworkError = true)
-                    }
-
-                })
-            }
-            true
-        } else {
-            false
-        }
     }
 
-    private fun clearTrackList() {
-        trackAdapter.clearTrackList()
-        showErrorMessage()
-    }
+    private fun showHistory(isShown: Boolean) {
 
-    private fun showHistory(historyList: List<Track> = HistoryStore.getHistoryList()) {
-//        trackAdapter.updateTrackList(historyList)
-        if (historyList.isNotEmpty()) {
-            binding.historyHeader.isVisible = true
-            binding.btnClearHistory.isVisible = true
-        }
+            binding.historyHeader.isVisible = isShown
+            binding.btnClearHistory.isVisible = isShown
+
 
     }
 
     private fun hideHistory() {
-//        trackAdapter.updateTrackList(emptyList())
-        binding.historyHeader.isVisible = false
-        binding.btnClearHistory.isVisible = false
+//        binding.historyHeader.isVisible = false
+//        binding.btnClearHistory.isVisible = false
     }
 
 
@@ -246,23 +180,6 @@ class SearchActivity : AppCompatActivity() {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun getClient(baseURL: String = BASE_URL): Retrofit {
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        val httpClient = OkHttpClient.Builder().apply {
-            addInterceptor(logging)
-        }
-
-        val newRetrofit = Retrofit.Builder()
-            .baseUrl(baseURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient.build())
-            .build()
-
-        return newRetrofit
     }
 
     private fun showErrorMessage(
@@ -285,8 +202,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val INPUT_TEXT_KEY = "INPUT_TEXT"
-        const val BASE_URL = "https://itunes.apple.com"
+        private const val INPUT_TEXT_KEY = "INPUT_TEXT"
         private const val INPUT_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 500L
     }
