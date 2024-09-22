@@ -72,10 +72,18 @@ class SearchActivityViewModel : ViewModel() {
 
     private fun handleClearTrackHistory() {
         Creator.searchInteraction.clearTrackHistory()
+        handleState(
+            trackList = emptyList(),
+            isNothingFound = false,
+            isNetworkError = false,
+            isLoading = false,
+            isHistoryShown = false
+        )
     }
 
     private fun handleAddTrackToHistory(action: SearchAction.AddTrackToHistoryList) {
         Creator.searchInteraction.addTrackToHistory(action.track)
+        handleRestoreHistoryCache()
     }
 
     @Synchronized

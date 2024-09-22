@@ -56,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         isClickAllowed = false
         handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
 
-        HistoryStore.addTrackToList(track)
+        searchActivityViewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
         AudioplayerActivity.showActivity(this, track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory(true)
