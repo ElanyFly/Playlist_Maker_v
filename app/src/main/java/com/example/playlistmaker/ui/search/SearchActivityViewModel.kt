@@ -83,7 +83,10 @@ class SearchActivityViewModel : ViewModel() {
 
     private fun handleAddTrackToHistory(action: SearchAction.AddTrackToHistoryList) {
         Creator.searchInteraction.addTrackToHistory(action.track)
-        handleRestoreHistoryCache()
+        if (state.value.isHistoryShown){
+            handleRestoreHistoryCache()
+        }
+
     }
 
     @Synchronized
