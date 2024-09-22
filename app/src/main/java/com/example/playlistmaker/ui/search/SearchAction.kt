@@ -10,5 +10,7 @@ sealed interface SearchAction {
 
     data object ClearTrackHistory : SearchAction
     data object RestoreHistoryCache : SearchAction
+    data object ClearSearchQuery : SearchAction
+
     class AddTrackToHistoryList(val track: Track) : SearchAction
 }

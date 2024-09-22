@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.ui.audio_player.AudioplayerActivity
 import com.example.playlistmaker.domain.HistoryStore
 import com.example.playlistmaker.R
@@ -24,6 +25,7 @@ import com.example.playlistmaker.data.network.TrackAPIService
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.data.dto.TrackResponse
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -78,16 +80,20 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val historyList = HistoryStore.getHistoryList()
-        if (historyList.isNotEmpty()) {
-            showHistory(historyList)
-        }
+//        val historyList = HistoryStore.getHistoryList()
+//        if (historyList.isNotEmpty()) {
+//            showHistory(historyList)
+//        }
+
+        searchActivityViewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
             binding.inputText.setText("")
             hideKeyboard(binding.inputText)
             clearTrackList()
-            showHistory()
+//            showHistory()
+
+            searchActivityViewModel.makeAction(SearchAction.ClearSearchQuery)
         }
 
         binding.searchBackButton.setOnClickListener {
@@ -95,7 +101,8 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.btnClearHistory.setOnClickListener {
-            HistoryStore.clearHistoryList()
+            searchActivityViewModel.makeAction(SearchAction.ClearTrackHistory)
+//            HistoryStore.clearHistoryList()
             hideHistory()
         }
 
@@ -130,6 +137,18 @@ class SearchActivity : AppCompatActivity() {
         binding.refreshButton.setOnClickListener {
             getTracks(isRefresh = true)
         }
+
+        lifecycleScope.launch {
+            searchActivityViewModel.state.collect { state ->
+                trackAdapter.updateTrackList(state.trackList)
+                showProgressBar(state.isLoading)
+                showErrorMessage(
+                    isShowNothingFound = state.isNothingFound,
+                    isShowNetworkError = state.isNetworkError
+                )
+            }
+        }
+
     }
 
     private fun getTracks(
@@ -137,9 +156,9 @@ class SearchActivity : AppCompatActivity() {
         v: TextView = binding.inputText,
         isRefresh: Boolean = false
     ): Boolean {
+
         val query = v.text.toString()
         searchActivityViewModel.makeAction(action = SearchAction.SearchTrack(inputQuery = query, isRefreshed = isRefresh))
-
         return true
         if (previousQuery == query && !isRefresh) {
             return true
@@ -196,7 +215,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showHistory(historyList: List<Track> = HistoryStore.getHistoryList()) {
-        trackAdapter.updateTrackList(historyList)
+//        trackAdapter.updateTrackList(historyList)
         if (historyList.isNotEmpty()) {
             binding.historyHeader.isVisible = true
             binding.btnClearHistory.isVisible = true
@@ -205,7 +224,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideHistory() {
-        trackAdapter.updateTrackList(emptyList())
+//        trackAdapter.updateTrackList(emptyList())
         binding.historyHeader.isVisible = false
         binding.btnClearHistory.isVisible = false
     }

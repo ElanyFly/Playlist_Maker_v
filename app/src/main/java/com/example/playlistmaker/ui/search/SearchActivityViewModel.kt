@@ -18,6 +18,7 @@ class SearchActivityViewModel: ViewModel() {
             is SearchAction.ClearTrackHistory -> handleClearTrackHistory()
             is SearchAction.SearchTrack -> handleSearchTrack(action)
             is SearchAction.RestoreHistoryCache -> handleRestoreHistoryCache()
+            is SearchAction.ClearSearchQuery -> handleRestoreHistoryCache()
         }
     }
 
