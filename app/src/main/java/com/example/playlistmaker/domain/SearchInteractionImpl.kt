@@ -29,7 +29,7 @@ class SearchInteractionImpl(
                 else -> resultLambda(SearchResult.Success(trackList = tracks.trackList))
             }
             previousQuery = ""
-        }
+        }.interrupt()
 
     }
 

@@ -37,6 +37,7 @@ class SearchActivityViewModel : ViewModel() {
     }
 
     private fun handleSearchTrack(action: SearchAction.SearchTrack) {
+
         Creator.searchInteraction.searchTrack(
             query = action.inputQuery,
             isRefreshed = action.isRefreshed,
