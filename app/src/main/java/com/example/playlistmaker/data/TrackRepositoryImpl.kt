@@ -1,33 +1,21 @@
 package com.example.playlistmaker.data
 
-import com.example.playlistmaker.data.dto.TrackResponse
-import com.example.playlistmaker.data.dto.TrackSearchRequest
+import com.example.playlistmaker.data.dto.Response
+import com.example.playlistmaker.data.network.TrackAPIService
+import com.example.playlistmaker.data.network.call
 import com.example.playlistmaker.domain.api.TrackRepository
 import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.utils.convertMS
+import com.example.playlistmaker.data.mappers.toTrackList
 
-class TrackRepositoryImpl(private val networkClient: NetworkClient) : TrackRepository {
+class TrackRepositoryImpl(private val apiService: TrackAPIService) : TrackRepository {
 
     override fun searchTracks(inputQuery: String): List<Track> {
-        val response = networkClient.doRequest(TrackSearchRequest(inputQuery))
+        val response = apiService.searchTracks(inputQuery).call()
 
-        if (response.responseCode == 200) {
-            return (response as TrackResponse).results.map {
-                Track(
-                    it.trackId,
-                    it.trackName,
-                    it.artistName,
-                    it.trackTime.toLong().convertMS(),
-                    it.pictureURL,
-                    it.collectionName,
-                    it.releaseDate,
-                    it.primaryGenreName,
-                    it.country,
-                    it.previewUrl,
-                )
-            }
-        } else {
-            return emptyList()
+        return when(response) {
+            is Response.onError -> emptyList()
+            is Response.onSuccess -> response.data.results.toTrackList()
         }
+
     }
 }

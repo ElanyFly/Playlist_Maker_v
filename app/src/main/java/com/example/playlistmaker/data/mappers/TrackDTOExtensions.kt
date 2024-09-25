@@ -1,4 +1,4 @@
-package com.example.playlistmaker.domain
+package com.example.playlistmaker.data.mappers
 
 import com.example.playlistmaker.data.dto.TrackDTO
 import com.example.playlistmaker.domain.models.Track
