@@ -10,7 +10,6 @@ interface SearchInteraction {
     )
 
     fun clearTrackHistory()
-
     fun addTrackToHistory(track: Track)
     fun restoreHistoryCache() : List<Track>
 }

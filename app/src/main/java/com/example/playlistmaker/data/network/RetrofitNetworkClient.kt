@@ -37,7 +37,7 @@ class RetrofitNetworkClient : NetworkClient {
             val body = thisSearch.body() ?: Response()
             return body.apply { responseCode = thisSearch.code() }
         } else {
-            return Response().apply { responseCode = 400 }
+            return Response().apply { responseCode = -1 }
         }
     }
 

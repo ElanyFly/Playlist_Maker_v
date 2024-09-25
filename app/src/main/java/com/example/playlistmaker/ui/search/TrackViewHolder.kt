@@ -24,7 +24,7 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(model: Track) {
         trackName.text = model.trackName
         artistName.text = model.artistName
-        trackTime.text = model.trackTime?.toLong()?.convertMS()
+        trackTime.text = model.trackTime    //?.toLong()?.convertMS()
 
         val coverUrl: String = model.pictureURL
 

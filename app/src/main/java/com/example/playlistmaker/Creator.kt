@@ -1,9 +1,14 @@
 package com.example.playlistmaker
 
+import com.example.playlistmaker.data.TrackRepositoryImpl
 import com.example.playlistmaker.data.dto.TrackResponse
+import com.example.playlistmaker.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.data.network.TrackAPIService
 import com.example.playlistmaker.domain.SearchInteraction
 import com.example.playlistmaker.domain.SearchInteractionImpl
+import com.example.playlistmaker.domain.api.TrackInteractor
+import com.example.playlistmaker.domain.api.TrackRepository
+import com.example.playlistmaker.domain.impl.TrackInteractorImp
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.ui.search.SearchAction
 import com.example.playlistmaker.ui.search.SearchActivity
@@ -19,8 +24,9 @@ object Creator {
 //    private const val BASE_URL = "https://itunes.apple.com"
 //
 //    private val retrofit: Retrofit by lazy { getClient(BASE_URL) }
-    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
+//    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
     val searchInteraction: SearchInteraction by lazy { SearchInteractionImpl(iTunesService) }
+
 
 //    private fun getClient(baseURL: String): Retrofit {
 //        val logging = HttpLoggingInterceptor().apply {
@@ -38,5 +44,16 @@ object Creator {
 //
 //        return newRetrofit
 //    }
+
+
+    private fun getTrackRepository(): TrackRepository{
+        return TrackRepositoryImpl(RetrofitNetworkClient())
+    }
+
+    fun provideTrackInteractor(): TrackInteractor {
+        return TrackInteractorImp(getTrackRepository())
+    }
+
+
 }
 
