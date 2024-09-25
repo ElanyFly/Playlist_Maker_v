@@ -1,15 +1,11 @@
 package com.example.playlistmaker.domain
 
-import com.example.playlistmaker.data.dto.TrackResponse
-import com.example.playlistmaker.data.mappers.toTrackList
-import com.example.playlistmaker.data.network.TrackAPIService
+import com.example.playlistmaker.domain.api.TrackRepository
 import com.example.playlistmaker.domain.models.Track
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlin.concurrent.thread
 
 class SearchInteractionImpl(
-    private val itunesService: TrackAPIService
+    private val trackRepository: TrackRepository
 ) : SearchInteraction {
 
     private var previousQuery = ""
@@ -19,47 +15,22 @@ class SearchInteractionImpl(
         isRefreshed: Boolean,
         resultLambda: (SearchResult) -> Unit
     ) {
-        if (previousQuery == query && !isRefreshed) {
+        if ((previousQuery == query && !isRefreshed) || query.isEmpty()) {
             return
         }
         previousQuery = query
-        val trackData = itunesService.searchTracks(query)
-        if (query.isNotEmpty()) {
-            resultLambda(SearchResult.Loading)
-            trackData.clone().enqueue(
-                object : Callback<TrackResponse> {
-                    override fun onResponse(
-                        call: Call<TrackResponse>,
-                        response: Response<TrackResponse>
-                    ) {
-                        if (response.code() == 200) {
-                            val searchResult = response.body()?.results?.toTrackList()
-                            if (searchResult == null) {
-                                resultLambda(SearchResult.Error(isNetworkError = true))
-                                return
-                            }
-                            if (searchResult.isNotEmpty()) {
-                                resultLambda(SearchResult.Success(trackList = searchResult))
-                                return
-                            } else {
-                                resultLambda(SearchResult.Error(isNothingFound = true))
-                                return
-                            }
 
-                        } else {
-                            resultLambda(SearchResult.Error(isNetworkError = true))
-                            return
-                        }
-
-                    }
-
-                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        resultLambda(SearchResult.Error(isNetworkError = true))
-                    }
-
-                }
-            )
+        resultLambda(SearchResult.Loading)
+        thread {
+            val tracks = trackRepository.searchTracks(query)
+            when {
+                tracks.isError -> resultLambda(SearchResult.Error(isNetworkError = true))
+                tracks.trackList.isEmpty() -> resultLambda(SearchResult.Error(isNothingFound = true))
+                else -> resultLambda(SearchResult.Success(trackList = tracks.trackList))
+            }
+            previousQuery = ""
         }
+
     }
 
     override fun clearTrackHistory() {

@@ -88,7 +88,7 @@ class AudioplayerActivity : AppCompatActivity() {
         with(binding) {
             trackName.text = track.trackName
             groupName.text = track.artistName
-            audioTrackTime.text = track.trackTime.toLong().convertMS()
+            audioTrackTime.text = track.trackTime
             audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
             audioGenre.text = track.primaryGenreName
             audioCountry.text = track.country

@@ -1,8 +1,5 @@
 package com.example.playlistmaker.domain.models
 
-import com.google.gson.annotations.SerializedName
-
-
 data class Track(
     val trackId: Int,
     val trackName: String,

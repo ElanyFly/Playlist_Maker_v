@@ -1,6 +1,6 @@
 package com.example.playlistmaker.data.network
 
-import com.example.playlistmaker.data.dto.Response
+import com.example.playlistmaker.domain.models.Response
 import retrofit2.Call
 
 inline fun <reified T> Call<T>.call(): Response<T> {
