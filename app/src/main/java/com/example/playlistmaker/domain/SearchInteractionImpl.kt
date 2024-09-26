@@ -11,6 +11,7 @@ class SearchInteractionImpl(
 ) : SearchInteraction {
 
     private var previousQuery = ""
+    private var currentThread: Thread? = null
 
     override fun searchTrack(
         query: String,
@@ -23,7 +24,8 @@ class SearchInteractionImpl(
         previousQuery = query
 
         resultLambda(SearchResult.Loading)
-        thread {
+        currentThread?.interrupt()
+        currentThread = thread {
             val tracks = trackRepository.searchTracks(query)
             when {
                 tracks.isError -> resultLambda(SearchResult.Error(isNetworkError = true))
