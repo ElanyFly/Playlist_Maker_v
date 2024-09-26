@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.example.playlistmaker.ui.audio_player.AudioplayerActivity
+import com.example.playlistmaker.ui.audio_player.AudioPlayerActivity
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.ui.search.track_adapter.TrackAdapter
@@ -45,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
         handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
 
         searchActivityViewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
-        AudioplayerActivity.showActivity(this, track)
+        AudioPlayerActivity.showActivity(this, track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory(true)
         }

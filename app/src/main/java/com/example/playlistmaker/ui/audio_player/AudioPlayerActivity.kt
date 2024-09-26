@@ -21,7 +21,7 @@ import com.example.playlistmaker.utils.convertMS
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
 
-class AudioplayerActivity : AppCompatActivity() {
+class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var track: Track
 
@@ -112,65 +112,65 @@ class AudioplayerActivity : AppCompatActivity() {
             .into(binding.audioplayerCover)
     }
 
-    private fun preparePlayer(track: Track) {
-        mediaPLayer = MediaPlayer()
-        with(mediaPLayer) {
-            setDataSource(track.previewUrl)
-            prepareAsync()
-            setOnPreparedListener {
-                playerState = StatePlayer.PREPARED
-            }
-            setOnCompletionListener {
-                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-                handler.removeCallbacks(timeRunnable)
-                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
-                playerState = StatePlayer.PREPARED
-            }
-        }
-    }
-
-    private fun startPlayer() {
-        mediaPLayer.start()
-        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
-        playerState = StatePlayer.PLAYING
-        getPositionDelay()
-    }
-
-    private fun pausePlayer() {
-        if (mediaPLayer.isPlaying) {
-            mediaPLayer.pause()
-        }
-        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-        playerState = StatePlayer.PAUSED
-        handler.removeCallbacks(timeRunnable)
-    }
-
-    private fun playbackControl() {
-        when (playerState) {
-            StatePlayer.PLAYING -> pausePlayer()
-
-            StatePlayer.PREPARED,
-            StatePlayer.PAUSED -> startPlayer()
-
-            StatePlayer.DEFAULT -> Unit
-        }
-    }
-
-    private fun getCurrentTrackPosition() {
-        binding.trackTimeInProgress.text = mediaPLayer.currentPosition.toLong().convertMS()
-    }
-
-    private fun getPositionDelay() {
-        when(playerState) {
-            StatePlayer.PLAYING -> {
-                handler.removeCallbacks(timeRunnable)
-                handler.postDelayed(timeRunnable, POSITION_DELAY)
-            }
-            StatePlayer.DEFAULT,
-            StatePlayer.PREPARED,
-            StatePlayer.PAUSED -> Unit
-        }
-    }
+//    private fun preparePlayer(track: Track) {
+//        mediaPLayer = MediaPlayer()
+//        with(mediaPLayer) {
+//            setDataSource(track.previewUrl)
+//            prepareAsync()
+//            setOnPreparedListener {
+//                playerState = StatePlayer.PREPARED
+//            }
+//            setOnCompletionListener {
+//                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+//                handler.removeCallbacks(timeRunnable)
+//                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
+//                playerState = StatePlayer.PREPARED
+//            }
+//        }
+//    }
+//
+//    private fun startPlayer() {
+//        mediaPLayer.start()
+//        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
+//        playerState = StatePlayer.PLAYING
+//        getPositionDelay()
+//    }
+//
+//    private fun pausePlayer() {
+//        if (mediaPLayer.isPlaying) {
+//            mediaPLayer.pause()
+//        }
+//        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+//        playerState = StatePlayer.PAUSED
+//        handler.removeCallbacks(timeRunnable)
+//    }
+//
+//    private fun playbackControl() {
+//        when (playerState) {
+//            StatePlayer.PLAYING -> pausePlayer()
+//
+//            StatePlayer.PREPARED,
+//            StatePlayer.PAUSED -> startPlayer()
+//
+//            StatePlayer.DEFAULT -> Unit
+//        }
+//    }
+//
+//    private fun getCurrentTrackPosition() {
+//        binding.trackTimeInProgress.text = mediaPLayer.currentPosition.toLong().convertMS()
+//    }
+//
+//    private fun getPositionDelay() {
+//        when(playerState) {
+//            StatePlayer.PLAYING -> {
+//                handler.removeCallbacks(timeRunnable)
+//                handler.postDelayed(timeRunnable, POSITION_DELAY)
+//            }
+//            StatePlayer.DEFAULT,
+//            StatePlayer.PREPARED,
+//            StatePlayer.PAUSED -> Unit
+//        }
+//    }
 
     companion object {
         private const val TRACK_ID = "track_id"
@@ -178,7 +178,7 @@ class AudioplayerActivity : AppCompatActivity() {
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()
-            val playerIntent = Intent(context, AudioplayerActivity::class.java).apply {
+            val playerIntent = Intent(context, AudioPlayerActivity::class.java).apply {
 
                 putExtra(TRACK_ID, trackString)
             }

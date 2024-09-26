@@ -16,7 +16,7 @@
         android:theme="@style/myBaseTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ui.audio_player.AudioplayerActivity"
+            android:name=".ui.audio_player.AudioPlayerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.search.SearchActivity"
