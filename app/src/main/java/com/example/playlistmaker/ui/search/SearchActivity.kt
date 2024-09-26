@@ -7,7 +7,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -16,23 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.ui.audio_player.AudioplayerActivity
-import com.example.playlistmaker.domain.HistoryStore
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.network.TrackAPIService
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.domain.models.Track
-import com.example.playlistmaker.data.dto.TrackResponse
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SearchActivity : AppCompatActivity() {

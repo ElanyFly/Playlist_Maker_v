@@ -1,17 +1,18 @@
-package com.example.playlistmaker.domain
+package com.example.playlistmaker.data.storage
 
 import android.util.Log
-import com.example.playlistmaker.data.storage.SharedPreferencesManager
+import com.example.playlistmaker.domain.api.TrackStorage
 import com.example.playlistmaker.domain.models.Track
 
-object HistoryStore {
-    private const val MAX_SIZE = 10
+class TrackStorageImpl(sharedPreferencesManager: SharedPreferencesManager): TrackStorage {
     private var historyList: List<Track> = SharedPreferencesManager.instance.getHistory()
-
-    fun getHistoryList(): List<Track> {
-        return historyList
+    
+    override fun clearHistoryList() {
+        historyList = emptyList()
+        SharedPreferencesManager.instance.saveHistory(historyList)
     }
-    fun addTrackToList(track: Track) {
+
+    override fun addTrackToList(track: Track) {
         val oldList = historyList
         val mutableHistoryList = historyList
             .removeTrackRepeat(track)
@@ -19,13 +20,15 @@ object HistoryStore {
 
         mutableHistoryList.add(0, track)
         historyList = mutableHistoryList.take(MAX_SIZE)
-        Log.i("addTrack", "historyList - $historyList")
+        Log.i("addTrack", "historyList - ${historyList}")
         if (oldList != historyList) {
             SharedPreferencesManager.instance.saveHistory(historyList)
         }
-
     }
 
+    override fun getHistoryList(): List<Track> {
+        return historyList
+    }
     private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {
         var trackToRemove: Track? = null
 
@@ -45,8 +48,7 @@ object HistoryStore {
             .toList()
     }
 
-    fun clearHistoryList() {
-        historyList = emptyList()
-        SharedPreferencesManager.instance.saveHistory(historyList)
+    companion object {
+        private const val MAX_SIZE = 10
     }
 }
