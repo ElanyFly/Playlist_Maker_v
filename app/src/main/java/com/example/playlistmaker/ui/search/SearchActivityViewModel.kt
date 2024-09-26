@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 
 class SearchActivityViewModel : ViewModel() {
 
+    private val searchInteraction = Creator.searchInteractionProvide()
     private val _state = MutableStateFlow<SearchActivityState>(SearchActivityState.defaultState)
     val state = _state.asStateFlow()
     fun makeAction(action: SearchAction) {
@@ -23,7 +24,7 @@ class SearchActivityViewModel : ViewModel() {
     }
 
     private fun handleRestoreHistoryCache() {
-        val historyList = Creator.searchInteraction.restoreHistoryCache()
+        val historyList = searchInteraction.restoreHistoryCache()
         if (historyList.isEmpty()) {
             return
         }
@@ -38,7 +39,7 @@ class SearchActivityViewModel : ViewModel() {
 
     private fun handleSearchTrack(action: SearchAction.SearchTrack) {
 
-        Creator.searchInteraction.searchTrack(
+        searchInteraction.searchTrack(
             query = action.inputQuery,
             isRefreshed = action.isRefreshed,
             resultLambda = { searchResult ->
@@ -72,7 +73,7 @@ class SearchActivityViewModel : ViewModel() {
     }
 
     private fun handleClearTrackHistory() {
-        Creator.searchInteraction.clearTrackHistory()
+        searchInteraction.clearTrackHistory()
         handleState(
             trackList = emptyList(),
             isNothingFound = false,
@@ -83,7 +84,7 @@ class SearchActivityViewModel : ViewModel() {
     }
 
     private fun handleAddTrackToHistory(action: SearchAction.AddTrackToHistoryList) {
-        Creator.searchInteraction.addTrackToHistory(action.track)
+        searchInteraction.addTrackToHistory(action.track)
         if (state.value.isHistoryShown){
             handleRestoreHistoryCache()
         }
