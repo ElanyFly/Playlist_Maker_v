@@ -1,33 +1,78 @@
 package com.example.playlistmaker.ui.audio_player
 
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.domain.models.Track
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class AudioPlayerActivityViewModel : ViewModel() {
+class AudioPlayerActivityViewModel(
+    private val coroutineScope: CoroutineScope =
+        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+) : ViewModel() {
     private val _state = MutableStateFlow<AudioPlayerActivityState>(AudioPlayerActivityState.defaultState)
     val state = _state.asStateFlow()
 
-    
+    private var currentTrack: Track? = null
+
+    private val mediaPlayer = Creator.mediaPlayerProvide()
+    init {
+        coroutineScope.launch {
+            mediaPlayer.timeFlow.collect {
+
+            }
+        }
+        coroutineScope.launch {
+            mediaPlayer.stateFlow.collect {
+
+            }
+        }
+    }
 
     fun makeAction(action: AudioPlayerAction) {
         when(action) {
             is AudioPlayerAction.prepareTrack -> handlePrepareTrack(action)
-            is AudioPlayerAction.playSongPreview -> handlePlaySongPreview()
-            is AudioPlayerAction.pauseSongPreview -> handlePauseSongPreview()
+            is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn()
         }
     }
 
+    private fun handlePressPlayBtn() {
+        mediaPlayer.playbackControl()
+    }
+
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
-        TODO("Not yet implemented")
+        mediaPlayer.preparePlayer(action.track)
+        currentTrack = action.track
+        handleState(currentTrack)
+
     }
 
-    private fun handlePlaySongPreview() {
-        TODO("Not yet implemented")
+    private fun handleState(
+        track: Track? = currentTrack,
+        time: String = mediaPlayer.timeFlow.value,
+        state: StatePlayer = mediaPlayer.stateFlow.value
+    ) {
+        _state.update {
+            it.copy(
+                track = track ?: it.track,
+                playTime = time,
+                isPlaying = state == StatePlayer.PLAYING,
+                isPaused = state == StatePlayer.PAUSED,
+                isFinished = state == StatePlayer.PREPARED
+
+            )
+        }
     }
 
-    private fun handlePauseSongPreview() {
-        TODO("Not yet implemented")
+    override fun onCleared() {
+        super.onCleared()
+        mediaPlayer.releasePlayer()
     }
-
 }

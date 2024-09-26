@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,21 +24,14 @@ import com.example.playlistmaker.utils.serialize
 
 class AudioPlayerActivity : AppCompatActivity() {
 
+    private val viewModel: AudioPlayerActivityViewModel by viewModels()
+
     private lateinit var track: Track
 
     private var _binding: ActivityAudioplayerBinding? = null
     private val binding
         get() = _binding
             ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
-
-    private lateinit var mediaPLayer: MediaPlayer
-    private var playerState = StatePlayer.DEFAULT
-
-    private val handler = Handler(Looper.getMainLooper())
-    private val timeRunnable = Runnable {
-        getCurrentTrackPosition()
-        getPositionDelay()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,22 +106,17 @@ class AudioPlayerActivity : AppCompatActivity() {
             .into(binding.audioplayerCover)
     }
 
-//    private fun preparePlayer(track: Track) {
-//        mediaPLayer = MediaPlayer()
-//        with(mediaPLayer) {
-//            setDataSource(track.previewUrl)
-//            prepareAsync()
-//            setOnPreparedListener {
-//                playerState = StatePlayer.PREPARED
-//            }
+    private fun preparePlayer(track: Track) {
+        viewModel.makeAction(AudioPlayerAction.prepareTrack(track))
+
 //            setOnCompletionListener {
 //                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
 //                handler.removeCallbacks(timeRunnable)
 //                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
 //                playerState = StatePlayer.PREPARED
 //            }
-//        }
-//    }
+
+    }
 //
 //    private fun startPlayer() {
 //        mediaPLayer.start()
@@ -135,46 +124,24 @@ class AudioPlayerActivity : AppCompatActivity() {
 //        playerState = StatePlayer.PLAYING
 //        getPositionDelay()
 //    }
-//
-//    private fun pausePlayer() {
-//        if (mediaPLayer.isPlaying) {
-//            mediaPLayer.pause()
-//        }
-//        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-//        playerState = StatePlayer.PAUSED
-//        handler.removeCallbacks(timeRunnable)
-//    }
-//
-//    private fun playbackControl() {
-//        when (playerState) {
-//            StatePlayer.PLAYING -> pausePlayer()
-//
-//            StatePlayer.PREPARED,
-//            StatePlayer.PAUSED -> startPlayer()
-//
-//            StatePlayer.DEFAULT -> Unit
-//        }
-//    }
-//
-//    private fun getCurrentTrackPosition() {
-//        binding.trackTimeInProgress.text = mediaPLayer.currentPosition.toLong().convertMS()
-//    }
-//
-//    private fun getPositionDelay() {
-//        when(playerState) {
-//            StatePlayer.PLAYING -> {
-//                handler.removeCallbacks(timeRunnable)
-//                handler.postDelayed(timeRunnable, POSITION_DELAY)
-//            }
-//            StatePlayer.DEFAULT,
-//            StatePlayer.PREPARED,
-//            StatePlayer.PAUSED -> Unit
-//        }
-//    }
+
+    private fun pausePlayer() {
+        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+    }
+
+    private fun playbackControl() {
+        when (playerState) {
+            StatePlayer.PLAYING -> pausePlayer()
+
+            StatePlayer.PREPARED,
+            StatePlayer.PAUSED -> startPlayer()
+
+            StatePlayer.DEFAULT -> Unit
+        }
+    }
 
     companion object {
         private const val TRACK_ID = "track_id"
-        private const val POSITION_DELAY = 300L
 
         fun showActivity(context: Context, track: Track) {
             val trackString = track.serialize()

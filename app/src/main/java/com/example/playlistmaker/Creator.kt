@@ -9,6 +9,7 @@ import com.example.playlistmaker.domain.SearchInteraction
 import com.example.playlistmaker.domain.SearchInteractionImpl
 import com.example.playlistmaker.domain.api.TrackRepository
 import com.example.playlistmaker.domain.api.TrackStorage
+import com.example.playlistmaker.ui.audio_player.MediaPlayer
 import retrofit2.Retrofit
 
 object Creator {
@@ -30,6 +31,7 @@ object Creator {
 
     fun searchInteractionProvide(): SearchInteraction = searchInteraction
     fun trackStorageProvide(): TrackStorage = trackStorage
+    fun mediaPlayerProvide(): MediaPlayer = MediaPlayer()
 
 }
 

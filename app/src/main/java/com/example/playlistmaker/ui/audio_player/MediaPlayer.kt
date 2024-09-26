@@ -3,10 +3,12 @@ package com.example.playlistmaker.ui.audio_player
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.convertMS
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MediaPlayer() {
 
@@ -19,8 +21,13 @@ class MediaPlayer() {
         getPositionDelay()
     }
 
+    private val _timeFlow = MutableStateFlow(Constants.PLAYER_TIME_DEFAULT)
+    val timeFlow = _timeFlow.asStateFlow()
 
-    private fun preparePlayer(track: Track) {
+    private val _stateFlow = MutableStateFlow(playerState)
+    val stateFlow = _stateFlow.asStateFlow()
+
+    fun preparePlayer(track: Track) {
         mediaPLayer = MediaPlayer()
         with(mediaPLayer) {
             setDataSource(track.previewUrl)
@@ -29,9 +36,8 @@ class MediaPlayer() {
                 playerState = StatePlayer.PREPARED
             }
             setOnCompletionListener {
-                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+//                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
                 handler.removeCallbacks(timeRunnable)
-                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
                 playerState = StatePlayer.PREPARED
             }
         }
@@ -39,8 +45,10 @@ class MediaPlayer() {
 
     private fun startPlayer() {
         mediaPLayer.start()
-        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
+//        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
+
         playerState = StatePlayer.PLAYING
+        _stateFlow.update { playerState }
         getPositionDelay()
     }
 
@@ -48,12 +56,13 @@ class MediaPlayer() {
         if (mediaPLayer.isPlaying) {
             mediaPLayer.pause()
         }
-        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
+//        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
         playerState = StatePlayer.PAUSED
+        _stateFlow.update { playerState }
         handler.removeCallbacks(timeRunnable)
     }
 
-    private fun playbackControl() {
+    fun playbackControl() {
         when (playerState) {
             StatePlayer.PLAYING -> pausePlayer()
 
@@ -64,23 +73,28 @@ class MediaPlayer() {
         }
     }
 
-    private fun getCurrentTrackPosition() {
-        binding.trackTimeInProgress.text = mediaPLayer.currentPosition.toLong().convertMS()
+    fun getCurrentTrackPosition() {
+        _timeFlow.update { mediaPLayer.currentPosition.toLong().convertMS() }
     }
 
-    private fun getPositionDelay() {
-        when(playerState) {
+    fun getPositionDelay() {
+        when (playerState) {
             StatePlayer.PLAYING -> {
                 handler.removeCallbacks(timeRunnable)
                 handler.postDelayed(timeRunnable, POSITION_DELAY)
             }
+
             StatePlayer.DEFAULT,
             StatePlayer.PREPARED,
             StatePlayer.PAUSED -> Unit
         }
     }
 
-    companion object{
+    fun releasePlayer() {
+        mediaPLayer.release()
+    }
+
+    companion object {
         private const val POSITION_DELAY = 300L
     }
 }
