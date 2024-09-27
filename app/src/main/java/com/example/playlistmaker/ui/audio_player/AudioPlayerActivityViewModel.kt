@@ -14,30 +14,32 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AudioPlayerActivityViewModel(
-    private val coroutineScope: CoroutineScope =
+    coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 ) : ViewModel() {
-    private val _state = MutableStateFlow<AudioPlayerActivityState>(AudioPlayerActivityState.defaultState)
+    private val _state =
+        MutableStateFlow<AudioPlayerActivityState>(AudioPlayerActivityState.defaultState)
     val state = _state.asStateFlow()
 
     private var currentTrack: Track? = null
 
     private val mediaPlayer = Creator.mediaPlayerProvide()
+
     init {
         coroutineScope.launch {
-            mediaPlayer.timeFlow.collect {
-
+            mediaPlayer.timeFlow.collect { time ->
+                handleState(time = time)
             }
         }
         coroutineScope.launch {
-            mediaPlayer.stateFlow.collect {
-
+            mediaPlayer.stateFlow.collect { statePlayer ->
+                handleState(state = statePlayer)
             }
         }
     }
 
     fun makeAction(action: AudioPlayerAction) {
-        when(action) {
+        when (action) {
             is AudioPlayerAction.prepareTrack -> handlePrepareTrack(action)
             is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn()
         }
@@ -50,8 +52,7 @@ class AudioPlayerActivityViewModel(
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
         mediaPlayer.preparePlayer(action.track)
         currentTrack = action.track
-        handleState(currentTrack)
-
+        handleState(track = currentTrack)
     }
 
     private fun handleState(
