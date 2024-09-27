@@ -1,5 +1,7 @@
-package com.example.playlistmaker.domain
+package com.example.playlistmaker.domain.impl
 
+import com.example.playlistmaker.domain.SearchInteraction
+import com.example.playlistmaker.domain.SearchResult
 import com.example.playlistmaker.domain.api.TrackRepository
 import com.example.playlistmaker.domain.api.TrackStorage
 import com.example.playlistmaker.domain.models.Track

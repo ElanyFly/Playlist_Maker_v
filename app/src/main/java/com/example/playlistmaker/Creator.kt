@@ -6,7 +6,7 @@ import com.example.playlistmaker.data.network.TrackAPIService
 import com.example.playlistmaker.data.storage.SharedPreferencesManager
 import com.example.playlistmaker.data.storage.TrackStorageImpl
 import com.example.playlistmaker.domain.SearchInteraction
-import com.example.playlistmaker.domain.SearchInteractionImpl
+import com.example.playlistmaker.domain.impl.SearchInteractionImpl
 import com.example.playlistmaker.domain.api.TrackRepository
 import com.example.playlistmaker.domain.api.TrackStorage
 import com.example.playlistmaker.ui.audio_player.MediaPlayer
