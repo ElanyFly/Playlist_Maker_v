@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 when{
                     state.isPlaying -> startPlayer()
                     state.isPaused -> pausePlayer()
-                    state.isFinished -> startPlayer()
+                    state.isFinished -> pausePlayer()
                 }
 
             }
@@ -71,19 +72,14 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.backArrow.setOnClickListener {
             finish()
         }
-
     }
 
     override fun onStop() {
         super.onStop()
         pausePlayer()
+        viewModel.makeAction(AudioPlayerAction.pressPlayBtn)
 
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        mediaPLayer.release()
-//    }
 
     private fun setDataToView(track: Track) {
         with(binding) {
@@ -116,14 +112,6 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun preparePlayer(track: Track) {
         viewModel.makeAction(AudioPlayerAction.prepareTrack(track))
-
-//            setOnCompletionListener {
-//                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-//                handler.removeCallbacks(timeRunnable)
-//                binding.trackTimeInProgress.text = Constants.PLAYER_TIME_DEFAULT
-//                playerState = StatePlayer.PREPARED
-//            }
-
     }
 
     private fun startPlayer() {
@@ -137,17 +125,6 @@ class AudioPlayerActivity : AppCompatActivity() {
     private fun setPlayTime(playTime: String) {
         binding.trackTimeInProgress.text = playTime
     }
-
-//    private fun playbackControl() {
-//        when (playerState) {
-//            StatePlayer.PLAYING -> pausePlayer()
-//
-//            StatePlayer.PREPARED,
-//            StatePlayer.PAUSED -> startPlayer()
-//
-//            StatePlayer.DEFAULT -> Unit
-//        }
-//    }
 
     companion object {
         private const val TRACK_ID = "track_id"

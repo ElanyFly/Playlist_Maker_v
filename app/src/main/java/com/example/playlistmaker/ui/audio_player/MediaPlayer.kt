@@ -14,6 +14,7 @@ class MediaPlayer() {
 
     private lateinit var mediaPLayer: MediaPlayer
     private var playerState = StatePlayer.DEFAULT
+    private var isReleased = false
 
     private val handler = Handler(Looper.getMainLooper())
     private val timeRunnable = Runnable {
@@ -33,22 +34,23 @@ class MediaPlayer() {
             setDataSource(track.previewUrl)
             prepareAsync()
             setOnPreparedListener {
-                playerState = StatePlayer.PREPARED
+                setPlayerState(StatePlayer.PREPARED)
             }
             setOnCompletionListener {
-//                binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
                 handler.removeCallbacks(timeRunnable)
-                playerState = StatePlayer.PREPARED
+                setPlayerState(StatePlayer.PREPARED)
+                _timeFlow.update { Constants.PLAYER_TIME_DEFAULT }
             }
         }
     }
 
+    private fun setPlayerState(playerState: StatePlayer){
+        this.playerState = playerState
+        _stateFlow.update { playerState }
+    }
     private fun startPlayer() {
         mediaPLayer.start()
-//        binding.btnPlay.setImageResource(R.drawable.audio_pausebutton)
-
-        playerState = StatePlayer.PLAYING
-        _stateFlow.update { playerState }
+        setPlayerState(StatePlayer.PLAYING)
         getPositionDelay()
     }
 
@@ -56,9 +58,7 @@ class MediaPlayer() {
         if (mediaPLayer.isPlaying) {
             mediaPLayer.pause()
         }
-//        binding.btnPlay.setImageResource(R.drawable.audio_playbutton)
-        playerState = StatePlayer.PAUSED
-        _stateFlow.update { playerState }
+        setPlayerState(StatePlayer.PAUSED)
         handler.removeCallbacks(timeRunnable)
     }
 
@@ -74,7 +74,10 @@ class MediaPlayer() {
     }
 
     fun getCurrentTrackPosition() {
-        _timeFlow.update { mediaPLayer.currentPosition.toLong().convertMS() }
+        if (!isReleased){
+            _timeFlow.update { mediaPLayer.currentPosition.toLong().convertMS() }
+        }
+
     }
 
     fun getPositionDelay() {
@@ -91,6 +94,7 @@ class MediaPlayer() {
     }
 
     fun releasePlayer() {
+        isReleased = true
         mediaPLayer.release()
     }
 
