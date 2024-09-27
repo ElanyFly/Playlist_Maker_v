@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
@@ -8,7 +8,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        App.applicationContext = this
+        Companion.applicationContext = this
         val isDarkTheme = SharedPreferencesManager.instance.getSwitchState()
         switchTheme(isDarkTheme)
     }
