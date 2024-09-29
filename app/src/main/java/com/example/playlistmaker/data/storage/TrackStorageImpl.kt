@@ -4,12 +4,12 @@ import android.util.Log
 import com.example.playlistmaker.domain.api.TrackStorage
 import com.example.playlistmaker.domain.models.Track
 
-class TrackStorageImpl(sharedPreferencesManager: SharedPreferencesManager): TrackStorage {
-    private var historyList: List<Track> = SharedPreferencesManager.instance.getHistory()
+class TrackStorageImpl(private val sharedPreferencesManager: SharedPreferencesManager): TrackStorage {
+    private var historyList: List<Track> = sharedPreferencesManager.getHistory()
     
     override fun clearHistoryList() {
         historyList = emptyList()
-        SharedPreferencesManager.instance.saveHistory(historyList)
+        sharedPreferencesManager.saveHistory(historyList)
     }
 
     override fun addTrackToList(track: Track) {
@@ -22,7 +22,7 @@ class TrackStorageImpl(sharedPreferencesManager: SharedPreferencesManager): Trac
         historyList = mutableHistoryList.take(MAX_SIZE)
         Log.i("addTrack", "historyList - ${historyList}")
         if (oldList != historyList) {
-            SharedPreferencesManager.instance.saveHistory(historyList)
+            sharedPreferencesManager.saveHistory(historyList)
         }
     }
 

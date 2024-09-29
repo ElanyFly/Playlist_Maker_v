@@ -1,5 +1,7 @@
 package com.example.playlistmaker
 
+import android.annotation.SuppressLint
+import android.content.Context
 import com.example.playlistmaker.data.repository.TrackRepositoryImpl
 import com.example.playlistmaker.data.network.RetrofitNetworkCreator
 import com.example.playlistmaker.data.network.TrackAPIService
@@ -12,10 +14,12 @@ import com.example.playlistmaker.domain.api.TrackStorage
 import com.example.playlistmaker.ui.audio_player.MediaPlayer
 import retrofit2.Retrofit
 
+@SuppressLint("StaticFieldLeak")
 object Creator {
 
     private const val BASE_URL = "https://itunes.apple.com"
 
+    private lateinit var context: Context
     private val retrofitNetworkCreator: RetrofitNetworkCreator by lazy { RetrofitNetworkCreator() }
     private val retrofit: Retrofit by lazy { retrofitNetworkCreator.getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
@@ -32,6 +36,12 @@ object Creator {
     fun searchInteractionProvide(): SearchInteraction = searchInteraction
     fun trackStorageProvide(): TrackStorage = trackStorage
     fun mediaPlayerProvide(): MediaPlayer = MediaPlayer()
+    fun setContext(context: Context) {
+        this.context = context
+    }
+    fun provideContext(): Context {
+        return context
+    }
 
 }
 

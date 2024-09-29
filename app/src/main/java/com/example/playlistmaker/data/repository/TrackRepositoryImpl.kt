@@ -14,10 +14,10 @@ class TrackRepositoryImpl(private val apiService: TrackAPIService) : TrackReposi
         val response = apiService.searchTracks(inputQuery).call()
 
         return when(response) {
-            is Response.onError -> Tracks(
+            is Response.Error -> Tracks(
                 isError = true
             )
-            is Response.onSuccess -> Tracks(
+            is Response.Success -> Tracks(
                 trackList = response.data.results.toTrackList()
             )
         }

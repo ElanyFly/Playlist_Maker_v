@@ -81,7 +81,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.btnClearHistory.setOnClickListener {
             searchActivityViewModel.makeAction(SearchAction.ClearTrackHistory)
-            hideHistory()
+//            hideHistory()
         }
 
         val textWatcher = object : TextWatcher {
@@ -94,11 +94,11 @@ class SearchActivity : AppCompatActivity() {
 
                 savedText = s.toString()
                 binding.clearIcon.isVisible = savedText.isNotEmpty()
-                if (binding.inputText.hasFocus() && s?.isEmpty() == true) {
-//                    showHistory()
-                } else {
-                    hideHistory()
-                }
+//                if (binding.inputText.hasFocus() && s?.isEmpty() == true) {
+////                    showHistory()
+//                } else {
+//                    hideHistory()
+//                }
 
                 inputDebounce()
             }
@@ -135,21 +135,23 @@ class SearchActivity : AppCompatActivity() {
         isRefresh: Boolean = false
     ) {
         val query = v.text.toString()
-        searchActivityViewModel.makeAction(action = SearchAction.SearchTrack(inputQuery = query, isRefreshed = isRefresh))
+        searchActivityViewModel.makeAction(
+            action = SearchAction.SearchTrack(
+                inputQuery = query,
+                isRefreshed = isRefresh
+            )
+        )
     }
 
     private fun showHistory(isShown: Boolean) {
-
             binding.historyHeader.isVisible = isShown
             binding.btnClearHistory.isVisible = isShown
-
-
     }
 
-    private fun hideHistory() {
-//        binding.historyHeader.isVisible = false
-//        binding.btnClearHistory.isVisible = false
-    }
+//    private fun hideHistory() {
+////        binding.historyHeader.isVisible = false
+////        binding.btnClearHistory.isVisible = false
+//    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {

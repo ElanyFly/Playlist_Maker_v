@@ -6,12 +6,12 @@ import retrofit2.Call
 inline fun <reified T> Call<T>.call(): Response<T> {
 
     val result = execute()
-    val body = result.body() ?: return Response.onError(
+    val body = result.body() ?: return Response.Error(
         errorMessage = result.message(),
         errorCode = result.code()
     )
 
-    return Response.onSuccess(
+    return Response.Success(
         data = body,
         responseCode = result.code()
     )
