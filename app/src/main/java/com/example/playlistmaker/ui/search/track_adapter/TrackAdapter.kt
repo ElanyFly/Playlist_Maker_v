@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.TrackViewBinding
 import com.example.playlistmaker.domain.models.Track
 
 class TrackAdapter(
@@ -13,8 +14,8 @@ class TrackAdapter(
     private var trackList: List<Track> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.track_view, parent, false)
-        return TrackViewHolder(view as ViewGroup)
+        val layputInspector = LayoutInflater.from(parent.context)
+        return TrackViewHolder(TrackViewBinding.inflate(layputInspector, parent,false))
     }
 
     override fun getItemCount(): Int {
