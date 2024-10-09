@@ -1,10 +1,11 @@
 package com.example.playlistmaker.data.storage
 
 import android.util.Log
-import com.example.playlistmaker.domain.api.TrackStorage
-import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.search.domain.api.TrackStorage
+import com.example.playlistmaker.search.domain.models.Track
 
-class TrackStorageImpl(private val sharedPreferencesManager: SharedPreferencesManager): TrackStorage {
+class TrackStorageImpl(private val sharedPreferencesManager: SharedPreferencesManager):
+    TrackStorage {
     private var historyList: List<Track> = sharedPreferencesManager.getHistory()
     
     override fun clearHistoryList() {
