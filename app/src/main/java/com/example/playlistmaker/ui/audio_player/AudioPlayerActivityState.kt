@@ -18,7 +18,7 @@ data class AudioPlayerActivityState (
                 artistName = "",
                 trackTime = "",
                 pictureURL = "",
-                collectionName = null,
+                collectionName = "",
                 releaseDate = "",
                 primaryGenreName = "",
                 country = "",

@@ -94,12 +94,6 @@ class SearchActivity : AppCompatActivity() {
 
                 savedText = s.toString()
                 binding.clearIcon.isVisible = savedText.isNotEmpty()
-//                if (binding.inputText.hasFocus() && s?.isEmpty() == true) {
-////                    showHistory()
-//                } else {
-//                    hideHistory()
-//                }
-
                 inputDebounce()
             }
 
@@ -147,12 +141,6 @@ class SearchActivity : AppCompatActivity() {
             binding.historyHeader.isVisible = isShown
             binding.btnClearHistory.isVisible = isShown
     }
-
-//    private fun hideHistory() {
-////        binding.historyHeader.isVisible = false
-////        binding.btnClearHistory.isVisible = false
-//    }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
