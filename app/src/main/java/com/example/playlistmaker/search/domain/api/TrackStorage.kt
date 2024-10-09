@@ -6,4 +6,5 @@ interface TrackStorage {
     fun clearHistoryList()
     fun addTrackToList(track: Track)
     fun getHistoryList(): List<Track>
+
 }

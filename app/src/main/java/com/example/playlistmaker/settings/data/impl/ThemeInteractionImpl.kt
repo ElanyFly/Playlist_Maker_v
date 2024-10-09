@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.data
+package com.example.playlistmaker.settings.data.impl
 
 import com.example.playlistmaker.data.storage.SharedPreferencesManager
 import com.example.playlistmaker.settings.domain.ThemeInteraction
