@@ -14,6 +14,8 @@ import com.example.playlistmaker.search.domain.api.TrackStorage
 import com.example.playlistmaker.audio_player.ui.MediaPlayer
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.data.impl.IntentNavigationImpl
+import com.example.playlistmaker.sharing.domain.Impl.SharingInteractionImpl
+import com.example.playlistmaker.sharing.domain.SharingInteraction
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")
@@ -36,10 +38,14 @@ object Creator {
     }
 
     private val intentNavigation: IntentNavigation by lazy {
-        IntentNavigationImpl(context)
+        IntentNavigationImpl()
     }
 
-    fun settingsIntentProvide(): IntentNavigation = intentNavigation
+    private val sharingInteraction: SharingInteraction by lazy {
+        SharingInteractionImpl(intentNavigation)
+    }
+
+    fun settingsIntentProvide(): SharingInteraction = sharingInteraction
 
     fun searchInteractionProvide(): SearchInteraction = searchInteraction
     fun trackStorageProvide(): TrackStorage = trackStorage

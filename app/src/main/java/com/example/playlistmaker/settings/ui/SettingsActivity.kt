@@ -47,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.settingsShareButton.setOnClickListener {
-            shareLink(getString(R.string.android_developer_course_link))
+            settingsActivityViewModel.shareLink()
         }
 
         binding.settingsHelpdeskButton.setOnClickListener {
