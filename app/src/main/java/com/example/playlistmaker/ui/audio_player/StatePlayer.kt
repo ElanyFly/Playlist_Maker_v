@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.audio_player
 
 enum class StatePlayer {
     DEFAULT,
