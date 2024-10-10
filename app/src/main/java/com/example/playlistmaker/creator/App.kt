@@ -1,8 +1,7 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.creator
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.data.storage.SharedPreferencesManager
 
 class App : Application() {
@@ -10,13 +9,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Creator.setContext(this)
-//        Companion.applicationContext = this
         val isDarkTheme = SharedPreferencesManager.instance.getSwitchState()
         switchTheme(isDarkTheme)
     }
 
     companion object {
-//        lateinit var applicationContext: Application
         fun switchTheme(isDarkTheme: Boolean) {
             AppCompatDelegate.setDefaultNightMode(
                 if (isDarkTheme) {
@@ -27,5 +24,4 @@ class App : Application() {
             )
         }
     }
-
 }

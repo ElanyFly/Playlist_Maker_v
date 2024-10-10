@@ -1,6 +1,7 @@
 package com.example.playlistmaker.settings.ui
 
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.creator.App
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.settings.data.impl.ThemeInteractionImpl
 
@@ -24,6 +25,7 @@ class SettingsActivityViewModel : ViewModel() {
 
     fun switchTheme(isDarkTheme: Boolean) {
         themeInteractionImpl.setSwitchState(isDarkTheme)
+        App.switchTheme(isDarkTheme)
     }
 
     fun getThemeState(): Boolean {

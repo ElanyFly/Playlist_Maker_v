@@ -1,14 +1,11 @@
 package com.example.playlistmaker.settings.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.App
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
@@ -39,7 +36,6 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.settingsThemeSwitch.setOnCheckedChangeListener { switcher, isChecked ->
             settingsActivityViewModel.switchTheme(isChecked)
-            App.switchTheme(isChecked)
         }
 
         binding.settingsBackButton.setOnClickListener {
@@ -58,5 +54,4 @@ class SettingsActivity : AppCompatActivity() {
             settingsActivityViewModel.openAgreement()
         }
     }
-
 }
