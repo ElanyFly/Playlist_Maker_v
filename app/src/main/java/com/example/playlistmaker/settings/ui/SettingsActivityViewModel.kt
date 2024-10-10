@@ -13,6 +13,14 @@ class SettingsActivityViewModel : ViewModel() {
         intentNavigation.shareLink()
     }
 
+    fun sendEmail() {
+        intentNavigation.sendEmail()
+    }
+
+    fun openAgreement() {
+        intentNavigation.openAgreement()
+    }
+
 
     fun switchTheme(isDarkTheme: Boolean) {
         themeInteractionImpl.setSwitchState(isDarkTheme)

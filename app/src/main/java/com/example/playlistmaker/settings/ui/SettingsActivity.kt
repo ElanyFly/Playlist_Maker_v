@@ -51,49 +51,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.settingsHelpdeskButton.setOnClickListener {
-            sendEmail(
-                arrayOf(getString(R.string.helpdesk_email)),
-                getString(R.string.helpdesk_mail_header),
-                getString(R.string.helpdesk_mail_message)
-            )
+            settingsActivityViewModel.sendEmail()
         }
 
         binding.settingsUserAgreementButton.setOnClickListener {
-            openAgreement(getString(R.string.settings_agreement_link))
+            settingsActivityViewModel.openAgreement()
         }
-    }
-
-    private fun shareLink(url: String) {
-        val sendIntent = Intent(
-            Intent.ACTION_SEND
-        ).apply {
-            putExtra(Intent.EXTRA_TEXT, url)
-            type = "text/plain"
-        }
-        val shareIntent = Intent.createChooser(
-            sendIntent, null
-        )
-        startActivity(shareIntent)
-    }
-
-    private fun sendEmail(email: Array<String>, header: String, message: String) {
-        val sendIntent = Intent(
-            Intent.ACTION_SENDTO
-        ).apply {
-            setData(Uri.parse("mailto:"))
-            putExtra(Intent.EXTRA_EMAIL, email)
-            putExtra(Intent.EXTRA_SUBJECT, header)
-            putExtra(Intent.EXTRA_TEXT, message)
-        }
-        startActivity(Intent.createChooser(sendIntent, null))
-    }
-
-    private fun openAgreement(url: String) {
-        val showAgreement = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(url)
-        )
-        startActivity(showAgreement)
     }
 
 }
