@@ -3,7 +3,7 @@ package com.example.playlistmaker.audio_player.ui
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
 
-data class AudioPlayerActivityState (
+data class AudioPlayerState (
     val track: Track,
     val playTime: String,
     val isPlaying: Boolean,
@@ -11,7 +11,7 @@ data class AudioPlayerActivityState (
     val isFinished: Boolean
 ) {
     companion object{
-        val defaultState = AudioPlayerActivityState(
+        val defaultState = AudioPlayerState(
             track = Track(
                 trackId = 0,
                 trackName = "",

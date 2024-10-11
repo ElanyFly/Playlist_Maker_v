@@ -21,12 +21,11 @@ import kotlinx.coroutines.launch
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    private val viewModel: AudioPlayerActivityViewModel by viewModels()
+    private val viewModel: AudioPlayerViewModel by viewModels()
 
     private var _binding: ActivityAudioplayerBinding? = null
     private val binding
-        get() = _binding
-            ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
+        get() = _binding ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +47,15 @@ class AudioPlayerActivity : AppCompatActivity() {
                 return
             }
 
-
-        lifecycleScope.launch {
-            viewModel.state.collect {state ->
-                setDataToView(state.track)
+        viewModel.playerState.observe(this) { state ->
+            if (state == null) return@observe
+            setDataToView(state.track)
                 setPlayTime(state.playTime)
                 when{
                     state.isPlaying -> startPlayer()
                     state.isPaused -> pausePlayer()
                     state.isFinished -> pausePlayer()
                 }
-
-            }
         }
 
         preparePlayer(track)
@@ -85,11 +81,11 @@ class AudioPlayerActivity : AppCompatActivity() {
             trackName.text = track.trackName
             groupName.text = track.artistName
             audioTrackTime.text = track.trackTime
-            audioYear.text = track.releaseDate?.substringBefore("-") ?: ""
+            audioYear.text = track.releaseDate.substringBefore("-") ?: ""
             audioGenre.text = track.primaryGenreName
             audioCountry.text = track.country
 
-            if (track.collectionName.isNullOrBlank()) {
+            if (track.collectionName.isBlank()) {
                 groupAlbum.isVisible = false
             } else {
                 groupAlbum.isVisible = true
