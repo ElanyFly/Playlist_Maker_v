@@ -49,9 +49,9 @@ class MediaPlayer() {
         _stateFlow.update { playerState }
     }
     private fun startPlayer() {
-        mediaPLayer.start()
-        setPlayerState(StatePlayer.PLAYING)
-        getPositionDelay()
+            mediaPLayer.start()
+            setPlayerState(StatePlayer.PLAYING)
+            getPositionDelay()
     }
 
     private fun pausePlayer() {
@@ -62,7 +62,11 @@ class MediaPlayer() {
         handler.removeCallbacks(timeRunnable)
     }
 
-    fun playbackControl() {
+    fun playbackControl(isStopped: Boolean) {
+        if (isStopped) {
+            pausePlayer()
+            return
+        }
         when (playerState) {
             StatePlayer.PLAYING -> pausePlayer()
 

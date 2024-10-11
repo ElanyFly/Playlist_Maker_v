@@ -43,12 +43,12 @@ class AudioPlayerViewModel(
     fun makeAction(action: AudioPlayerAction) {
         when (action) {
             is AudioPlayerAction.prepareTrack -> handlePrepareTrack(action)
-            is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn()
+            is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn(action)
         }
     }
 
-    private fun handlePressPlayBtn() {
-        mediaPlayer.playbackControl()
+    private fun handlePressPlayBtn(action: AudioPlayerAction.pressPlayBtn) {
+        mediaPlayer.playbackControl(action.isStopped)
     }
 
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
