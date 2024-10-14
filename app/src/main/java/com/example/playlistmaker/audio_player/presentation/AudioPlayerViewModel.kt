@@ -1,14 +1,10 @@
-package com.example.playlistmaker.audio_player.ui
+package com.example.playlistmaker.audio_player.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.models.Track
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel() : ViewModel() {
 
@@ -55,20 +51,19 @@ class AudioPlayerViewModel() : ViewModel() {
         state: StatePlayer = mediaPlayer.stateFlow.value ?: StatePlayer.PREPARED
     ) {
         val newValue = _playerState.value?.let {
-                it.copy(
-                    track = track ?: it.track,
-                    playTime = time,
-                    isPlaying = state == StatePlayer.PLAYING,
-                    isPaused = state == StatePlayer.PAUSED,
-                    isFinished = state == StatePlayer.PREPARED
+            it.copy(
+                track = track ?: it.track,
+                playTime = time,
+                isPlaying = state == StatePlayer.PLAYING,
+                isPaused = state == StatePlayer.PAUSED,
+                isFinished = state == StatePlayer.PREPARED
 
-                )
-            }
+            )
+        }
 
         _playerState.postValue(newValue)
 
         }
-
 
     override fun onCleared() {
         super.onCleared()

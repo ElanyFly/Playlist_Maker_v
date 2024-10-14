@@ -1,4 +1,4 @@
-package com.example.playlistmaker.audio_player.ui
+package com.example.playlistmaker.audio_player.presentation
 
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants

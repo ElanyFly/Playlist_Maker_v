@@ -11,7 +11,7 @@ import com.example.playlistmaker.search.domain.SearchInteraction
 import com.example.playlistmaker.search.domain.impl.SearchInteractionImpl
 import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.api.TrackStorage
-import com.example.playlistmaker.audio_player.ui.MediaPlayer
+import com.example.playlistmaker.audio_player.presentation.MediaPlayer
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.data.impl.IntentNavigationImpl
 import com.example.playlistmaker.sharing.domain.Impl.SharingInteractionImpl

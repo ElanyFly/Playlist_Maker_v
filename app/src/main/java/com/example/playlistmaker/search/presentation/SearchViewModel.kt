@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui
+package com.example.playlistmaker.search.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,15 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
-class SearchActivityViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val searchInteraction = Creator.searchInteractionProvide()
-//    private val _state = MutableStateFlow<SearchActivityState>(SearchActivityState.defaultState)
-//    val state = _state.asStateFlow()
 
     private val _state = MutableLiveData<SearchActivityState>(SearchActivityState.defaultState)
     val state: LiveData<SearchActivityState>

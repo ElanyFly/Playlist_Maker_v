@@ -10,23 +10,22 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.search.presentation.SearchAction
+import com.example.playlistmaker.search.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.track_adapter.TrackAdapter
-import kotlinx.coroutines.launch
 
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchActivityViewModel
+    private lateinit var viewModel: SearchViewModel
 
     private var _binding: ActivitySearchBinding? = null
     private val binding
@@ -57,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
-        viewModel = ViewModelProvider(this)[SearchActivityViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)

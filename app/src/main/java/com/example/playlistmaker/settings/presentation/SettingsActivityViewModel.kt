@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.ui
+package com.example.playlistmaker.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.creator.App

@@ -1,4 +1,4 @@
-package com.example.playlistmaker.audio_player.ui
+package com.example.playlistmaker.audio_player.presentation
 
 import android.media.MediaPlayer
 import android.os.Handler
@@ -8,9 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.convertMS
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class MediaPlayer() {
 

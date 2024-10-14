@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
+import com.example.playlistmaker.audio_player.presentation.AudioPlayerAction
+import com.example.playlistmaker.audio_player.presentation.AudioPlayerViewModel
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
