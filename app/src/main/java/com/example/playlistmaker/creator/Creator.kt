@@ -5,8 +5,8 @@ import android.content.Context
 import com.example.playlistmaker.search.data.repository.TrackRepositoryImpl
 import com.example.playlistmaker.search.data.network.RetrofitNetworkCreator
 import com.example.playlistmaker.search.data.network.TrackAPIService
-import com.example.playlistmaker.data.storage.SharedPreferencesManager
-import com.example.playlistmaker.data.storage.TrackStorageImpl
+import com.example.playlistmaker.common.SharedPreferencesManager
+import com.example.playlistmaker.search.data.storage.TrackStorageImpl
 import com.example.playlistmaker.search.domain.SearchInteraction
 import com.example.playlistmaker.search.domain.impl.SearchInteractionImpl
 import com.example.playlistmaker.search.domain.api.TrackRepository

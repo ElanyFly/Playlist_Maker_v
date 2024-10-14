@@ -1,6 +1,7 @@
-package com.example.playlistmaker.data.storage
+package com.example.playlistmaker.search.data.storage
 
 import android.util.Log
+import com.example.playlistmaker.common.SharedPreferencesManager
 import com.example.playlistmaker.search.domain.api.TrackStorage
 import com.example.playlistmaker.search.domain.models.Track
 

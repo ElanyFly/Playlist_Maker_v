@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.R
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
 
-    private val searchActivityViewModel: SearchActivityViewModel by viewModels()
+    private lateinit var viewModel: SearchActivityViewModel
 
     private var _binding: ActivitySearchBinding? = null
     private val binding
@@ -44,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
         isClickAllowed = false
         handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
 
-        searchActivityViewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
+        viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
         AudioPlayerActivity.showActivity(this, track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory(true)
@@ -56,6 +57,8 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
+        viewModel = ViewModelProvider(this)[SearchActivityViewModel::class.java]
+
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -66,13 +69,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
 
-        searchActivityViewModel.makeAction(SearchAction.RestoreHistoryCache)
+        viewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
             binding.inputText.setText("")
             hideKeyboard(binding.inputText)
 
-            searchActivityViewModel.makeAction(SearchAction.ClearSearchQuery)
+            viewModel.makeAction(SearchAction.ClearSearchQuery)
         }
 
         binding.searchBackButton.setOnClickListener {
@@ -80,8 +83,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.btnClearHistory.setOnClickListener {
-            searchActivityViewModel.makeAction(SearchAction.ClearTrackHistory)
-//            hideHistory()
+            viewModel.makeAction(SearchAction.ClearTrackHistory)
         }
 
         val textWatcher = object : TextWatcher {
@@ -110,17 +112,27 @@ class SearchActivity : AppCompatActivity() {
             getTracks(isRefresh = true)
         }
 
-        lifecycleScope.launch {
-            searchActivityViewModel.state.collect { state ->
-                trackAdapter.updateTrackList(state.trackList)
-                showProgressBar(state.isLoading)
-                showErrorMessage(
-                    isShowNothingFound = state.isNothingFound,
-                    isShowNetworkError = state.isNetworkError
-                )
-                showHistory(state.isHistoryShown)
-            }
+        viewModel.state.observe(this) { state ->
+            trackAdapter.updateTrackList(state.trackList)
+            showProgressBar(state.isLoading)
+            showErrorMessage(
+                isShowNothingFound = state.isNothingFound,
+                isShowNetworkError = state.isNetworkError
+            )
+            showHistory(state.isHistoryShown)
         }
+
+//        lifecycleScope.launch {
+//            viewModel.state.collect { state ->
+//                trackAdapter.updateTrackList(state.trackList)
+//                showProgressBar(state.isLoading)
+//                showErrorMessage(
+//                    isShowNothingFound = state.isNothingFound,
+//                    isShowNetworkError = state.isNetworkError
+//                )
+//                showHistory(state.isHistoryShown)
+//            }
+//        }
 
     }
 
@@ -129,7 +141,7 @@ class SearchActivity : AppCompatActivity() {
         isRefresh: Boolean = false
     ) {
         val query = v.text.toString()
-        searchActivityViewModel.makeAction(
+        viewModel.makeAction(
             action = SearchAction.SearchTrack(
                 inputQuery = query,
                 isRefreshed = isRefresh

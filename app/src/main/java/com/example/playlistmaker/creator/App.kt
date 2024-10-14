@@ -2,7 +2,7 @@ package com.example.playlistmaker.creator
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.data.storage.SharedPreferencesManager
+import com.example.playlistmaker.common.SharedPreferencesManager
 
 class App : Application() {
 
