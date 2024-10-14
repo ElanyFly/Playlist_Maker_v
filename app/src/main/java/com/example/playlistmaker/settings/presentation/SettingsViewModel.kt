@@ -5,7 +5,7 @@ import com.example.playlistmaker.creator.App
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.settings.data.impl.ThemeInteractionImpl
 
-class SettingsActivityViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
     private val intentNavigation = Creator.settingsIntentProvide()
     private val themeInteractionImpl = ThemeInteractionImpl() //отправить в криатор
 

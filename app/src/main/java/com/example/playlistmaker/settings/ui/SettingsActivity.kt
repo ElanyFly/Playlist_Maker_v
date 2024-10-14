@@ -2,18 +2,18 @@ package com.example.playlistmaker.settings.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
-import com.example.playlistmaker.settings.presentation.SettingsActivityViewModel
+import com.example.playlistmaker.settings.presentation.SettingsViewModel
 
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val settingsActivityViewModel: SettingsActivityViewModel by viewModels()
+    private lateinit var viewModel: SettingsViewModel
 
     private var _binding: ActivitySettingsBinding? = null
     private val binding
@@ -24,6 +24,8 @@ class SettingsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
 
+        viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+
         _binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -33,10 +35,10 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        binding.settingsThemeSwitch.isChecked = settingsActivityViewModel.getThemeState()
+        binding.settingsThemeSwitch.isChecked = viewModel.getThemeState()
 
         binding.settingsThemeSwitch.setOnCheckedChangeListener { switcher, isChecked ->
-            settingsActivityViewModel.switchTheme(isChecked)
+            viewModel.switchTheme(isChecked)
         }
 
         binding.settingsBackButton.setOnClickListener {
@@ -44,15 +46,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.settingsShareButton.setOnClickListener {
-            settingsActivityViewModel.shareLink()
+            viewModel.shareLink()
         }
 
         binding.settingsHelpdeskButton.setOnClickListener {
-            settingsActivityViewModel.sendEmail()
+            viewModel.sendEmail()
         }
 
         binding.settingsUserAgreementButton.setOnClickListener {
-            settingsActivityViewModel.openAgreement()
+            viewModel.openAgreement()
         }
     }
 }
