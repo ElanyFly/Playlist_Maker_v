@@ -3,6 +3,8 @@ package com.example.playlistmaker.audio_player.ui
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.convertMS
@@ -22,11 +24,19 @@ class MediaPlayer() {
         getPositionDelay()
     }
 
-    private val _timeFlow = MutableStateFlow(Constants.PLAYER_TIME_DEFAULT)
-    val timeFlow = _timeFlow.asStateFlow()
+//    private val _timeFlow = MutableStateFlow(Constants.PLAYER_TIME_DEFAULT)
+//    val timeFlow = _timeFlow.asStateFlow()
 
-    private val _stateFlow = MutableStateFlow(playerState)
-    val stateFlow = _stateFlow.asStateFlow()
+    private val _timeFlow = MutableLiveData(Constants.PLAYER_TIME_DEFAULT)
+    val timeFlow: LiveData<String>
+        get() = _timeFlow
+
+//    private val _stateFlow = MutableStateFlow(playerState)
+//    val stateFlow = _stateFlow.asStateFlow()
+
+    private val _stateFlow = MutableLiveData(playerState)
+    val stateFlow: LiveData<StatePlayer>
+        get() = _stateFlow
 
     fun preparePlayer(track: Track) {
         mediaPLayer = MediaPlayer()
@@ -39,14 +49,14 @@ class MediaPlayer() {
             setOnCompletionListener {
                 handler.removeCallbacks(timeRunnable)
                 setPlayerState(StatePlayer.PREPARED)
-                _timeFlow.update { Constants.PLAYER_TIME_DEFAULT }
+                _timeFlow.postValue(Constants.PLAYER_TIME_DEFAULT )
             }
         }
     }
 
     private fun setPlayerState(playerState: StatePlayer){
         this.playerState = playerState
-        _stateFlow.update { playerState }
+        _stateFlow.postValue(playerState)
     }
     private fun startPlayer() {
             mediaPLayer.start()
@@ -79,7 +89,7 @@ class MediaPlayer() {
 
     fun getCurrentTrackPosition() {
         if (!isReleased){
-            _timeFlow.update { mediaPLayer.currentPosition.toLong().convertMS() }
+            _timeFlow.postValue(mediaPLayer.currentPosition.toLong().convertMS() )
         }
 
     }

@@ -14,9 +14,6 @@ class AudioPlayerViewModel(
     coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 ) : ViewModel() {
-//    private val _state =
-//        MutableStateFlow<AudioPlayerState>(AudioPlayerState.defaultState)
-//    val state = _state.asStateFlow()
 
     private val _playerState = MutableLiveData<AudioPlayerState>(AudioPlayerState.defaultState)
     val playerState: LiveData<AudioPlayerState>
@@ -28,16 +25,13 @@ class AudioPlayerViewModel(
 
 
     init {
-        coroutineScope.launch {
-            mediaPlayer.timeFlow.collect { time ->
-                handleState(time = time)
-            }
+        mediaPlayer.timeFlow.observeForever { time ->
+            handleState(time = time)
         }
-        coroutineScope.launch {
-            mediaPlayer.stateFlow.collect { statePlayer ->
-                handleState(state = statePlayer)
-            }
+        mediaPlayer.stateFlow.observeForever { statePlayer ->
+            handleState(state = statePlayer)
         }
+
     }
 
     fun makeAction(action: AudioPlayerAction) {
@@ -60,8 +54,8 @@ class AudioPlayerViewModel(
 
     private fun handleState(
         track: Track? = currentTrack,
-        time: String = mediaPlayer.timeFlow.value,
-        state: StatePlayer = mediaPlayer.stateFlow.value
+        time: String = mediaPlayer.timeFlow.value.toString(),
+        state: StatePlayer = mediaPlayer.stateFlow.value ?: StatePlayer.PREPARED
     ) {
         val newValue = _playerState.value?.let {
                 it.copy(
@@ -76,15 +70,6 @@ class AudioPlayerViewModel(
 
         _playerState.postValue(newValue)
 
-//        _state.update {
-//            it.copy(
-//                track = track ?: it.track,
-//                playTime = time,
-//                isPlaying = state == StatePlayer.PLAYING,
-//                isPaused = state == StatePlayer.PAUSED,
-//                isFinished = state == StatePlayer.PREPARED
-//
-//            )
         }
 
 
