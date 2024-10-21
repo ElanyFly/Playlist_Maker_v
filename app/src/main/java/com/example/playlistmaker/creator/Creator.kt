@@ -24,9 +24,11 @@ object Creator {
     private const val BASE_URL = "https://itunes.apple.com"
 
     private lateinit var context: Context
+
     private val retrofitNetworkCreator: RetrofitNetworkCreator by lazy { RetrofitNetworkCreator() }
     private val retrofit: Retrofit by lazy { retrofitNetworkCreator.getClient(BASE_URL) }
     private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
+
     private val trackRepository: TrackRepository by lazy { TrackRepositoryImpl(iTunesService) }
     private val trackStorage: TrackStorage by lazy { TrackStorageImpl(sharedPreferencesManager = SharedPreferencesManager.instance) }
 
@@ -37,15 +39,15 @@ object Creator {
         )
     }
 
-    private val intentNavigation: IntentNavigation by lazy {
-        IntentNavigationImpl()
-    }
+//    private val intentNavigation: IntentNavigation by lazy {
+//        IntentNavigationImpl()
+//    }
+//
+//    private val sharingInteraction: SharingInteraction by lazy {
+//        SharingInteractionImpl(intentNavigation)
+//    }
 
-    private val sharingInteraction: SharingInteraction by lazy {
-        SharingInteractionImpl(intentNavigation)
-    }
-
-    fun settingsIntentProvide(): SharingInteraction = sharingInteraction
+//    fun settingsIntentProvide(): SharingInteraction = sharingInteraction
 
     fun searchInteractionProvide(): SearchInteraction = searchInteraction
     fun trackStorageProvide(): TrackStorage = trackStorage

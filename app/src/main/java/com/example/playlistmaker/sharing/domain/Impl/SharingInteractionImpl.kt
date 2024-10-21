@@ -9,9 +9,9 @@ import com.example.playlistmaker.sharing.domain.SharingInteraction
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
 class SharingInteractionImpl(
-    private val intentNavigator: IntentNavigation
+    private val intentNavigator: IntentNavigation,
+    private val context: Context
 ) : SharingInteraction {
-    private val context: Context = Creator.provideContext()
 
     override fun shareLink() {
         intentNavigator.shareLink(getShareAppLink())
