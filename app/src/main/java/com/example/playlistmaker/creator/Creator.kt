@@ -21,23 +21,23 @@ import retrofit2.Retrofit
 @SuppressLint("StaticFieldLeak")
 object Creator {
 
-    private const val BASE_URL = "https://itunes.apple.com"
+//    private const val BASE_URL = "https://itunes.apple.com"
 
     private lateinit var context: Context
 
-    private val retrofitNetworkCreator: RetrofitNetworkCreator by lazy { RetrofitNetworkCreator() }
-    private val retrofit: Retrofit by lazy { retrofitNetworkCreator.getClient(BASE_URL) }
-    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
+//    private val retrofitNetworkCreator: RetrofitNetworkCreator by lazy { RetrofitNetworkCreator() }
+//    private val retrofit: Retrofit by lazy { retrofitNetworkCreator.getClient(BASE_URL) }
+//    private val iTunesService by lazy { retrofit.create(TrackAPIService::class.java) }
 
-    private val trackRepository: TrackRepository by lazy { TrackRepositoryImpl(iTunesService) }
-    private val trackStorage: TrackStorage by lazy { TrackStorageImpl(sharedPreferencesManager = SharedPreferencesManager.instance) }
+//    private val trackRepository: TrackRepository by lazy { TrackRepositoryImpl(iTunesService) }
+//    private val trackStorage: TrackStorage by lazy { TrackStorageImpl(sharedPreferencesManager = SharedPreferencesManager.instance) }
 
-    private val searchInteraction: SearchInteraction by lazy {
-        SearchInteractionImpl(
-            trackRepository = trackRepository,
-            trackStorage = trackStorage
-        )
-    }
+//    private val searchInteraction: SearchInteraction by lazy {
+//        SearchInteractionImpl(
+//            trackRepository = trackRepository,
+//            trackStorage = trackStorage
+//        )
+//    }
 
 //    private val intentNavigation: IntentNavigation by lazy {
 //        IntentNavigationImpl()
@@ -49,15 +49,15 @@ object Creator {
 
 //    fun settingsIntentProvide(): SharingInteraction = sharingInteraction
 
-    fun searchInteractionProvide(): SearchInteraction = searchInteraction
-    fun trackStorageProvide(): TrackStorage = trackStorage
-    fun mediaPlayerProvide(): MediaPlayer = MediaPlayer()
-    fun setContext(context: Context) {
-        Creator.context = context
-    }
-    fun provideContext(): Context {
-        return context
-    }
+//    fun searchInteractionProvide(): SearchInteraction = searchInteraction
+//    fun trackStorageProvide(): TrackStorage = trackStorage
+//    fun mediaPlayerProvide(): MediaPlayer = MediaPlayer()
+//    fun setContext(context: Context) {
+//        Creator.context = context
+//    }
+//    fun provideContext(): Context {
+//        return context
+//    }
 
 }
 

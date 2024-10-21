@@ -3,22 +3,34 @@ package com.example.playlistmaker.creator
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.common.SharedPreferencesManager
+import com.example.playlistmaker.di.audioPlayerModule
+import com.example.playlistmaker.di.networkModule
+import com.example.playlistmaker.di.searchModule
 import com.example.playlistmaker.di.settingsModule
+import com.example.playlistmaker.di.sharedPrefModule
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
+
+    private val sharedPrefManager: SharedPreferencesManager by inject()
 
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             androidContext(this@App)
-            modules(settingsModule)
+            modules(
+                sharedPrefModule,
+                searchModule,
+                networkModule,
+                audioPlayerModule,
+                settingsModule
+            )
         }
 
-        Creator.setContext(this)
-        val isDarkTheme = SharedPreferencesManager.instance.getSwitchState()
+        val isDarkTheme = sharedPrefManager.getSwitchState()
         switchTheme(isDarkTheme)
     }
 

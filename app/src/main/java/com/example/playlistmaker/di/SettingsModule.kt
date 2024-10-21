@@ -26,10 +26,14 @@ val settingsModule = module {
     }
 
     factory<ThemeInteraction> {
-        ThemeInteractionImpl()
+        ThemeInteractionImpl(
+            sharedPreferencesManager = get()
+        )
     }
 
     factory<IntentNavigation> {
-        IntentNavigationImpl()
+        IntentNavigationImpl(
+            context = get()
+        )
     }
 }

@@ -5,8 +5,10 @@ import com.example.playlistmaker.common.SharedPreferencesManager
 import com.example.playlistmaker.search.domain.api.TrackStorage
 import com.example.playlistmaker.search.domain.models.Track
 
-class TrackStorageImpl(private val sharedPreferencesManager: SharedPreferencesManager):
-    TrackStorage {
+class TrackStorageImpl(
+    private val sharedPreferencesManager: SharedPreferencesManager
+): TrackStorage {
+
     private var historyList: List<Track> = sharedPreferencesManager.getHistory()
     
     override fun clearHistoryList() {

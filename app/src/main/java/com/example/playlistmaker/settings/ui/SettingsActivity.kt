@@ -13,7 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val viewModel: SettingsViewModel by viewModel<SettingsViewModel>()
+    private val viewModel: SettingsViewModel by viewModel()
 
     private var _binding: ActivitySettingsBinding? = null
     private val binding
