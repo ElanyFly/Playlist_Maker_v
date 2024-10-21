@@ -3,7 +3,6 @@ package com.example.playlistmaker.audio_player.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.models.Track
 
 class AudioPlayerViewModel(

@@ -1,8 +1,7 @@
-package com.example.playlistmaker.creator
+package com.example.playlistmaker.common
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmaker.common.SharedPreferencesManager
 import com.example.playlistmaker.di.audioPlayerModule
 import com.example.playlistmaker.di.networkModule
 import com.example.playlistmaker.di.searchModule

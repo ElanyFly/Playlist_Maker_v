@@ -21,15 +21,9 @@ class MediaPlayer() {
         getPositionDelay()
     }
 
-//    private val _timeFlow = MutableStateFlow(Constants.PLAYER_TIME_DEFAULT)
-//    val timeFlow = _timeFlow.asStateFlow()
-
     private val _timeFlow = MutableLiveData(Constants.PLAYER_TIME_DEFAULT)
     val timeFlow: LiveData<String>
         get() = _timeFlow
-
-//    private val _stateFlow = MutableStateFlow(playerState)
-//    val stateFlow = _stateFlow.asStateFlow()
 
     private val _stateFlow = MutableLiveData(playerState)
     val stateFlow: LiveData<StatePlayer>
@@ -84,14 +78,14 @@ class MediaPlayer() {
         }
     }
 
-    fun getCurrentTrackPosition() {
+    private fun getCurrentTrackPosition() {
         if (!isReleased){
             _timeFlow.postValue(mediaPLayer.currentPosition.toLong().convertMS() )
         }
 
     }
 
-    fun getPositionDelay() {
+    private fun getPositionDelay() {
         when (playerState) {
             StatePlayer.PLAYING -> {
                 handler.removeCallbacks(timeRunnable)

@@ -1,7 +1,7 @@
 package com.example.playlistmaker.settings.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.App
+import com.example.playlistmaker.common.App
 import com.example.playlistmaker.settings.domain.ThemeInteraction
 import com.example.playlistmaker.sharing.domain.SharingInteraction
 
