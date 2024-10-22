@@ -1,20 +1,18 @@
 package com.example.playlistmaker.sharing.domain.Impl
 
-import android.content.Context
-import com.example.playlistmaker.R
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.example.playlistmaker.sharing.domain.SharingResources
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
 class SharingInteractorImpl(
     private val intentNavigator: IntentNavigation,
-    private val context: Context
+    private val sharingResources: SharingResources
 ) : SharingInteractor {
 
     override fun shareLink() {
         intentNavigator.shareLink(getShareAppLink())
     }
-
 
     override fun sendEmail() {
         intentNavigator.sendEmail(getSupportEmailData())
@@ -25,17 +23,17 @@ class SharingInteractorImpl(
     }
 
     private fun getShareAppLink(): String {
-        return context.getString(R.string.android_developer_course_link)
+        return sharingResources.courseLink
     }
 
     private fun getSupportEmailData(): EmailData {
-        val email: Array<String> = arrayOf(context.getString(R.string.helpdesk_email))
-        val header = context.getString(R.string.helpdesk_mail_header)
-        val text = context.getString(R.string.helpdesk_mail_message)
+        val email: Array<String> = arrayOf(sharingResources.helpdeskEmail)
+        val header = sharingResources.helpdeskMailHeader
+        val text = sharingResources.helpdeskMailMessage
         return EmailData(email, header, text)
     }
 
     private fun getAgreementLink(): String {
-        return context.getString(R.string.settings_agreement_link)
+        return sharingResources.settingsAgreementLink
     }
 }
