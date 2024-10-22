@@ -3,10 +3,12 @@ package com.example.playlistmaker.audio_player.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.audio_player.domain.PlayerControl
+import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.search.domain.models.Track
 
 class AudioPlayerViewModel(
-    private val mediaPlayer: MediaPlayer
+    private val mediaPlayer: PlayerControl
 ) : ViewModel() {
 
     private val _playerState = MutableLiveData<AudioPlayerState>(AudioPlayerState.defaultState)

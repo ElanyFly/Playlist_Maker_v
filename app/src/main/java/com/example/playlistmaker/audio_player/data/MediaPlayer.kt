@@ -1,15 +1,17 @@
-package com.example.playlistmaker.audio_player.presentation
+package com.example.playlistmaker.audio_player.data
 
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.playlistmaker.audio_player.domain.PlayerControl
+import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.convertMS
 
-class MediaPlayer() {
+class MediaPlayer: PlayerControl {
 
     private lateinit var mediaPLayer: MediaPlayer
     private var playerState = StatePlayer.DEFAULT
@@ -22,14 +24,14 @@ class MediaPlayer() {
     }
 
     private val _timeFlow = MutableLiveData(Constants.PLAYER_TIME_DEFAULT)
-    val timeFlow: LiveData<String>
+    override val timeFlow: LiveData<String>
         get() = _timeFlow
 
     private val _stateFlow = MutableLiveData(playerState)
-    val stateFlow: LiveData<StatePlayer>
+    override val stateFlow: LiveData<StatePlayer>
         get() = _stateFlow
 
-    fun preparePlayer(track: Track) {
+    override fun preparePlayer(track: Track) {
         mediaPLayer = MediaPlayer()
         with(mediaPLayer) {
             setDataSource(track.previewUrl)
@@ -45,25 +47,7 @@ class MediaPlayer() {
         }
     }
 
-    private fun setPlayerState(playerState: StatePlayer){
-        this.playerState = playerState
-        _stateFlow.postValue(playerState)
-    }
-    private fun startPlayer() {
-            mediaPLayer.start()
-            setPlayerState(StatePlayer.PLAYING)
-            getPositionDelay()
-    }
-
-    private fun pausePlayer() {
-        if (mediaPLayer.isPlaying) {
-            mediaPLayer.pause()
-        }
-        setPlayerState(StatePlayer.PAUSED)
-        handler.removeCallbacks(timeRunnable)
-    }
-
-    fun playbackControl(isStopped: Boolean) {
+    override fun playbackControl(isStopped: Boolean) {
         if (isStopped) {
             pausePlayer()
             return
@@ -76,6 +60,29 @@ class MediaPlayer() {
 
             StatePlayer.DEFAULT -> Unit
         }
+    }
+    override fun releasePlayer() {
+        isReleased = true
+        mediaPLayer.release()
+    }
+
+    private fun setPlayerState(playerState: StatePlayer){
+        this.playerState = playerState
+        _stateFlow.postValue(playerState)
+    }
+
+    private fun startPlayer() {
+            mediaPLayer.start()
+            setPlayerState(StatePlayer.PLAYING)
+            getPositionDelay()
+    }
+
+    private fun pausePlayer() {
+        if (mediaPLayer.isPlaying) {
+            mediaPLayer.pause()
+        }
+        setPlayerState(StatePlayer.PAUSED)
+        handler.removeCallbacks(timeRunnable)
     }
 
     private fun getCurrentTrackPosition() {
@@ -96,11 +103,6 @@ class MediaPlayer() {
             StatePlayer.PREPARED,
             StatePlayer.PAUSED -> Unit
         }
-    }
-
-    fun releasePlayer() {
-        isReleased = true
-        mediaPLayer.release()
     }
 
     companion object {
