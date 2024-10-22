@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui
+package com.example.playlistmaker.search.presentation
 
 import android.content.Context
 import android.os.Bundle
@@ -15,11 +15,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.playlistmaker.R
-import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
+import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
 import com.example.playlistmaker.databinding.ActivitySearchBinding
-import com.example.playlistmaker.search.presentation.SearchAction
-import com.example.playlistmaker.search.presentation.SearchViewModel
-import com.example.playlistmaker.search.ui.track_adapter.TrackAdapter
+import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

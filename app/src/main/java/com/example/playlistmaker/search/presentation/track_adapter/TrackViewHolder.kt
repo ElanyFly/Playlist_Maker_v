@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui.track_adapter
+package com.example.playlistmaker.search.presentation.track_adapter
 
 
 import androidx.recyclerview.widget.RecyclerView

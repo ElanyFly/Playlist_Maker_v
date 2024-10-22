@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui.track_adapter
+package com.example.playlistmaker.search.presentation.track_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

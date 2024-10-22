@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.ui
+package com.example.playlistmaker.settings.presentation
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
-import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
