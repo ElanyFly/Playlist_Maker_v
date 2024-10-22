@@ -1,6 +1,6 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.settings.data.impl.ThemeInteractorImpl
+import com.example.playlistmaker.settings.domain.impl.ThemeInteractorImpl
 import com.example.playlistmaker.settings.domain.ThemeInteractor
 import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import com.example.playlistmaker.sharing.data.IntentNavigation
