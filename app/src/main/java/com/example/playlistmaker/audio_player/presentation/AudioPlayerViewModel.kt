@@ -3,10 +3,11 @@ package com.example.playlistmaker.audio_player.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.models.Track
 
-class AudioPlayerViewModel() : ViewModel() {
+class AudioPlayerViewModel(
+    private val mediaPlayer: MediaPlayer
+) : ViewModel() {
 
     private val _playerState = MutableLiveData<AudioPlayerState>(AudioPlayerState.defaultState)
     val playerState: LiveData<AudioPlayerState>
@@ -14,8 +15,6 @@ class AudioPlayerViewModel() : ViewModel() {
 
 
     private var currentTrack: Track? = null
-    private val mediaPlayer = Creator.mediaPlayerProvide()
-
 
     init {
         mediaPlayer.timeFlow.observeForever { time ->
@@ -59,7 +58,7 @@ class AudioPlayerViewModel() : ViewModel() {
                 isFinished = state == StatePlayer.PREPARED
 
             )
-        }
+        } ?: return
 
         _playerState.postValue(newValue)
 

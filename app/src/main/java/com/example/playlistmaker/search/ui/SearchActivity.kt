@@ -14,18 +14,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.R
+import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.search.presentation.SearchAction
 import com.example.playlistmaker.search.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.track_adapter.TrackAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
 
     private var _binding: ActivitySearchBinding? = null
     private val binding
@@ -55,8 +55,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
-
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)

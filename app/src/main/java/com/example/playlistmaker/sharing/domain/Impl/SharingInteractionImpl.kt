@@ -3,15 +3,14 @@ package com.example.playlistmaker.sharing.domain.Impl
 import android.content.Context
 import android.content.res.Resources
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.domain.SharingInteraction
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
 class SharingInteractionImpl(
-    private val intentNavigator: IntentNavigation
+    private val intentNavigator: IntentNavigation,
+    private val context: Context
 ) : SharingInteraction {
-    private val context: Context = Creator.provideContext()
 
     override fun shareLink() {
         intentNavigator.shareLink(getShareAppLink())

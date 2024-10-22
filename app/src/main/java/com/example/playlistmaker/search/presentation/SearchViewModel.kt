@@ -3,13 +3,13 @@ package com.example.playlistmaker.search.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.search.domain.SearchInteraction
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
 
-class SearchViewModel : ViewModel() {
-
-    private val searchInteraction = Creator.searchInteractionProvide()
+class SearchViewModel(
+    private val searchInteraction: SearchInteraction
+) : ViewModel() {
 
     private val _state = MutableLiveData<SearchActivityState>(SearchActivityState.defaultState)
     val state: LiveData<SearchActivityState>
@@ -109,7 +109,7 @@ class SearchViewModel : ViewModel() {
             isNetworkError = isNetworkError,
             isLoading = isLoading,
             isHistoryShown = isHistoryShown
-        )
+        ) ?: return
 
         _state.postValue(newValue)
     }

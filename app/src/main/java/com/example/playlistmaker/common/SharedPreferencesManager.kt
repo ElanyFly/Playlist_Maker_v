@@ -2,7 +2,6 @@ package com.example.playlistmaker.common
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
@@ -10,9 +9,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-class SharedPreferencesManager private constructor() {
-
-    private val context: Context = Creator.provideContext()
+class SharedPreferencesManager(
+    private val context: Context
+) {
     private val sp: SharedPreferences by lazy {
         context.getSharedPreferences(
             PREFERENCES,
@@ -54,6 +53,5 @@ class SharedPreferencesManager private constructor() {
         private const val PREFERENCES = "app_preferences"
         private const val SWITCH = "switchState"
         private const val HISTORY = "history"
-        val instance by lazy { SharedPreferencesManager() }
     }
 }
