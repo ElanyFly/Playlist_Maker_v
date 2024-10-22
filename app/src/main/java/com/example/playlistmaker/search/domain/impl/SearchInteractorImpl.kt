@@ -1,16 +1,16 @@
 package com.example.playlistmaker.search.domain.impl
 
-import com.example.playlistmaker.search.domain.SearchInteraction
+import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.api.TrackStorage
 import com.example.playlistmaker.search.domain.models.Track
 import kotlin.concurrent.thread
 
-class SearchInteractionImpl(
+class SearchInteractorImpl(
     private val trackRepository: TrackRepository,
     private val trackStorage: TrackStorage
-) : SearchInteraction {
+) : SearchInteractor {
 
     private var previousQuery = ""
     private var currentThread: Thread? = null

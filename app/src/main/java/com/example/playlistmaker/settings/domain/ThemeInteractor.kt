@@ -1,6 +1,6 @@
 package com.example.playlistmaker.settings.domain
 
-interface ThemeInteraction {
+interface ThemeInteractor {
     fun getSwitchState(): Boolean
     fun setSwitchState(isDarkTheme: Boolean)
 }

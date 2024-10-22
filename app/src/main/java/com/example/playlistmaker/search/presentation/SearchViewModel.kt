@@ -3,12 +3,12 @@ package com.example.playlistmaker.search.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.search.domain.SearchInteraction
+import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
 
 class SearchViewModel(
-    private val searchInteraction: SearchInteraction
+    private val searchInteractor: SearchInteractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<SearchActivityState>(SearchActivityState.defaultState)
@@ -28,7 +28,7 @@ class SearchViewModel(
     }
 
     private fun handleRestoreHistoryCache() {
-        val historyList = searchInteraction.restoreHistoryCache()
+        val historyList = searchInteractor.restoreHistoryCache()
         if (historyList.isEmpty()) {
             return
         }
@@ -43,7 +43,7 @@ class SearchViewModel(
 
     private fun handleSearchTrack(action: SearchAction.SearchTrack) {
 
-        searchInteraction.searchTrack(
+        searchInteractor.searchTrack(
             query = action.inputQuery,
             isRefreshed = action.isRefreshed,
             resultLambda = { searchResult ->
@@ -77,7 +77,7 @@ class SearchViewModel(
     }
 
     private fun handleClearTrackHistory() {
-        searchInteraction.clearTrackHistory()
+        searchInteractor.clearTrackHistory()
         handleState(
             trackList = emptyList(),
             isNothingFound = false,
@@ -88,7 +88,7 @@ class SearchViewModel(
     }
 
     private fun handleAddTrackToHistory(action: SearchAction.AddTrackToHistoryList) {
-        searchInteraction.addTrackToHistory(action.track)
+        searchInteractor.addTrackToHistory(action.track)
         if (state.value?.isHistoryShown == true){
             handleRestoreHistoryCache()
         }

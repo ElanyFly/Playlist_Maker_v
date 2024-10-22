@@ -2,7 +2,7 @@ package com.example.playlistmaker.search.domain
 
 import com.example.playlistmaker.search.domain.models.Track
 
-interface SearchInteraction {
+interface SearchInteractor {
     fun searchTrack(
         query: String,
         isRefreshed: Boolean = false,

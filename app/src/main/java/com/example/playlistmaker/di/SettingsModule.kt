@@ -1,12 +1,12 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.settings.data.impl.ThemeInteractionImpl
-import com.example.playlistmaker.settings.domain.ThemeInteraction
+import com.example.playlistmaker.settings.data.impl.ThemeInteractorImpl
+import com.example.playlistmaker.settings.domain.ThemeInteractor
 import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.data.impl.IntentNavigationImpl
-import com.example.playlistmaker.sharing.domain.Impl.SharingInteractionImpl
-import com.example.playlistmaker.sharing.domain.SharingInteraction
+import com.example.playlistmaker.sharing.domain.Impl.SharingInteractorImpl
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -15,18 +15,18 @@ val settingsModule = module {
     viewModel<SettingsViewModel>{
         SettingsViewModel(
             intentNavigation = get(),
-            themeInteraction = get()
+            themeInteractor = get()
         )
     }
-    factory<SharingInteraction> {
-        SharingInteractionImpl(
+    factory<SharingInteractor> {
+        SharingInteractorImpl(
             intentNavigator = get(),
             context = get()
         )
     }
 
-    factory<ThemeInteraction> {
-        ThemeInteractionImpl(
+    factory<ThemeInteractor> {
+        ThemeInteractorImpl(
             sharedPreferencesManager = get()
         )
     }
