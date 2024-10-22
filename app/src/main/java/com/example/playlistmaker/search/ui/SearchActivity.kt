@@ -14,9 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.R
+import com.example.playlistmaker.audio_player.ui.AudioPlayerActivity
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.search.presentation.SearchAction
 import com.example.playlistmaker.search.presentation.SearchViewModel
