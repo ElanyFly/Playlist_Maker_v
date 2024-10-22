@@ -1,7 +1,8 @@
-package com.example.playlistmaker.common
+package com.example.playlistmaker.search.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.playlistmaker.search.domain.SharedPreferencesHistory
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
@@ -9,9 +10,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-class SharedPreferencesManager(
+class SharedPreferencesHistoryImpl(
     private val context: Context
-) {
+) : SharedPreferencesHistory {
     private val sp: SharedPreferences by lazy {
         context.getSharedPreferences(
             PREFERENCES,
@@ -21,19 +22,7 @@ class SharedPreferencesManager(
 
     private val prefLock = ReentrantReadWriteLock()
 
-    fun saveSwitchState(isEnabled: Boolean) {
-        prefLock.write {
-            sp.edit().putBoolean(SWITCH, isEnabled).apply()
-        }
-    }
-
-    fun getSwitchState(): Boolean {
-        return prefLock.read {
-            sp.getBoolean(SWITCH, false)
-        }
-    }
-
-    fun saveHistory(historyList: List<Track>) {
+    override fun saveHistory(historyList: List<Track>) {
         val listAsString: String = historyList.serialize()
         prefLock.write {
             sp.edit()
@@ -42,7 +31,7 @@ class SharedPreferencesManager(
         }
     }
 
-    fun getHistory(): List<Track> {
+    override fun getHistory(): List<Track> {
         return prefLock.read {
             sp.getString(HISTORY, null)
                 ?.deserialize<Array<Track>>()?.toList() ?: emptyList()
@@ -50,8 +39,7 @@ class SharedPreferencesManager(
     }
 
     companion object {
-        private const val PREFERENCES = "app_preferences"
-        private const val SWITCH = "switchState"
+        private const val PREFERENCES = "app_preferences_history"
         private const val HISTORY = "history"
     }
 }

@@ -27,7 +27,7 @@ val searchModule = module {
 
     single<TrackStorage> {
         TrackStorageImpl(
-            sharedPreferencesManager = get()
+            sharedPreferencesHistory = get()
         )
     }
 

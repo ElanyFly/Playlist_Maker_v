@@ -27,7 +27,7 @@ val settingsModule = module {
 
     factory<ThemeInteractor> {
         ThemeInteractorImpl(
-            sharedPreferencesManager = get()
+            sharedPreferencesTheme = get()
         )
     }
 

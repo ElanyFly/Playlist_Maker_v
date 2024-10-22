@@ -7,13 +7,14 @@ import com.example.playlistmaker.di.networkModule
 import com.example.playlistmaker.di.searchModule
 import com.example.playlistmaker.di.settingsModule
 import com.example.playlistmaker.di.sharedPrefModule
+import com.example.playlistmaker.settings.domain.SharedPreferencesTheme
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
 
-    private val sharedPrefManager: SharedPreferencesManager by inject()
+    private val sharedPrefManager: SharedPreferencesTheme by inject()
 
     override fun onCreate() {
         super.onCreate()
