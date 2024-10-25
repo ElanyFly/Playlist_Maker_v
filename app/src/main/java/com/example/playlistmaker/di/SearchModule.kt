@@ -22,7 +22,7 @@ val searchModule = module {
         )
     }
 
-    factory<TrackRepository> {
+    single<TrackRepository> {
         TrackRepositoryImpl(
             apiService = get(),
             sharedPreferencesHistory = get()
