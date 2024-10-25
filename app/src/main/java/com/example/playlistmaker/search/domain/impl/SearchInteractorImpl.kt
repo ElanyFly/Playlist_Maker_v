@@ -3,13 +3,11 @@ package com.example.playlistmaker.search.domain.impl
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.api.TrackRepository
-import com.example.playlistmaker.search.domain.api.TrackStorage
 import com.example.playlistmaker.search.domain.models.Track
 import kotlin.concurrent.thread
 
 class SearchInteractorImpl(
     private val trackRepository: TrackRepository,
-    private val trackStorage: TrackStorage
 ) : SearchInteractor {
 
     private var previousQuery = ""
@@ -40,15 +38,15 @@ class SearchInteractorImpl(
     }
 
     override fun clearTrackHistory() {
-        trackStorage.clearHistoryList()
+        trackRepository.clearHistoryList()
     }
 
     override fun addTrackToHistory(track: Track) {
-        trackStorage.addTrackToList(track)
+        trackRepository.addTrackToList(track)
     }
 
     override fun restoreHistoryCache(): List<Track> {
-        return trackStorage.getHistoryList()
+        return trackRepository.getHistoryList()
     }
 
 }
