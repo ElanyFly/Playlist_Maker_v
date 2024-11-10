@@ -1,13 +1,14 @@
 package com.example.playlistmaker.settings.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.App
-import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.settings.data.impl.ThemeInteractionImpl
+import com.example.playlistmaker.common.App
+import com.example.playlistmaker.settings.domain.ThemeInteractor
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 
-class SettingsViewModel : ViewModel() {
-    private val intentNavigation = Creator.settingsIntentProvide()
-    private val themeInteractionImpl = ThemeInteractionImpl() //отправить в криатор
+class SettingsViewModel(
+    val intentNavigation: SharingInteractor,
+    val themeInteractor: ThemeInteractor
+) : ViewModel() {
 
 
     fun shareLink() {
@@ -24,11 +25,11 @@ class SettingsViewModel : ViewModel() {
 
 
     fun switchTheme(isDarkTheme: Boolean) {
-        themeInteractionImpl.setSwitchState(isDarkTheme)
+        themeInteractor.setSwitchState(isDarkTheme)
         App.switchTheme(isDarkTheme)
     }
 
     fun getThemeState(): Boolean {
-        return themeInteractionImpl.getSwitchState()
+        return themeInteractor.getSwitchState()
     }
 }

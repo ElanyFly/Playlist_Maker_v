@@ -3,13 +3,13 @@ package com.example.playlistmaker.search.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
 
-class SearchViewModel : ViewModel() {
-
-    private val searchInteraction = Creator.searchInteractionProvide()
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor
+) : ViewModel() {
 
     private val _state = MutableLiveData<SearchActivityState>(SearchActivityState.defaultState)
     val state: LiveData<SearchActivityState>
@@ -28,7 +28,7 @@ class SearchViewModel : ViewModel() {
     }
 
     private fun handleRestoreHistoryCache() {
-        val historyList = searchInteraction.restoreHistoryCache()
+        val historyList = searchInteractor.restoreHistoryCache()
         if (historyList.isEmpty()) {
             return
         }
@@ -43,7 +43,7 @@ class SearchViewModel : ViewModel() {
 
     private fun handleSearchTrack(action: SearchAction.SearchTrack) {
 
-        searchInteraction.searchTrack(
+        searchInteractor.searchTrack(
             query = action.inputQuery,
             isRefreshed = action.isRefreshed,
             resultLambda = { searchResult ->
@@ -77,7 +77,7 @@ class SearchViewModel : ViewModel() {
     }
 
     private fun handleClearTrackHistory() {
-        searchInteraction.clearTrackHistory()
+        searchInteractor.clearTrackHistory()
         handleState(
             trackList = emptyList(),
             isNothingFound = false,
@@ -88,7 +88,7 @@ class SearchViewModel : ViewModel() {
     }
 
     private fun handleAddTrackToHistory(action: SearchAction.AddTrackToHistoryList) {
-        searchInteraction.addTrackToHistory(action.track)
+        searchInteractor.addTrackToHistory(action.track)
         if (state.value?.isHistoryShown == true){
             handleRestoreHistoryCache()
         }
@@ -109,7 +109,7 @@ class SearchViewModel : ViewModel() {
             isNetworkError = isNetworkError,
             isLoading = isLoading,
             isHistoryShown = isHistoryShown
-        )
+        ) ?: return
 
         _state.postValue(newValue)
     }
