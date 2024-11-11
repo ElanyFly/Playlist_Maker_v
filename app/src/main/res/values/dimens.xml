@@ -15,6 +15,8 @@
     <dimen name="padding_42dp">42dp</dimen>
     <dimen name="paddingTop_100dp">100dp</dimen>
 
+    <dimen name="tab_layout_height">48dp</dimen>
+
     <dimen name="track_view_image_size_45dp">45dp</dimen>
     <dimen name="refresh_button_height">36dp</dimen>
     <dimen name="track_view_layout_height_61dp">61dp</dimen>
