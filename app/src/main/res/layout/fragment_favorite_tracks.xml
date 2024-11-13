@@ -1,24 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mediaFavoriteTracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg_activity_white"
-    android:gravity="top|center"
-    android:paddingTop="@dimen/paddingTop_100dp"
-    tools:context=".media.presentation.FavoriteTracksFragment">
+    tools:context=".media.presentation.PlaylistFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/padding_24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/padding_24dp" />
 
     <ImageView
+        android:id="@+id/mediaNoFavsImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/padding_16dp"
-        android:src="@drawable/nf_icon" />
+        android:src="@drawable/nf_icon"
+        android:paddingTop="@dimen/paddingTop_100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/leftGuideline"
+        app:layout_constraintEnd_toEndOf="@id/rightGuideline"/>
 
     <TextView
+        android:id="@+id/mediaNoFavsText"
         style="@style/ErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/media_empty_favorites" />
+        android:textAlignment="center"
+        android:text="@string/media_no_playlists"
+        app:layout_constraintTop_toBottomOf="@id/mediaNoFavsImg"
+        app:layout_constraintStart_toStartOf="@id/leftGuideline"
+        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
+        />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
