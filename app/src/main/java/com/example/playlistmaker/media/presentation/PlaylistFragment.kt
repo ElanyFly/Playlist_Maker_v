@@ -6,9 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.playlistmaker.R
+import com.example.playlistmaker.settings.presentation.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PlaylistFragment : Fragment() {
+
+    private val viewModel: PlaylistFragmentViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
