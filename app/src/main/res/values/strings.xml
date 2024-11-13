@@ -27,5 +27,7 @@
     <string name="media_header">Медиатека</string>
     <string name="media_tab1">Избранные треки</string>
     <string name="media_tab2">Плейлисты</string>
+    <string name="media_empty_favorites">Ваша медиатека пуста</string>
+    <string name="media_no_playlists">Вы не создали \nни одного плейлиста</string>
 
 </resources>

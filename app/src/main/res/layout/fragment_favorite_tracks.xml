@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_activity_white"
+    android:gravity="top|center"
+    android:paddingTop="@dimen/paddingTop_100dp"
     tools:context=".media.presentation.FavoriteTracksFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="favorites fragment" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_16dp"
+        android:src="@drawable/nf_icon" />
 
-</FrameLayout>
+    <TextView
+        style="@style/ErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/media_empty_favorites" />
+
+</LinearLayout>
