@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="@string/media_no_playlists"
+        android:text="@string/media_empty_favorites"
         app:layout_constraintTop_toBottomOf="@id/mediaNoFavsImg"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
