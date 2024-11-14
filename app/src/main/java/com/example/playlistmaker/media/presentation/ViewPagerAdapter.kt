@@ -16,11 +16,10 @@ class ViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> FavoriteTracksFragment()
-            1 -> PlaylistFragment()
+            0 -> FavoriteTracksFragment.newInstance()
+            1 -> PlaylistFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid fragment position")
         }
     }
-
 
 }

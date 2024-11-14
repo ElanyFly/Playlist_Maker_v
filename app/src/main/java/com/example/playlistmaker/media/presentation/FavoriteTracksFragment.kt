@@ -9,7 +9,7 @@ import com.example.playlistmaker.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FavoriteTracksFragment : Fragment() {
+class FavoriteTracksFragment private constructor(): Fragment() {
 
     private val viewModel: FavoriteTracksFragmentViewModel by viewModel()
 
@@ -29,12 +29,11 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteTracksFragment().apply {
-                arguments = Bundle().apply {
 
-                }
+        fun newInstance() = FavoriteTracksFragment().apply {
+            arguments = Bundle().apply {
+
             }
+        }
     }
 }

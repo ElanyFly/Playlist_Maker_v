@@ -10,7 +10,7 @@ import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PlaylistFragment : Fragment() {
+class PlaylistFragment private constructor(): Fragment() {
 
     private val viewModel: PlaylistFragmentViewModel by viewModel()
 
@@ -21,18 +21,19 @@ class PlaylistFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_playlist, container, false)
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                PlaylistFragment().apply {
-                    arguments = Bundle().apply {
 
-                    }
-                }
+        fun newInstance() = PlaylistFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
     }
 }

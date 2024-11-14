@@ -5,6 +5,7 @@
     android:id="@+id/audioPlayerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_activity_white"
     tools:context=".audio_player.presentation.AudioPlayerActivity">
 
     <androidx.constraintlayout.widget.Guideline
