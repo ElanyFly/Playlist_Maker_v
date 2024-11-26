@@ -65,6 +65,9 @@ dependencies {
     //koin
     implementation(libs.koin.android)
 
+    //viewpager2
+    implementation (libs.androidx.viewpager2)
+
     implementation (libs.gson)
 
     testImplementation(libs.junit)
