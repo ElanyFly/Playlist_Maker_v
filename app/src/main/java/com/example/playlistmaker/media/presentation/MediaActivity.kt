@@ -22,7 +22,7 @@ class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_media)
+        setContentView(R.layout.fragment_media)
 
         _binding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
