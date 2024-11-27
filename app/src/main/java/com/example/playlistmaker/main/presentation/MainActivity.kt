@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
-        
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -42,6 +41,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+    companion object {
+        const val BACKSTACK = "BACKSTACK"
     }
 }
 

@@ -44,10 +44,6 @@ class MediaFragment: Fragment() {
 
         tabMediator.attach()
 
-        binding.mediaBackButton.setOnClickListener{
-//            finish()
-            TODO()
-        }
 
     }
 
