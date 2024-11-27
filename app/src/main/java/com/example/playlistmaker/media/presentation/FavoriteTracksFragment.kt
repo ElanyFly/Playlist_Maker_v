@@ -9,7 +9,7 @@ import com.example.playlistmaker.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FavoriteTracksFragment private constructor(): Fragment() {
+class FavoriteTracksFragment : Fragment() {
 
     private val viewModel: FavoriteTracksFragmentViewModel by viewModel()
 
