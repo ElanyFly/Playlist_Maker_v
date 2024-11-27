@@ -16,27 +16,6 @@
         android:orientation="horizontal"
         android:paddingVertical="@dimen/padding_14dp">
 
-        <FrameLayout
-            android:id="@+id/settings_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingVertical="@dimen/padding_8dp"
-            android:paddingTop="@dimen/padding_16dp"
-            android:paddingEnd="@dimen/padding_24dp"
-            android:paddingBottom="@dimen/padding_16dp"
-            tools:ignore="RtlSymmetry">
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:src="@drawable/arrow_back"
-                app:tint="@color/text_dark"/>
-
-        </FrameLayout>
-
 
         <TextView
             style="@style/ScreenHeader"

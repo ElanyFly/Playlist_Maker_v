@@ -53,14 +53,12 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.e("!!!!!!!!!!!!!!!", "2")
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("!!!!!!!!!!!!!!!", "1")
         viewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
@@ -68,10 +66,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
             hideKeyboard(binding.inputText)
 
             viewModel.makeAction(SearchAction.ClearSearchQuery)
-        }
-
-        binding.searchBackButton.setOnClickListener {
-            TODO()
         }
 
         binding.btnClearHistory.setOnClickListener {
@@ -113,7 +107,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
             )
             showHistory(state.isHistoryShown)
         }
-        Log.e("!!!!!!!!!!!!!!!", "3")
     }
 
     private fun getTracks(

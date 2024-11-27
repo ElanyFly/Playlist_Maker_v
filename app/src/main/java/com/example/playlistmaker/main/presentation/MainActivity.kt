@@ -1,6 +1,7 @@
 package com.example.playlistmaker.main.presentation
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -28,32 +29,19 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setupWithNavController(navController)
 
+        
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!navController.popBackStack()) {
+                    finish()
+                }
+            }
+
+        })
 
 
 
-
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-
-//        val buttonSearchClickListener : View.OnClickListener = View.OnClickListener {
-//            val searchIntent = Intent(this, SearchActivity::class.java)
-//            startActivity(searchIntent)
-//        }
-//
-//        binding.mainSearchButton.setOnClickListener(buttonSearchClickListener)
-//
-//        binding.mainMediaButton.setOnClickListener {
-//            val mediaIntent = Intent(this, MediaActivity::class.java)
-//            startActivity(mediaIntent)
-//        }
-//
-//        binding.mainPrefButton.setOnClickListener {
-//            val prefIntent = Intent(this, SettingsActivity::class.java)
-//            startActivity(prefIntent)
-//        }
     }
 }
 
