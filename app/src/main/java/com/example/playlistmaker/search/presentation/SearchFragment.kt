@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,13 @@ import android.widget.TextView
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment: Fragment() {
+class SearchFragment: Fragment(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModel()
 
@@ -50,14 +52,15 @@ class SearchFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        Log.e("!!!!!!!!!!!!!!!", "2")
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.e("!!!!!!!!!!!!!!!", "1")
         viewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
@@ -110,6 +113,7 @@ class SearchFragment: Fragment() {
             )
             showHistory(state.isHistoryShown)
         }
+        Log.e("!!!!!!!!!!!!!!!", "3")
     }
 
     private fun getTracks(

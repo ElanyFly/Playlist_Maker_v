@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/searchMenu"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/search_icon"
-        android:title="Поиск" />
+        android:title="@string/menu_search" />
     <item
-        android:id="@+id/mediaMenu"
+        android:id="@+id/mediaFragment"
         android:icon="@drawable/music_icon"
-        android:title="Медиатека" />
+        android:title="@string/menu_media" />
     <item
-        android:id="@+id/settingsMenu"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/pref_icon"
-        android:title="Настройки" />
+        android:title="@string/menu_settings" />
 
 </menu>

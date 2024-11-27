@@ -7,15 +7,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityMediaBinding
+import com.example.playlistmaker.databinding.FragmentMediaBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaActivity : AppCompatActivity() {
 
-    private var _binding: ActivityMediaBinding? = null
+    private var _binding: FragmentMediaBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for MediaActivityBinding must not be null")
+        get() = _binding ?: throw IllegalStateException("Binding for FragmentMediaBinding must not be null")
 
     private lateinit var tabMediator: TabLayoutMediator
 
@@ -24,7 +24,7 @@ class MediaActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.fragment_media)
 
-        _binding = ActivityMediaBinding.inflate(layoutInflater)
+        _binding = FragmentMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.media) { v, insets ->
