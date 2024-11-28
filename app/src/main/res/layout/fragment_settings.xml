@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <Switch
-        android:id="@+id/settings_theme_switch"
+        android:id="@+id/settingsThemeSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/padding_16dp"
@@ -45,7 +45,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <LinearLayout style="@style/PrefLayout"
-        android:id="@+id/settings_share_button">
+        android:id="@+id/settingsShareButton">
 
         <TextView
 
