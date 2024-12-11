@@ -6,19 +6,22 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
 import com.example.playlistmaker.databinding.FragmentSearchBinding
+import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment: Fragment(R.layout.fragment_search) {
@@ -31,21 +34,35 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
     private var savedText = ""
 
-    private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { getTracks() }
 
+    private var moveJob: Job? = null
+
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
-        if (!isClickAllowed) return@TrackAdapter
 
-        isClickAllowed = false
-        handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+//        moveJob?.cancel()
+//        moveJob = lifecycleScope.launch {
+//            delay(CLICK_DEBOUNCE_DELAY)
+//            viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
+//            AudioPlayerActivity.showActivity(requireContext(), track)
+//            if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
+//                showHistory(true)
+//            }
+//        }
 
-        viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
-        AudioPlayerActivity.showActivity(requireContext(), track)
-        if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
-            showHistory(true)
+        if (moveJob != null && moveJob?.isActive == true) {
+            return@TrackAdapter
         }
+        moveJob = lifecycleScope.launch {
+            viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
+            AudioPlayerActivity.showActivity(requireContext(), track)
+            if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
+                showHistory(true)
+            }
+            delay(CLICK_DEBOUNCE_DELAY)
+        }
+
     }
 
     override fun onCreateView(
