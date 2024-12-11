@@ -6,29 +6,28 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-class SearchActivity : AppCompatActivity() {
+class SearchFragment: Fragment(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModel()
 
-    private var _binding: ActivitySearchBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for SearchActivityBinding must not be null")
-
+        get() = _binding ?: throw IllegalStateException("Binding for FragmentSearch must not be null")
 
     private var savedText = ""
 
@@ -43,27 +42,23 @@ class SearchActivity : AppCompatActivity() {
         handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
 
         viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
-        AudioPlayerActivity.showActivity(this, track)
+        AudioPlayerActivity.showActivity(requireContext(), track)
         if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
             showHistory(true)
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_search)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        _binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.search) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
@@ -71,10 +66,6 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(binding.inputText)
 
             viewModel.makeAction(SearchAction.ClearSearchQuery)
-        }
-
-        binding.searchBackButton.setOnClickListener {
-            finish()
         }
 
         binding.btnClearHistory.setOnClickListener {
@@ -107,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
             getTracks(isRefresh = true)
         }
 
-        viewModel.state.observe(this) { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             trackAdapter.updateTrackList(state.trackList)
             showProgressBar(state.isLoading)
             showErrorMessage(
@@ -116,19 +107,6 @@ class SearchActivity : AppCompatActivity() {
             )
             showHistory(state.isHistoryShown)
         }
-
-//        lifecycleScope.launch {
-//            viewModel.state.collect { state ->
-//                trackAdapter.updateTrackList(state.trackList)
-//                showProgressBar(state.isLoading)
-//                showErrorMessage(
-//                    isShowNothingFound = state.isNothingFound,
-//                    isShowNetworkError = state.isNetworkError
-//                )
-//                showHistory(state.isHistoryShown)
-//            }
-//        }
-
     }
 
     private fun getTracks(
@@ -145,8 +123,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showHistory(isShown: Boolean) {
-            binding.historyHeader.isVisible = isShown
-            binding.btnClearHistory.isVisible = isShown
+        binding.historyHeader.isVisible = isShown
+        binding.btnClearHistory.isVisible = isShown
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -154,16 +132,16 @@ class SearchActivity : AppCompatActivity() {
         outState.putString(INPUT_TEXT_KEY, savedText)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val text = savedInstanceState.getString(INPUT_TEXT_KEY) ?: ""
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val text = savedInstanceState?.getString(INPUT_TEXT_KEY) ?: ""
         savedText = text
         binding.inputText.setText(text)
     }
 
     private fun hideKeyboard(view: View) {
         val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -186,10 +164,10 @@ class SearchActivity : AppCompatActivity() {
         binding.progressBar.isVisible = isShown
     }
 
+
     companion object {
         private const val INPUT_TEXT_KEY = "INPUT_TEXT"
         private const val INPUT_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 500L
     }
-
 }

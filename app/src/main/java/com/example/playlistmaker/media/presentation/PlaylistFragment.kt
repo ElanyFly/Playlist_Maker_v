@@ -10,7 +10,7 @@ import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PlaylistFragment private constructor(): Fragment() {
+class PlaylistFragment: Fragment() {
 
     private val viewModel: PlaylistFragmentViewModel by viewModel()
 

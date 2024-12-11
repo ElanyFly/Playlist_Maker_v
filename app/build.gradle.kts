@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.playlistmaker"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.playlistmaker"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
     //glide
     val glideVersion = "4.16.0"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
@@ -61,6 +62,7 @@ dependencies {
     //okHttp
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
 
     //koin
     implementation(libs.koin.android)
@@ -69,6 +71,12 @@ dependencies {
     implementation (libs.androidx.viewpager2)
 
     implementation (libs.gson)
+
+    //navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.navigation.fragment)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
