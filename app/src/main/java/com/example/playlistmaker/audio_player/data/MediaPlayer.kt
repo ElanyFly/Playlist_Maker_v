@@ -1,27 +1,27 @@
 package com.example.playlistmaker.audio_player.data
 
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.playlistmaker.audio_player.domain.PlayerControl
 import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
+import com.example.playlistmaker.utils.CoroutineScopes
 import com.example.playlistmaker.utils.convertMS
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class MediaPlayer: PlayerControl {
+class MediaPlayer(
+    private val scope: CoroutineScopes
+) : PlayerControl {
 
     private lateinit var mediaPLayer: MediaPlayer
     private var playerState = StatePlayer.DEFAULT
     private var isReleased = false
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val timeRunnable = Runnable {
-        getCurrentTrackPosition()
-        getPositionDelay()
-    }
+    private var playerJob: Job? = null
 
     private val _timeFlow = MutableLiveData(Constants.PLAYER_TIME_DEFAULT)
     override val timeFlow: LiveData<String>
@@ -40,9 +40,9 @@ class MediaPlayer: PlayerControl {
                 setPlayerState(StatePlayer.PREPARED)
             }
             setOnCompletionListener {
-                handler.removeCallbacks(timeRunnable)
+                playerJob?.cancel()
                 setPlayerState(StatePlayer.PREPARED)
-                _timeFlow.postValue(Constants.PLAYER_TIME_DEFAULT )
+                _timeFlow.postValue(Constants.PLAYER_TIME_DEFAULT)
             }
         }
     }
@@ -61,20 +61,28 @@ class MediaPlayer: PlayerControl {
             StatePlayer.DEFAULT -> Unit
         }
     }
+
     override fun releasePlayer() {
         isReleased = true
         mediaPLayer.release()
     }
 
-    private fun setPlayerState(playerState: StatePlayer){
+    private fun setPlayerState(playerState: StatePlayer) {
         this.playerState = playerState
         _stateFlow.postValue(playerState)
     }
 
     private fun startPlayer() {
-            mediaPLayer.start()
-            setPlayerState(StatePlayer.PLAYING)
-            getPositionDelay()
+        mediaPLayer.start()
+        setPlayerState(StatePlayer.PLAYING)
+
+        playerJob?.cancel()
+        playerJob = scope.mainScope.launch {
+            while (mediaPLayer.isPlaying) {
+                getCurrentTrackPosition()
+                delay(POSITION_DELAY)
+            }
+        }
     }
 
     private fun pausePlayer() {
@@ -82,27 +90,14 @@ class MediaPlayer: PlayerControl {
             mediaPLayer.pause()
         }
         setPlayerState(StatePlayer.PAUSED)
-        handler.removeCallbacks(timeRunnable)
+        playerJob?.cancel()
     }
 
     private fun getCurrentTrackPosition() {
-        if (!isReleased){
-            _timeFlow.postValue(mediaPLayer.currentPosition.toLong().convertMS() )
+        if (!isReleased) {
+            _timeFlow.postValue(mediaPLayer.currentPosition.toLong().convertMS())
         }
 
-    }
-
-    private fun getPositionDelay() {
-        when (playerState) {
-            StatePlayer.PLAYING -> {
-                handler.removeCallbacks(timeRunnable)
-                handler.postDelayed(timeRunnable, POSITION_DELAY)
-            }
-
-            StatePlayer.DEFAULT,
-            StatePlayer.PREPARED,
-            StatePlayer.PAUSED -> Unit
-        }
     }
 
     companion object {
