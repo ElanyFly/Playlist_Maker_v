@@ -19,6 +19,7 @@ val searchModule = module {
     factory<SearchInteractor> {
         SearchInteractorImpl(
             trackRepository = get(),
+            scopes = get()
         )
     }
 

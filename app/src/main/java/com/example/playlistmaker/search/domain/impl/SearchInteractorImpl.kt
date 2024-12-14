@@ -4,37 +4,46 @@ import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.models.Track
-import kotlin.concurrent.thread
+import com.example.playlistmaker.utils.CoroutineScopes
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.launch
 
 class SearchInteractorImpl(
     private val trackRepository: TrackRepository,
+    private val scopes: CoroutineScopes
 ) : SearchInteractor {
 
     private var previousQuery = ""
-    private var currentThread: Thread? = null
 
-    override fun searchTrack(
+    private var currentJob: Job? = null
+
+    override suspend fun searchTrack(
         query: String,
         isRefreshed: Boolean,
-        resultLambda: (SearchResult) -> Unit
-    ) {
+    ): Flow<SearchResult>? {
         if ((previousQuery == query && !isRefreshed) || query.isEmpty()) {
-            return
+            return null
         }
         previousQuery = query
 
-        resultLambda(SearchResult.Loading)
-        currentThread?.interrupt()
-        currentThread = thread {
-            val tracks = trackRepository.searchTracks(query)
-            when {
-                tracks.isError -> resultLambda(SearchResult.Error(isNetworkError = true))
-                tracks.trackList.isEmpty() -> resultLambda(SearchResult.Error(isNothingFound = true))
-                else -> resultLambda(SearchResult.Success(trackList = tracks.trackList))
+        return channelFlow <SearchResult> {
+            send(SearchResult.Loading)
+            currentJob?.cancel()
+            currentJob = scopes.ioScope.launch {
+                val tracks = trackRepository.searchTracks(query)
+                send(
+                    when {
+                        tracks.isError -> SearchResult.Error(isNetworkError = true)
+                        tracks.trackList.isEmpty() -> SearchResult.Error(isNothingFound = true)
+                        else -> SearchResult.Success(trackList = tracks.trackList)
+                    }
+                )
+                previousQuery = ""
             }
-            previousQuery = ""
+            currentJob?.join()
         }
-
     }
 
     override fun clearTrackHistory() {

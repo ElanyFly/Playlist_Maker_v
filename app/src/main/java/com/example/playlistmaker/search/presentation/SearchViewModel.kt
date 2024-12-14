@@ -3,9 +3,13 @@ package com.example.playlistmaker.search.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val searchInteractor: SearchInteractor
@@ -42,11 +46,11 @@ class SearchViewModel(
     }
 
     private fun handleSearchTrack(action: SearchAction.SearchTrack) {
-
-        searchInteractor.searchTrack(
-            query = action.inputQuery,
-            isRefreshed = action.isRefreshed,
-            resultLambda = { searchResult ->
+        viewModelScope.launch {
+            searchInteractor.searchTrack(
+                query = action.inputQuery,
+                isRefreshed = action.isRefreshed,
+            )?.collect { searchResult ->
                 when (searchResult) {
                     is SearchResult.Error -> handleState(
                         isLoading = false,
@@ -73,7 +77,8 @@ class SearchViewModel(
                     )
                 }
             }
-        )
+        }
+
     }
 
     private fun handleClearTrackHistory() {
