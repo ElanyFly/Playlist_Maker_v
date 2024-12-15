@@ -9,6 +9,10 @@ import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.models.Response
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.domain.models.Tracks
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(
     private val apiService: TrackAPIService,
@@ -17,26 +21,39 @@ class TrackRepositoryImpl(
 
     private var historyList: List<Track> = sharedPreferencesHistory.getHistory()
 
-    override fun searchTracks(inputQuery: String): Tracks {
+    private var currentJob: Job? = null
 
-        val response = apiService.searchTracks(inputQuery).call()
+    override suspend fun searchTracks(inputQuery: String): Flow<Tracks>? {
+        currentJob?.cancel()
 
-        return when(response) {
-            is Response.Error -> Tracks(
-                isError = true
-            )
-            is Response.Success -> Tracks(
-                trackList = response.data.results.toTrackList()
+
+
+        return flow <Tracks> {
+            emit(Tracks(isLoading = true))
+            val response = apiService.searchTracks(inputQuery).call()
+            emit(
+
+                when(response) {
+                    is Response.Error -> Tracks(
+                        isError = true
+                    )
+                    is Response.Success -> Tracks(
+                        trackList = response.data.results.toTrackList()
+                    )
+                }
             )
         }
+        currentJob?.join()
+        return null
+
     }
 
-    override fun clearHistoryList() {
+    override suspend fun clearHistoryList() {
         historyList = emptyList()
         sharedPreferencesHistory.saveHistory(historyList)
     }
 
-    override fun addTrackToList(track: Track) {
+    override suspend fun addTrackToList(track: Track) {
         val oldList = historyList
         val mutableHistoryList = historyList
             .removeTrackRepeat(track)
@@ -50,7 +67,7 @@ class TrackRepositoryImpl(
         }
     }
 
-    override fun getHistoryList(): List<Track> {
+    override suspend fun getHistoryList(): List<Track> {
         return historyList
     }
     private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {

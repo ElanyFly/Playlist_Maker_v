@@ -7,17 +7,14 @@ import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.CoroutineScopes
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 
 class SearchInteractorImpl(
     private val trackRepository: TrackRepository,
-    private val scopes: CoroutineScopes
 ) : SearchInteractor {
 
     private var previousQuery = ""
 
-    private var currentJob: Job? = null
 
     override suspend fun searchTrack(
         query: String,
@@ -28,33 +25,29 @@ class SearchInteractorImpl(
         }
         previousQuery = query
 
-        return channelFlow <SearchResult> {
-            send(SearchResult.Loading)
-            currentJob?.cancel()
-            currentJob = scopes.ioScope.launch {
-                val tracks = trackRepository.searchTracks(query)
-                send(
-                    when {
-                        tracks.isError -> SearchResult.Error(isNetworkError = true)
-                        tracks.trackList.isEmpty() -> SearchResult.Error(isNothingFound = true)
-                        else -> SearchResult.Success(trackList = tracks.trackList)
-                    }
-                )
-                previousQuery = ""
+        val result = trackRepository.searchTracks(query)?.map { tracks ->
+            when {
+                tracks.isLoading -> SearchResult.Loading
+                tracks.isError -> SearchResult.Error(isNetworkError = true)
+                tracks.trackList.isEmpty() -> SearchResult.Error(isNothingFound = true)
+                else -> SearchResult.Success(trackList = tracks.trackList)
             }
-            currentJob?.join()
+
         }
+        previousQuery = ""
+        return result
+
     }
 
-    override fun clearTrackHistory() {
+    override suspend fun clearTrackHistory() {
         trackRepository.clearHistoryList()
     }
 
-    override fun addTrackToHistory(track: Track) {
+    override suspend fun addTrackToHistory(track: Track) {
         trackRepository.addTrackToList(track)
     }
 
-    override fun restoreHistoryCache(): List<Track> {
+    override suspend fun restoreHistoryCache(): List<Track> {
         return trackRepository.getHistoryList()
     }
 

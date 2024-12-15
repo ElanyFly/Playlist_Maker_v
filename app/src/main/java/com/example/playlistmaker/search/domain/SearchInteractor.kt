@@ -10,7 +10,7 @@ interface SearchInteractor {
         isRefreshed: Boolean = false,
     ): Flow<SearchResult>?
 
-    fun clearTrackHistory()
-    fun addTrackToHistory(track: Track)
-    fun restoreHistoryCache() : List<Track>
+    suspend fun clearTrackHistory()
+    suspend fun addTrackToHistory(track: Track)
+    suspend fun restoreHistoryCache() : List<Track>
 }
