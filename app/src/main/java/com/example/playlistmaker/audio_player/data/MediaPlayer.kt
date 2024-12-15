@@ -7,21 +7,15 @@ import com.example.playlistmaker.audio_player.domain.PlayerControl
 import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.Constants
-import com.example.playlistmaker.utils.CoroutineScopes
 import com.example.playlistmaker.utils.convertMS
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-class MediaPlayer(
-    private val scope: CoroutineScopes
-) : PlayerControl {
+class MediaPlayer() : PlayerControl {
 
     private lateinit var mediaPLayer: MediaPlayer
     private var playerState = StatePlayer.DEFAULT
     private var isReleased = false
-
-    private var playerJob: Job? = null
+    private var isComplete = false
 
     private val _timeFlow = MutableLiveData(Constants.PLAYER_TIME_DEFAULT)
     override val timeFlow: LiveData<String>
@@ -40,14 +34,14 @@ class MediaPlayer(
                 setPlayerState(StatePlayer.PREPARED)
             }
             setOnCompletionListener {
-                playerJob?.cancel()
+                isComplete = true
                 setPlayerState(StatePlayer.PREPARED)
                 _timeFlow.postValue(Constants.PLAYER_TIME_DEFAULT)
             }
         }
     }
 
-    override fun playbackControl(isStopped: Boolean) {
+    override suspend fun playbackControl(isStopped: Boolean) {
         if (isStopped) {
             pausePlayer()
             return
@@ -72,16 +66,14 @@ class MediaPlayer(
         _stateFlow.postValue(playerState)
     }
 
-    private fun startPlayer() {
+    private suspend fun startPlayer() {
         mediaPLayer.start()
         setPlayerState(StatePlayer.PLAYING)
+        isComplete = false
 
-        playerJob?.cancel()
-        playerJob = scope.mainScope.launch {
-            while (mediaPLayer.isPlaying) {
-                getCurrentTrackPosition()
-                delay(POSITION_DELAY)
-            }
+        while (mediaPLayer.isPlaying) {
+            getCurrentTrackPosition()
+            delay(POSITION_DELAY)
         }
     }
 
@@ -90,14 +82,13 @@ class MediaPlayer(
             mediaPLayer.pause()
         }
         setPlayerState(StatePlayer.PAUSED)
-        playerJob?.cancel()
+        isComplete = true
     }
 
     private fun getCurrentTrackPosition() {
         if (!isReleased) {
             _timeFlow.postValue(mediaPLayer.currentPosition.toLong().convertMS())
         }
-
     }
 
     companion object {

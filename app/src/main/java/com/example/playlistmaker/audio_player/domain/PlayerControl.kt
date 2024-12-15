@@ -7,6 +7,6 @@ interface PlayerControl {
     val timeFlow: LiveData<String>
     val stateFlow: LiveData<StatePlayer>
     fun preparePlayer(track: Track)
-    fun playbackControl(isStopped: Boolean)
+    suspend fun playbackControl(isStopped: Boolean)
     fun releasePlayer()
 }

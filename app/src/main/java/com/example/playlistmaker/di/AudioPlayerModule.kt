@@ -15,8 +15,6 @@ val audioPlayerModule = module {
     }
 
     factory<PlayerControl> {
-        MediaPlayer(
-            scope = get()
-        )
+        MediaPlayer()
     }
 }
