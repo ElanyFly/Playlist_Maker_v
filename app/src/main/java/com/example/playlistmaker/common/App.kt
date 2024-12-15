@@ -3,7 +3,6 @@ package com.example.playlistmaker.common
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.di.audioPlayerModule
-import com.example.playlistmaker.di.mainModule
 import com.example.playlistmaker.di.networkModule
 import com.example.playlistmaker.di.searchModule
 import com.example.playlistmaker.di.settingsModule
@@ -27,8 +26,7 @@ class App : Application() {
                 searchModule,
                 networkModule,
                 audioPlayerModule,
-                settingsModule,
-                mainModule
+                settingsModule
             )
         }
 

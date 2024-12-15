@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.search.domain.SearchInteractor
 import com.example.playlistmaker.search.domain.SearchResult
 import com.example.playlistmaker.search.domain.models.Track
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
