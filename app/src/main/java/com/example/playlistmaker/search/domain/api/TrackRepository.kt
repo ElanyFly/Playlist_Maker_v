@@ -5,8 +5,8 @@ import com.example.playlistmaker.search.domain.models.Tracks
 import kotlinx.coroutines.flow.Flow
 
 interface TrackRepository {
-    suspend fun searchTracks(inputQuery: String): Flow<Tracks>?
-    suspend fun clearHistoryList()
-    suspend fun addTrackToList(track: Track)
-    suspend fun getHistoryList(): List<Track>
+    fun searchTracks(inputQuery: String): Flow<Tracks>?
+    fun clearHistoryList()
+    fun addTrackToList(track: Track)
+    fun getHistoryList(): List<Track>
 }

@@ -9,8 +9,6 @@ import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.models.Response
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.domain.models.Tracks
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -21,12 +19,7 @@ class TrackRepositoryImpl(
 
     private var historyList: List<Track> = sharedPreferencesHistory.getHistory()
 
-    private var currentJob: Job? = null
-
-    override suspend fun searchTracks(inputQuery: String): Flow<Tracks>? {
-        currentJob?.cancel()
-
-
+    override fun searchTracks(inputQuery: String): Flow<Tracks>? {
 
         return flow <Tracks> {
             emit(Tracks(isLoading = true))
@@ -43,17 +36,16 @@ class TrackRepositoryImpl(
                 }
             )
         }
-        currentJob?.join()
         return null
 
     }
 
-    override suspend fun clearHistoryList() {
+    override fun clearHistoryList() {
         historyList = emptyList()
         sharedPreferencesHistory.saveHistory(historyList)
     }
 
-    override suspend fun addTrackToList(track: Track) {
+    override fun addTrackToList(track: Track) {
         val oldList = historyList
         val mutableHistoryList = historyList
             .removeTrackRepeat(track)
@@ -67,7 +59,7 @@ class TrackRepositoryImpl(
         }
     }
 
-    override suspend fun getHistoryList(): List<Track> {
+    override fun getHistoryList(): List<Track> {
         return historyList
     }
     private fun List<Track>.removeTrackRepeat(track: Track): List<Track> {
