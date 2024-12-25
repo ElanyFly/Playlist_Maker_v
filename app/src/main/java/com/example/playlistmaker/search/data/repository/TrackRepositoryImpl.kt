@@ -9,6 +9,8 @@ import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.models.Response
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.domain.models.Tracks
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(
     private val apiService: TrackAPIService,
@@ -17,18 +19,25 @@ class TrackRepositoryImpl(
 
     private var historyList: List<Track> = sharedPreferencesHistory.getHistory()
 
-    override fun searchTracks(inputQuery: String): Tracks {
+    override fun searchTracks(inputQuery: String): Flow<Tracks>? {
 
-        val response = apiService.searchTracks(inputQuery).call()
+        return flow <Tracks> {
+            emit(Tracks(isLoading = true))
+            val response = apiService.searchTracks(inputQuery).call()
+            emit(
 
-        return when(response) {
-            is Response.Error -> Tracks(
-                isError = true
-            )
-            is Response.Success -> Tracks(
-                trackList = response.data.results.toTrackList()
+                when(response) {
+                    is Response.Error -> Tracks(
+                        isError = true
+                    )
+                    is Response.Success -> Tracks(
+                        trackList = response.data.results.toTrackList()
+                    )
+                }
             )
         }
+        return null
+
     }
 
     override fun clearHistoryList() {

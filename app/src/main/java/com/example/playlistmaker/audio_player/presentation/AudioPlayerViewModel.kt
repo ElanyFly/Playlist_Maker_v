@@ -3,9 +3,12 @@ package com.example.playlistmaker.audio_player.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.audio_player.domain.PlayerControl
 import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
     private val mediaPlayer: PlayerControl
@@ -15,6 +18,7 @@ class AudioPlayerViewModel(
     val playerState: LiveData<AudioPlayerState>
         get() = _playerState
 
+    private var playerJob: Job? = null
 
     private var currentTrack: Track? = null
 
@@ -36,7 +40,10 @@ class AudioPlayerViewModel(
     }
 
     private fun handlePressPlayBtn(action: AudioPlayerAction.pressPlayBtn) {
-        mediaPlayer.playbackControl(action.isStopped)
+            playerJob?.cancel()
+            playerJob = viewModelScope.launch {
+                mediaPlayer.playbackControl(action.isStopped)
+            }
     }
 
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
@@ -70,4 +77,5 @@ class AudioPlayerViewModel(
         super.onCleared()
         mediaPlayer.releasePlayer()
     }
+
 }
