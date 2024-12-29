@@ -22,6 +22,21 @@ fun TrackDTO.toTrackEntity(): TrackEntity? {
     )
 }
 
+fun Track.toTrackEntity(): TrackEntity {
+    return TrackEntity(
+        trackId = trackId,
+        trackName = trackName,
+        artistName = artistName,
+        trackTime = trackTime,
+        pictureURL = pictureURL,
+        collectionName = collectionName,
+        releaseDate = releaseDate,
+        primaryGenreName = primaryGenreName,
+        country = country,
+        previewUrl = previewUrl
+    )
+}
+
 fun TrackEntity.toTrack(): Track {
     return Track(
         trackId = trackId,
