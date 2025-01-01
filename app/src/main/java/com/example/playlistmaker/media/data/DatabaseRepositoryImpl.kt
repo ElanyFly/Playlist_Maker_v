@@ -6,7 +6,6 @@ import com.example.playlistmaker.media.data.db.FavTracksDatabase
 import com.example.playlistmaker.media.domain.db.DatabaseRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext

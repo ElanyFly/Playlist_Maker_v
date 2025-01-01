@@ -19,11 +19,7 @@ interface TrackDao {
     @Query("SELECT * FROM favourite_tracks")
     suspend fun getAllTracksInFav(): List<TrackEntity>
 
-    @Query("SELECT * FROM favourite_tracks")
+    @Query("SELECT trackId FROM favourite_tracks")
     suspend fun getTrackIDsInFav(): List<Int>
 
-//    метод @Insert для добавления трека в таблицу с избранными треками;
-//    метод @Delete для удаления трека из таблицы избранных треков;
-//    метод @Query для получения списка со всеми треками, добавленными в избранное;
-//    метод @Query для получения списка идентификаторов всех треков, которые добавлены в избранное.
 }

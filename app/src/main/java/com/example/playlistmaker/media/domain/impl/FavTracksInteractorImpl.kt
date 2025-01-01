@@ -7,9 +7,18 @@ import kotlinx.coroutines.flow.Flow
 
 class FavTracksInteractorImpl(
     private val databaseRepository: DatabaseRepository
-): FavTracksInteractor {
+) : FavTracksInteractor {
 
-    override fun favouriteTracks(): Flow<List<Track>> {
+    override fun getFavTracksList(): Flow<List<Track>> {
         return databaseRepository.getFavTracksList()
     }
+
+    override suspend fun addTrackToFav(track: Track) {
+        databaseRepository.addTrackToFav(track)
+    }
+
+    override suspend fun deleteTrackFromFav(track: Track) {
+        databaseRepository.deleteTrackFromFav(track)
+    }
+
 }

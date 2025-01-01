@@ -65,6 +65,10 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.backArrow.setOnClickListener {
             finish()
         }
+
+        binding.btnLike.setOnClickListener {
+
+        }
     }
 
     override fun onStop() {
