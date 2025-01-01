@@ -38,26 +38,45 @@ class AudioPlayerViewModel(
         when (action) {
             is AudioPlayerAction.prepareTrack -> handlePrepareTrack(action)
             is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn(action)
-            is AudioPlayerAction.pressLikeBtn -> TODO()
+            is AudioPlayerAction.pressLikeBtn -> handlePressLikeBtn(action)
         }
     }
 
     fun handlePressLikeBtn(action: AudioPlayerAction.pressLikeBtn) {
+        val currentTrackM = currentTrack ?: return
+        viewModelScope.launch {
+            val isFavourite = !currentTrackM.isFavorite
+            val currentTrackNew = currentTrackM.copy(
+                isFavorite = isFavourite
+            )
+
+            if (currentTrackNew.isFavorite) {
+                favTracksInteractor.addTrackToFav(currentTrackNew)
+            } else {
+                favTracksInteractor.deleteTrackFromFav(currentTrackNew)
+            }
+            currentTrack = currentTrackNew
+            handleState(track = currentTrackNew)
+        }
 
     }
 
     private fun handlePressPlayBtn(action: AudioPlayerAction.pressPlayBtn) {
-            playerJob?.cancel()
-            playerJob = viewModelScope.launch {
-                mediaPlayer.playbackControl(action.isStopped)
-            }
+        playerJob?.cancel()
+        playerJob = viewModelScope.launch {
+            mediaPlayer.playbackControl(action.isStopped)
+        }
     }
 
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
-        mediaPlayer.preparePlayer(action.track)
-        currentTrack = action.track
 
-        handleState(track = currentTrack)
+        viewModelScope.launch {
+            val isFavourite: Boolean = favTracksInteractor.getFavStatus(action.track.trackId)
+            val newCurrentTrack = action.track.copy(isFavorite = isFavourite)
+            mediaPlayer.preparePlayer(newCurrentTrack)
+            currentTrack = newCurrentTrack
+            handleState(track = currentTrack)
+        }
     }
 
     private fun handleState(
@@ -78,7 +97,7 @@ class AudioPlayerViewModel(
 
         _playerState.postValue(newValue)
 
-        }
+    }
 
     override fun onCleared() {
         super.onCleared()

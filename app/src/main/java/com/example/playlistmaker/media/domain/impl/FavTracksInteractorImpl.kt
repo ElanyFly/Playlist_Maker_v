@@ -21,4 +21,8 @@ class FavTracksInteractorImpl(
         databaseRepository.deleteTrackFromFav(track)
     }
 
+    override suspend fun getFavStatus(trackId: Int): Boolean {
+        return databaseRepository.getFavStatus(trackId)
+    }
+
 }

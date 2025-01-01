@@ -5,6 +5,6 @@ sealed interface AudioPlayerAction {
 
     class prepareTrack(val track: Track) : AudioPlayerAction
     class pressPlayBtn(val isStopped: Boolean = false) : AudioPlayerAction
-    class pressLikeBtn() : AudioPlayerAction
+    class pressLikeBtn(val track: Track) : AudioPlayerAction
 
 }

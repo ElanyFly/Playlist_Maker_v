@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 class DatabaseRepositoryImpl(
     private val favTracksDatabase: FavTracksDatabase
-): DatabaseRepository {
+) : DatabaseRepository {
 
     override suspend fun addTrackToFav(track: Track) {
         withContext(Dispatchers.IO) {
@@ -31,5 +31,11 @@ class DatabaseRepositoryImpl(
         emit(trackList.map { trackEntity ->
             trackEntity.toTrack()
         })
+    }
+
+    override suspend fun getFavStatus(trackId: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            favTracksDatabase.trackDao().getFavStatus(trackId)
+        }
     }
 }
