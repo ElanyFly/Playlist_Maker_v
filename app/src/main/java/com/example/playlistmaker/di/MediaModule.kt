@@ -2,7 +2,6 @@ package com.example.playlistmaker.di
 
 import com.example.playlistmaker.media.presentation.FavoriteTracksFragmentViewModel
 import com.example.playlistmaker.media.presentation.PlaylistFragmentViewModel
-import com.example.playlistmaker.search.presentation.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
