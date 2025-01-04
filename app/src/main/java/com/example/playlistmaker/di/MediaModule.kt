@@ -10,7 +10,7 @@ val mediaModule = module {
 
     viewModel<FavoriteTracksFragmentViewModel> {
         FavoriteTracksFragmentViewModel(
-
+            favTracksInteractor = get()
         )
     }
 

@@ -1,7 +1,10 @@
 package com.example.playlistmaker.media.presentation
 
 import androidx.lifecycle.ViewModel
+import com.example.playlistmaker.media.domain.db.FavTracksInteractor
 
-class FavoriteTracksFragmentViewModel(): ViewModel()  {
+class FavoriteTracksFragmentViewModel(
+    favTracksInteractor: FavTracksInteractor
+): ViewModel()  {
 
 }
