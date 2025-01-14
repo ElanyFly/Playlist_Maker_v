@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.audio_player.domain.PlayerControl
 import com.example.playlistmaker.audio_player.domain.StatePlayer
+import com.example.playlistmaker.media.domain.db.FavTracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
-    private val mediaPlayer: PlayerControl
+    private val mediaPlayer: PlayerControl,
+    private val favTracksInteractor: FavTracksInteractor
 ) : ViewModel() {
 
     private val _playerState = MutableLiveData<AudioPlayerState>(AudioPlayerState.defaultState)
@@ -36,21 +38,45 @@ class AudioPlayerViewModel(
         when (action) {
             is AudioPlayerAction.prepareTrack -> handlePrepareTrack(action)
             is AudioPlayerAction.pressPlayBtn -> handlePressPlayBtn(action)
+            is AudioPlayerAction.pressLikeBtn -> handlePressLikeBtn(action)
         }
     }
 
-    private fun handlePressPlayBtn(action: AudioPlayerAction.pressPlayBtn) {
-            playerJob?.cancel()
-            playerJob = viewModelScope.launch {
-                mediaPlayer.playbackControl(action.isStopped)
+    fun handlePressLikeBtn(action: AudioPlayerAction.pressLikeBtn) {
+        val currentTrackM = currentTrack ?: return
+        viewModelScope.launch {
+            val isFavourite = !currentTrackM.isFavorite
+            val currentTrackNew = currentTrackM.copy(
+                isFavorite = isFavourite
+            )
+
+            if (currentTrackNew.isFavorite) {
+                favTracksInteractor.addTrackToFav(currentTrackNew)
+            } else {
+                favTracksInteractor.deleteTrackFromFav(currentTrackNew)
             }
+            currentTrack = currentTrackNew
+            handleState(track = currentTrackNew)
+        }
+
+    }
+
+    private fun handlePressPlayBtn(action: AudioPlayerAction.pressPlayBtn) {
+        playerJob?.cancel()
+        playerJob = viewModelScope.launch {
+            mediaPlayer.playbackControl(action.isStopped)
+        }
     }
 
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
-        mediaPlayer.preparePlayer(action.track)
-        currentTrack = action.track
 
-        handleState(track = currentTrack)
+        viewModelScope.launch {
+            val isFavourite: Boolean = favTracksInteractor.getFavStatus(action.track.trackId)
+            val newCurrentTrack = action.track.copy(isFavorite = isFavourite)
+            mediaPlayer.preparePlayer(newCurrentTrack)
+            currentTrack = newCurrentTrack
+            handleState(track = currentTrack)
+        }
     }
 
     private fun handleState(
@@ -71,7 +97,7 @@ class AudioPlayerViewModel(
 
         _playerState.postValue(newValue)
 
-        }
+    }
 
     override fun onCleared() {
         super.onCleared()

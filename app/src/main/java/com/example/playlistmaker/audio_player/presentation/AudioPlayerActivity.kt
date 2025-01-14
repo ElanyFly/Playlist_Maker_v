@@ -65,6 +65,10 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.backArrow.setOnClickListener {
             finish()
         }
+
+        binding.btnLike.setOnClickListener {
+            viewModel.makeAction(AudioPlayerAction.pressLikeBtn(track))
+        }
     }
 
     override fun onStop() {
@@ -76,6 +80,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun setDataToView(track: Track) {
         with(binding) {
+            btnLike.setImageResource(
+                if (track.isFavorite) {
+                    R.drawable.audio_clicked_like
+                } else {
+                    R.drawable.audio_likebutton
+                }
+            )
+
             trackName.text = track.trackName
             groupName.text = track.artistName
             audioTrackTime.text = track.trackTime

@@ -36,16 +36,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
     private val trackAdapter: TrackAdapter = TrackAdapter() { track ->
 
-//        moveJob?.cancel()
-//        moveJob = lifecycleScope.launch {
-//            delay(CLICK_DEBOUNCE_DELAY)
-//            viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
-//            AudioPlayerActivity.showActivity(requireContext(), track)
-//            if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
-//                showHistory(true)
-//            }
-//        }
-
         if (moveJob != null && moveJob?.isActive == true) {
             return@TrackAdapter
         }

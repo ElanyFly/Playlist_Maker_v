@@ -25,7 +25,8 @@ val searchModule = module {
     single<TrackRepository> {
         TrackRepositoryImpl(
             apiService = get(),
-            sharedPreferencesHistory = get()
+            sharedPreferencesHistory = get(),
+            favTracksDatabase = get(),
         )
     }
 

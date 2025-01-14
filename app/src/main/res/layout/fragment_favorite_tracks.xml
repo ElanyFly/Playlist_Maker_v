@@ -6,43 +6,46 @@
     android:id="@+id/mediaFavoriteTracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_activity_white"
     tools:context=".media.presentation.PlaylistFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mediaEmptyFavList"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/padding_24dp" />
+        android:gravity="top|center"
+        android:visibility="gone">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/padding_24dp" />
+        <ImageView
+            android:id="@+id/mediaNoFavsImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_16dp"
+            android:src="@drawable/nf_icon"
+            android:paddingTop="@dimen/paddingTop_100dp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/mediaNoFavsImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/padding_16dp"
-        android:src="@drawable/nf_icon"
-        android:paddingTop="@dimen/paddingTop_100dp"
+        <TextView
+            android:id="@+id/mediaNoFavsText"
+            style="@style/ErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/media_empty_favorites"
+            app:layout_constraintTop_toBottomOf="@id/mediaNoFavsImg"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintHeight_default="wrap"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintEnd_toEndOf="@id/rightGuideline"/>
-
-    <TextView
-        android:id="@+id/mediaNoFavsText"
-        style="@style/ErrorMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/media_empty_favorites"
-        app:layout_constraintTop_toBottomOf="@id/mediaNoFavsImg"
-        app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
-        />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:itemCount="10"
+        tools:listitem="@layout/track_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

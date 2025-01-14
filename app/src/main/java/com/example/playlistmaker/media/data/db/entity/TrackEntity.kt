@@ -1,6 +1,12 @@
-package com.example.playlistmaker.search.domain.models
+package com.example.playlistmaker.media.data.db.entity
 
-data class Track(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.sql.Timestamp
+
+@Entity(tableName = "favourite_tracks")
+data class TrackEntity(
+    @PrimaryKey
     val trackId: Int,
     val trackName: String,
     val artistName: String,
@@ -11,7 +17,5 @@ data class Track(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
-    var isFavorite: Boolean = false
-
+    val timestamp: Long = System.currentTimeMillis()
 )
-
