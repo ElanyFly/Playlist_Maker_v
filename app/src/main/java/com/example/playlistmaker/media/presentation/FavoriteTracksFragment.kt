@@ -51,7 +51,6 @@ class FavoriteTracksFragment : Fragment() {
     ): View {
         _binding = FragmentFavoriteTracksBinding.inflate(inflater, container, false)
         return binding.root
-//        inflater.inflate(R.layout.fragment_favorite_tracks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
