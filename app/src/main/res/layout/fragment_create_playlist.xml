@@ -79,15 +79,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputPlaylistName"
-        style="@style/AddPlaylistFont"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginHorizontal="@dimen/padding_16dp"
         android:layout_marginTop="32dp"
         android:hint="@string/playlist_album_name_hint"
-        android:textColorHint="@drawable/text_change_selector"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeColor="@color/border_selector"
+        android:textColorHint="@color/text_dark"
+        app:hintTextColor="@color/tumbler_head"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/loadImage">
@@ -96,23 +98,23 @@
             android:id="@+id/textInputPlaylistEditText"
             style="@style/AddPlaylistFont"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_text_selector"
-            android:textColorHint="@color/tumbler_head"
-            android:textSize="@dimen/font_16sp" />
+            android:layout_height="match_parent"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputDescription"
-        style="@style/AddPlaylistFont"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginHorizontal="@dimen/padding_16dp"
         android:layout_marginTop="32dp"
-        android:hint="@string/playlist_discription_hint"
-        android:textColorHint="@drawable/text_change_selector"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
+        android:hint="@string/playlist_description_hint"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeColor="@color/border_selector"
+        android:textColorHint="@color/text_dark"
+        app:hintTextColor="@color/tumbler_head"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/inputPlaylistName">
@@ -121,10 +123,8 @@
             android:id="@+id/textInputDescriptionEditText"
             style="@style/AddPlaylistFont"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/input_text_selector"
-            android:textColorHint="@color/tumbler_head"
-            android:textSize="@dimen/font_16sp" />
+            android:layout_height="match_parent"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

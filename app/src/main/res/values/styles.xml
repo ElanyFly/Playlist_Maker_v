@@ -105,10 +105,9 @@
 
     </style>
 
-    <style name="AddPlaylistFont">
+    <style name="AddPlaylistFont" >
 
         <item name="android:textSize">@dimen/font_16sp</item>
-        <item name="android:textColor">@color/text_dark</item>
         <item name="fontFamily">@font/ys_display_regular</item>
 
     </style>

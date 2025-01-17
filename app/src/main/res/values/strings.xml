@@ -34,7 +34,7 @@
     <string name="menu_media">Медиатека</string>
     <string name="menu_settings">Настройки</string>
     <string name="new_playlist">Новый плейлист</string>
-    <string name="playlist_discription_hint">Описание</string>
+    <string name="playlist_description_hint">Описание</string>
     <string name="playlist_button">Создать</string>
     <string name="playlist_album_name_hint">Название*</string>
 
