@@ -127,7 +127,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreatePlaylist"
         style="@style/PlaylistCreateBtn"
         android:layout_width="match_parent"
@@ -136,6 +136,10 @@
         android:layout_marginBottom="32dp"
         android:foreground="?attr/selectableItemBackground"
         android:text="@string/playlist_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintBottom_toBottomOf="parent"/>

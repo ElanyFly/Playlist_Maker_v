@@ -1,5 +1,6 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.media.presentation.CreatePlaylistViewModel
 import com.example.playlistmaker.media.presentation.FavoriteTracksFragmentViewModel
 import com.example.playlistmaker.media.presentation.PlaylistFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,5 +19,10 @@ val mediaModule = module {
 
         )
     }
+
+    viewModel<CreatePlaylistViewModel> {
+        CreatePlaylistViewModel()
+    }
+
 
 }
