@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
 
 class CreatePlaylistFragment: Fragment() {
@@ -22,6 +25,18 @@ class CreatePlaylistFragment: Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.textInputPlaylistEditText.doAfterTextChanged {
+            it.toString()
+
+            binding.btnCreatePlaylist.setBackgroundColor(
+                requireContext().getColor(R.color.tumbler_head)
+            )
+
+        }
+    }
 
 
 
