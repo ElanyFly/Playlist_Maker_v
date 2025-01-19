@@ -2,9 +2,8 @@ package com.example.playlistmaker.media.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
-@Entity(tableName = "favourite_tracks")
+@Entity(tableName = "saved_tracks")
 data class TrackEntity(
     @PrimaryKey
     val trackId: Int,
@@ -17,5 +16,6 @@ data class TrackEntity(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val isFavourite: Boolean
 )
