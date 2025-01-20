@@ -2,32 +2,32 @@ package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toTrack
 import com.example.playlistmaker.media.data.convertors.toTrackEntity
-import com.example.playlistmaker.media.data.db.FavTracksDatabase
-import com.example.playlistmaker.media.domain.db.DatabaseRepository
+import com.example.playlistmaker.media.data.db.TracksDatabase
+import com.example.playlistmaker.media.domain.db.TracksRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
-class DatabaseRepositoryImpl(
-    private val favTracksDatabase: FavTracksDatabase
-) : DatabaseRepository {
+class TracksRepositoryImpl(
+    private val tracksDatabase: TracksDatabase
+) : TracksRepository {
 
     override suspend fun addTrackToFav(track: Track) {
         withContext(Dispatchers.IO) {
-            favTracksDatabase.trackDao().addTrackToFav(track.toTrackEntity())
+            tracksDatabase.trackDao().addTrackToFav(track.toTrackEntity())
         }
     }
 
     override suspend fun deleteTrackFromFav(track: Track) {
         withContext(Dispatchers.IO) {
-            favTracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
+            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
         }
     }
 
     override fun getFavTracksList(): Flow<List<Track>> = flow {
-        val trackList = favTracksDatabase.trackDao().getAllTracksInFav()
+        val trackList = tracksDatabase.trackDao().getAllTracksInFav()
         emit(trackList.map { trackEntity ->
             trackEntity.toTrack()
         })
@@ -35,7 +35,7 @@ class DatabaseRepositoryImpl(
 
     override suspend fun getFavStatus(trackId: Int): Boolean {
         return withContext(Dispatchers.IO) {
-            favTracksDatabase.trackDao().getFavStatus(trackId)
+            tracksDatabase.trackDao().getFavStatus(trackId)
         }
     }
 }

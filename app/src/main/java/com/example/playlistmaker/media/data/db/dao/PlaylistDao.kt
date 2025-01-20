@@ -5,8 +5,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.db.entity.TrackEntity
+import com.example.playlistmaker.media.data.temporary.PlaylistWithTracks
 
 @Dao
 interface PlaylistDao {
@@ -25,4 +27,8 @@ interface PlaylistDao {
 
     @Query("SELECT * FROM playlist_table")
     suspend fun getPlaylistTracksIds(): List<Int>
+
+    @Transaction
+    @Query("SELECT * FROM playlist_table WHERE playlistId = :playlistId")
+    suspend fun getPlaylistWithTracks(playlistId: Int)  : PlaylistWithTracks
 }

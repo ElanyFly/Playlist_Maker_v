@@ -13,5 +13,4 @@ data class PlaylistEntity (
     val playlistTrackIds: List<Int>,
     val playlistTrackAmount: Int,
     val timestamp: Long = System.currentTimeMillis(),
-
 )
