@@ -17,8 +17,8 @@ fun TrackDTO.toTrackEntity(): TrackEntity? {
         releaseDate = releaseDate ?: "",
         primaryGenreName = primaryGenreName ?: "",
         country = country ?: "",
-        previewUrl = previewUrl ?: ""
-
+        previewUrl = previewUrl ?: "",
+        isFavourite = false
     )
 }
 
@@ -33,7 +33,8 @@ fun Track.toTrackEntity(): TrackEntity {
         releaseDate = releaseDate,
         primaryGenreName = primaryGenreName,
         country = country,
-        previewUrl = previewUrl
+        previewUrl = previewUrl,
+        isFavourite = isFavorite
     )
 }
 
@@ -48,7 +49,8 @@ fun TrackEntity.toTrack(): Track {
         releaseDate = releaseDate,
         primaryGenreName = primaryGenreName,
         country = country,
-        previewUrl = previewUrl
+        previewUrl = previewUrl,
+        isFavorite = isFavourite
     )
 }
 
