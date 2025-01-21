@@ -91,6 +91,7 @@
         app:boxStrokeColor="@color/border_selector"
         android:textColorHint="@color/text_dark"
         app:hintTextColor="@color/tumbler_head"
+        android:imeOptions="actionDone"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/loadImage">
@@ -116,6 +117,7 @@
         app:boxStrokeColor="@color/border_selector"
         android:textColorHint="@color/text_dark"
         app:hintTextColor="@color/tumbler_head"
+        android:imeOptions="actionDone"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/inputPlaylistName">

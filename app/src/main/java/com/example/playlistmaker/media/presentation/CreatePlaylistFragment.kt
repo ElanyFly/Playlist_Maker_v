@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -55,6 +56,10 @@ class CreatePlaylistFragment: Fragment() {
             } else {
 
             }
+        }
+
+        binding.backArrow.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         binding.loadImage.setOnClickListener {
