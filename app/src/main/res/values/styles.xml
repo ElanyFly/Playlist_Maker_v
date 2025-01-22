@@ -96,20 +96,23 @@
     </style>
 
     <style name="AudioPlayerTrackShownInfo">
-
         <item name="android:layout_marginStart">@dimen/padding_8dp</item>
         <item name="android:textSize">@dimen/font_13sp</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="fontFamily">@font/ys_display_regular</item>
         <item name="android:textAlignment">textEnd</item>
-
     </style>
 
     <style name="AddPlaylistFont" >
-
         <item name="android:textSize">@dimen/font_16sp</item>
         <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
 
+    <style name="PlaylistRecyclerText">
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textAlignment">textStart</item>
     </style>
 
     <style name="PlaylistCreateBtn">
@@ -125,6 +128,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/padding_8dp</item>
     </style>
+
+
 
 
 

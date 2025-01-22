@@ -17,17 +17,13 @@ class TrackViewHolder(private val binding: TrackViewBinding) : RecyclerView.View
             trackTime.text = model.trackTime
         }
 
-
         val coverUrl: String = model.pictureURL
-
         Glide.with(itemView.context)
             .load(coverUrl)
             .placeholder(R.drawable.placeholder_45)
             .centerCrop()
             .transform(RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.image_round_corners)))
             .into(binding.trackCover)
-
-
     }
 
 }
