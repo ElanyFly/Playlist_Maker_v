@@ -5,10 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
+import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
+import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -19,6 +26,18 @@ class PlaylistFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentPlaylist must not be null")
 
     private val viewModel: PlaylistFragmentViewModel by viewModel()
+
+    private var moveJob: Job? = null
+    private val playlistAdapter: PlaylistAdapter = PlaylistAdapter { playlistModel ->
+        if (moveJob != null && moveJob?.isActive == true) {
+            return@PlaylistAdapter
+        }
+        moveJob = lifecycleScope.launch {
+            //move inside playlist
+            //show message no playlist
+            delay(CLICK_DEBOUNCE_DELAY)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +53,18 @@ class PlaylistFragment : Fragment() {
         binding.mediaBtnNewPlaylist.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_global_createPlaylistFragment2)
         }
+
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerView.addItemDecoration(GridItemDecoration(
+            spacingInner = 4,
+            spacingBottom = 16
+        ))
+        binding.recyclerView.adapter = playlistAdapter
+
     }
 
     companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 500L
 
         fun newInstance() = PlaylistFragment().apply {
             arguments = Bundle().apply {
