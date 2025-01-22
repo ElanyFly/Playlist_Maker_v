@@ -7,6 +7,6 @@ data class PlaylistModel (
     val playListName: String,
     val playListDescription: String,
     val coverUri: String,
-    val playlistTracks: List<Track>,
+//    val playlistTracks: List<Track>,
     val playlistTrackAmount: Int,
 )

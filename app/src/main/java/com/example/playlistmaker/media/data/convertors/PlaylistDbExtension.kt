@@ -10,8 +10,17 @@ fun PlaylistModel.toPlaylistEntity(): PlaylistEntity {
         playListName = playListName,
         playListDescription = playListDescription,
         coverUri = coverUri,
-        playlistTrackIds = playlistTracks.map { it.trackId },
         playlistTrackAmount = playlistTrackAmount,
+    )
+}
+
+fun PlaylistEntity.toPlaylistModel(): PlaylistModel {
+    return PlaylistModel(
+        playlistId = playlistId,
+        playListName = playListName,
+        playListDescription = playListDescription,
+        coverUri = coverUri,
+        playlistTrackAmount = playlistTrackAmount
     )
 }
 
@@ -21,7 +30,6 @@ fun PlaylistWithTracksEntity.toPlaylistModel(): PlaylistModel {
         playListName = playlistEntity.playListName,
         playListDescription = playlistEntity.playListDescription,
         coverUri = playlistEntity.coverUri,
-        playlistTracks = tracks.map { it.toTrack() },
         playlistTrackAmount = playlistEntity.playlistTrackAmount
     )
 }
