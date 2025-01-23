@@ -44,7 +44,8 @@ class PlaylistRepositoryImpl(
     }
 
     override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>> = flow {
-        emit(tracksDatabase.playlistDao().getAllPlaylists())
+        val playlist = tracksDatabase.playlistDao().getAllPlaylists()
+        emit(playlist)
     }
 
 //    override fun getPlaylistTracksIds(): Flow<List<Int>> = flow {

@@ -11,11 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
+import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -60,9 +64,19 @@ class PlaylistFragment : Fragment() {
             spacingBottom = 16
         ))
         binding.recyclerView.adapter = playlistAdapter
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            interactor.getAllPlaylists().collect {
+                withContext(Dispatchers.Main) {
+                    playlistAdapter.updatePlayList(it)
+                }
+
+            }
+        }
+
 
     }
-
+val interactor: PlaylistInteractor by inject()
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 500L
 

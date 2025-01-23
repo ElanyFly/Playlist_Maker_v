@@ -7,13 +7,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistViewBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistModel
+import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
 
 class PlaylistAdapter(
-    private val onClick: (PlaylistModel) -> Unit
+    private val onClick: (PlaylistWithTracksEntity) -> Unit
 ) : RecyclerView.Adapter<PlaylistViewHolder>() {
 
-    private var playlist: List<PlaylistModel> = emptyList()
+    private var playlist: List<PlaylistWithTracksEntity> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
@@ -30,18 +30,22 @@ class PlaylistAdapter(
             onClick.invoke(playlist[position])
         }
     }
+    fun updatePlayList(playlists: List<PlaylistWithTracksEntity>) {
+        playlist = playlists
+        notifyDataSetChanged()
+    }
 }
 
 class PlaylistViewHolder(private val binding: PlaylistViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: PlaylistModel) {
+        fun bind(model: PlaylistWithTracksEntity) {
             with(binding) {
-                playlistName.text = model.playListName
-                playlistTrackCount.text = model.playlistTrackAmount.toString()
+                playlistName.text = model.playlistEntity.playListName
+                playlistTrackCount.text = model.playlistEntity.playlistTrackAmount.toString()
             }
 
-            val coverUri: String = model.coverUri
+            val coverUri: String = model.playlistEntity.coverUri
             Glide.with(itemView.context)
                 .load(coverUri)
                 .placeholder(R.drawable.placeholder_45)

@@ -89,15 +89,16 @@ class CreatePlaylistFragment: Fragment() {
             inputPlaylistDescription = it.toString()
         }
 
-        val newPlaylist = PlaylistModel(
-            playlistId = 0,
-            playListName = inputPlaylistName,
-            playListDescription = inputPlaylistDescription,
-            coverUri = filePath.toString(),
-            playlistTrackAmount = 0
-        )
+
 
         binding.btnCreatePlaylist.setOnClickListener {
+            val newPlaylist = PlaylistModel(
+                playlistId = 0,
+                playListName = inputPlaylistName,
+                playListDescription = inputPlaylistDescription,
+                coverUri = filePath.toString(),
+                playlistTrackAmount = 0
+            )
             fileUri?.let { saveImageToPrivateStorage(it) }
             viewModel.createPlaylist(newPlaylist)
             findNavController().popBackStack()
