@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
+import com.example.playlistmaker.media.data.temporary.PlaylistModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -31,10 +32,12 @@ class CreatePlaylistFragment: Fragment() {
         get() = _binding
             ?: throw IllegalStateException("Binding for FragmentCreatePlaylist must not be null")
 
-    private var inputQuery: String = ""
+    private var inputPlaylistName: String = ""
+    private var inputPlaylistDescription: String = ""
 
     private var filePath: File? = null
     private var fileUri: Uri? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +61,8 @@ class CreatePlaylistFragment: Fragment() {
             }
         }
 
+
+
         binding.backArrow.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -67,7 +72,7 @@ class CreatePlaylistFragment: Fragment() {
         }
 
         binding.textInputPlaylistEditText.doAfterTextChanged {
-            inputQuery = it.toString()
+            inputPlaylistName = it.toString()
 
             if (it?.isNotBlank() == true) {
                 binding.btnCreatePlaylist.setBackgroundColor(
@@ -80,8 +85,22 @@ class CreatePlaylistFragment: Fragment() {
             }
         }
 
+        binding.textInputDescriptionEditText.doAfterTextChanged {
+            inputPlaylistDescription = it.toString()
+        }
+
+        val newPlaylist = PlaylistModel(
+            playlistId = 0,
+            playListName = inputPlaylistName,
+            playListDescription = inputPlaylistDescription,
+            coverUri = filePath.toString(),
+            playlistTrackAmount = 0
+        )
+
         binding.btnCreatePlaylist.setOnClickListener {
             fileUri?.let { saveImageToPrivateStorage(it) }
+            viewModel.createPlaylist(newPlaylist)
+            findNavController().popBackStack()
         }
 
 

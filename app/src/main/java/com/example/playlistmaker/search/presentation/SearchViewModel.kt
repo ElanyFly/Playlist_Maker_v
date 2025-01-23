@@ -20,7 +20,6 @@ class SearchViewModel(
 
     private var currentJob: Job? = null
 
-
     fun makeAction(action: SearchAction) {
         when (action) {
             is SearchAction.AddTrackToHistoryList -> handleAddTrackToHistory(action)

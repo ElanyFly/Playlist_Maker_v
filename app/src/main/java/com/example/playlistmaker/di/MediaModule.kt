@@ -1,5 +1,9 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
+import com.example.playlistmaker.media.data.temporary.PlaylistInteractorImpl
+import com.example.playlistmaker.media.data.temporary.PlaylistRepository
+import com.example.playlistmaker.media.data.temporary.PlaylistRepositoryImpl
 import com.example.playlistmaker.media.presentation.CreatePlaylistViewModel
 import com.example.playlistmaker.media.presentation.FavoriteTracksFragmentViewModel
 import com.example.playlistmaker.media.presentation.PlaylistFragmentViewModel
@@ -21,7 +25,21 @@ val mediaModule = module {
     }
 
     viewModel<CreatePlaylistViewModel> {
-        CreatePlaylistViewModel()
+        CreatePlaylistViewModel(
+            playlistInteractor = get()
+        )
+    }
+
+    factory<PlaylistInteractor> {
+        PlaylistInteractorImpl(
+            playlistRepository = get()
+        )
+    }
+
+    single<PlaylistRepository> {
+        PlaylistRepositoryImpl(
+            tracksDatabase = get()
+        )
     }
 
 
