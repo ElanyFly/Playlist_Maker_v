@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-
 class PlaylistRepositoryImpl(
     private val tracksDatabase: TracksDatabase
 ) : PlaylistRepository {
@@ -44,8 +43,9 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>> =
-        tracksDatabase.playlistDao().getAllPlaylists()
+    override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>> = flow {
+        emit(tracksDatabase.playlistDao().getAllPlaylists())
+    }
 
 //    override fun getPlaylistTracksIds(): Flow<List<Int>> = flow {
 //        emit(tracksDatabase.playlistDao().getPlaylistTracksIds())
@@ -58,15 +58,16 @@ class PlaylistRepositoryImpl(
     }
 
     override suspend fun getTracksForPlaylist(playlistId: Int): List<Track> {
-        return withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().getTracksForPlaylist(playlistId).map { it.toTrack() }
+        return withContext(Dispatchers.IO) { emptyList()
+//            tracksDatabase.playlistDao().getTracksForPlaylist(playlistId).map { it.toTrack() }
         }
     }
 
     override suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel> {
-        return withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().getPlaylistsForTracks(trackId).map { it.toPlaylistModel() }
+        return withContext(Dispatchers.IO) { emptyList()
+//            tracksDatabase.playlistDao().getPlaylistsForTracks(trackId).map { it.toPlaylistModel() }
         }
     }
 
 }
+
