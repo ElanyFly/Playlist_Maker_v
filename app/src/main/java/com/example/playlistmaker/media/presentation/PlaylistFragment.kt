@@ -1,9 +1,11 @@
 package com.example.playlistmaker.media.presentation
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -51,6 +53,11 @@ class PlaylistFragment : Fragment() {
         return binding.root
     }
 
+    fun Int.dpToPx(): Int {
+        val density = Resources.getSystem().displayMetrics.density
+        return (this * density).toInt()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,22 +67,30 @@ class PlaylistFragment : Fragment() {
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.addItemDecoration(GridItemDecoration(
-            spacingInner = 4,
-            spacingBottom = 16
+            spacingInner = 4.dpToPx(),
+            spacingBottom = 16.dpToPx()
         ))
         binding.recyclerView.adapter = playlistAdapter
         lifecycleScope.launch(Dispatchers.IO) {
-
             interactor.getAllPlaylists().collect {
                 withContext(Dispatchers.Main) {
+                    binding.recyclerView.isVisible = it.isNotEmpty()
+                    showEmptyPlaylistMessage(it.isEmpty())
                     playlistAdapter.updatePlayList(it)
                 }
-
             }
         }
 
 
+
     }
+
+    private fun showEmptyPlaylistMessage(isShown: Boolean) {
+        binding.mediaEmptyPlaylistsImg.isVisible = isShown
+        binding.mediaEmptyPlaylistsText.isVisible = isShown
+    }
+
+
 val interactor: PlaylistInteractor by inject()
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 500L

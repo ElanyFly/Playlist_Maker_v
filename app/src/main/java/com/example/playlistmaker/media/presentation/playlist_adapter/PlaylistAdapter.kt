@@ -43,7 +43,7 @@ class PlaylistViewHolder(private val binding: PlaylistViewBinding) :
         fun bind(model: PlaylistWithTracksEntity) {
             with(binding) {
                 playlistName.text = model.playlistEntity.playListName
-                playlistTrackCount.text = model.playlistEntity.playlistTrackAmount.toString()
+                playlistTrackCount.text = "${model.playlistEntity.playlistTrackAmount.toString()} треков"
             }
 
             val coverUri: String = model.playlistEntity.coverUri
