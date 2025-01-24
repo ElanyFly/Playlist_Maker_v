@@ -91,7 +91,6 @@
         app:boxStrokeColor="@color/border_selector"
         android:textColorHint="@color/text_dark"
         app:hintTextColor="@color/tumbler_head"
-        android:imeOptions="actionDone"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/loadImage">
@@ -100,7 +99,9 @@
             android:id="@+id/textInputPlaylistEditText"
             style="@style/AddPlaylistFont"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:imeOptions="actionNext"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +118,6 @@
         app:boxStrokeColor="@color/border_selector"
         android:textColorHint="@color/text_dark"
         app:hintTextColor="@color/tumbler_head"
-        android:imeOptions="actionDone"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/inputPlaylistName">
@@ -126,7 +126,9 @@
             android:id="@+id/textInputDescriptionEditText"
             style="@style/AddPlaylistFont"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

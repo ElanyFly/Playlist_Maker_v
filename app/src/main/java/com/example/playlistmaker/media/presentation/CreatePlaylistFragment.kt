@@ -37,6 +37,7 @@ class CreatePlaylistFragment: Fragment() {
 
     private var filePath: File? = null
     private var fileUri: Uri? = null
+    private var coverUri: File? = null
 
 
     override fun onCreateView(
@@ -92,14 +93,14 @@ class CreatePlaylistFragment: Fragment() {
 
 
         binding.btnCreatePlaylist.setOnClickListener {
+            fileUri?.let { saveImageToPrivateStorage(it) }
             val newPlaylist = PlaylistModel(
                 playlistId = 0,
                 playListName = inputPlaylistName,
                 playListDescription = inputPlaylistDescription,
-                coverUri = filePath.toString(),
+                coverUri = coverUri?.path ?: "",
                 playlistTrackAmount = 0
             )
-            fileUri?.let { saveImageToPrivateStorage(it) }
             viewModel.createPlaylist(newPlaylist)
             findNavController().popBackStack()
         }
@@ -119,9 +120,9 @@ class CreatePlaylistFragment: Fragment() {
 
         val coverName = UUID.randomUUID().toString()
 
-        val file = File(filePath, coverName)
+        coverUri = File(filePath, coverName)
         val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
+        val outputStream = FileOutputStream(coverUri)
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 50, outputStream)

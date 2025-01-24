@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.presentation.playlist_adapter
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -46,8 +47,9 @@ class PlaylistViewHolder(private val binding: PlaylistViewBinding) :
             }
 
             val coverUri: String = model.playlistEntity.coverUri
+            val test = Drawable.createFromPath(coverUri)
             Glide.with(itemView.context)
-                .load(coverUri)
+                .load(test)
                 .placeholder(R.drawable.placeholder_45)
                 .centerCrop()
                 .transform(RoundedCorners(itemView.context.resources.getDimensionPixelSize(R.dimen.image_round_corners)))
