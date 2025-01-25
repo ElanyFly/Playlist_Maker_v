@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/track_view_layout_height_61dp"
+    android:orientation="horizontal"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    tools:background="@color/bg_activity_white">
+
+    <ImageView
+        android:id="@+id/playlistCover"
+        android:layout_width="@dimen/track_view_image_size_45dp"
+        android:layout_height="@dimen/track_view_image_size_45dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/padding_12dp"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginVertical="@dimen/padding_8dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_8dp"
+        android:paddingTop="@dimen/padding_6dp">
+
+        <TextView
+            android:id="@+id/playlistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_dark"
+            android:textSize="@dimen/font_16sp"
+            android:singleLine="true"
+            tools:text="Лучшие хитьы" />
+
+
+            <TextView
+                android:id="@+id/playlistTrackCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_grey"
+                android:textSize="@dimen/track_view_small_text_11sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                tools:text="109 треков"
+                app:layout_constraintWidth_default="wrap"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+    </LinearLayout>
+
+</LinearLayout>
