@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface TracksRepository {
 
-    suspend fun addTrackToFav(track: Track)
+    suspend fun addTrack(track: Track)
+    suspend fun addIfNoTrack(track: Track)
     suspend fun deleteTrackFromFav(track: Track)
     fun getFavTracksList(): Flow<List<Track>>
     suspend fun getFavStatus(trackId: Int): Boolean

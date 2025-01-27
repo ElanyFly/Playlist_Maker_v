@@ -11,7 +11,10 @@ import com.example.playlistmaker.media.data.db.entity.TrackEntity
 interface TrackDao {
 
     @Insert(entity = TrackEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addTrackToFav (track: TrackEntity)
+    suspend fun addTrack (track: TrackEntity)
+
+    @Insert(entity = TrackEntity::class, onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addIfNoTrack (track: TrackEntity)
 
     @Delete
     suspend fun deleteTrackFromFav(track: TrackEntity)

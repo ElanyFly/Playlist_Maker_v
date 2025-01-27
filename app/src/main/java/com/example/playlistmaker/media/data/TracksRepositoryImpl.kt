@@ -14,9 +14,15 @@ class TracksRepositoryImpl(
     private val tracksDatabase: TracksDatabase
 ) : TracksRepository {
 
-    override suspend fun addTrackToFav(track: Track) {
+    override suspend fun addTrack(track: Track) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.trackDao().addTrackToFav(track.toTrackEntity())
+            tracksDatabase.trackDao().addTrack(track.toTrackEntity())
+        }
+    }
+
+    override suspend fun addIfNoTrack(track: Track) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().addIfNoTrack(track.toTrackEntity())
         }
     }
 

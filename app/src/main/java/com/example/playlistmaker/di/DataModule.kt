@@ -4,8 +4,8 @@ import androidx.room.Room
 import com.example.playlistmaker.media.data.TracksRepositoryImpl
 import com.example.playlistmaker.media.data.db.TracksDatabase
 import com.example.playlistmaker.media.domain.db.TracksRepository
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
-import com.example.playlistmaker.media.domain.impl.FavTracksInteractorImpl
+import com.example.playlistmaker.media.domain.db.TracksInteractor
+import com.example.playlistmaker.media.domain.impl.TracksInteractorImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -23,8 +23,8 @@ val databaseModule = module {
         TracksRepositoryImpl(get())
     }
 
-    single<FavTracksInteractor> {
-        FavTracksInteractorImpl(get())
+    single<TracksInteractor> {
+        TracksInteractorImpl(get())
     }
 
 }

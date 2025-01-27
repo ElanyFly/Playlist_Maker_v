@@ -46,8 +46,7 @@ class PlaylistSmallViewHolder(
     fun bind(model: PlaylistWithTracksEntity) {
         with(binding) {
             playlistName.text = model.playlistEntity.playListName
-            playlistTrackCount.text =
-                "${model.playlistEntity.playlistTrackAmount.toString()} треков"
+            playlistTrackCount.text = "${model.tracks.size} треков"
         }
 
         val coverUri: String = model.playlistEntity.coverUri

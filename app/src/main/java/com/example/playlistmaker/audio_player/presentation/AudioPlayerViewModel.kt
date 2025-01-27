@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.audio_player.domain.PlayerControl
 import com.example.playlistmaker.audio_player.domain.StatePlayer
 import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
+import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class AudioPlayerViewModel(
     private val mediaPlayer: PlayerControl,
-    private val favTracksInteractor: FavTracksInteractor,
+    private val tracksInteractor: TracksInteractor,
     private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
@@ -53,9 +53,9 @@ class AudioPlayerViewModel(
             )
 
             if (currentTrackNew.isFavorite) {
-                favTracksInteractor.addTrackToFav(currentTrackNew)
+                tracksInteractor.addTrack(currentTrackNew)
             } else {
-                favTracksInteractor.deleteTrackFromFav(currentTrackNew)
+                tracksInteractor.deleteTrackFromFav(currentTrackNew)
             }
             currentTrack = currentTrackNew
             handleState(track = currentTrackNew)
@@ -73,7 +73,7 @@ class AudioPlayerViewModel(
     private fun handlePrepareTrack(action: AudioPlayerAction.prepareTrack) {
 
         viewModelScope.launch {
-            val isFavourite: Boolean = favTracksInteractor.getFavStatus(action.track.trackId)
+            val isFavourite: Boolean = tracksInteractor.getFavStatus(action.track.trackId)
             val newCurrentTrack = action.track.copy(isFavorite = isFavourite)
             mediaPlayer.preparePlayer(newCurrentTrack)
             currentTrack = newCurrentTrack

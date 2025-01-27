@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
+import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.launch
 
 class FavoriteTracksFragmentViewModel(
-    private val favTracksInteractor: FavTracksInteractor
+    private val tracksInteractor: TracksInteractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<FavoriteTracksFragmentState>()
@@ -18,7 +18,7 @@ class FavoriteTracksFragmentViewModel(
 
     fun getContent() {
         viewModelScope.launch {
-            favTracksInteractor
+            tracksInteractor
                 .getFavTracksList()
                 .collect { tracks ->
                     processResult(tracks)
