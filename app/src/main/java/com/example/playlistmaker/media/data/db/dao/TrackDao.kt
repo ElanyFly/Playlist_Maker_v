@@ -19,7 +19,7 @@ interface TrackDao {
     @Delete
     suspend fun deleteTrackFromFav(track: TrackEntity)
 
-    @Query("SELECT * FROM saved_tracks ORDER BY timestamp DESC")
+    @Query("SELECT * FROM saved_tracks WHERE isFavourite IS 1 ORDER BY timestamp DESC")
     suspend fun getAllTracksInFav(): List<TrackEntity>
 
     @Query("SELECT EXISTS(SELECT 1 FROM saved_tracks WHERE trackId = :trackId)")

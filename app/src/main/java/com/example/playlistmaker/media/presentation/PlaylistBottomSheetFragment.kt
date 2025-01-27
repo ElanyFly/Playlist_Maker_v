@@ -43,6 +43,7 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
         addTrackJob = lifecycleScope.launch {
             viewModel.addTrackToPlaylist(playlistModel, track)
             //show message added to playlist
+            dismiss()
         }
     }
 
