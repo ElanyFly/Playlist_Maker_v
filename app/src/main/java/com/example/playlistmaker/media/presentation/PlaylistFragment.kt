@@ -71,11 +71,11 @@ class PlaylistFragment : Fragment() {
         ))
         binding.recyclerView.adapter = playlistAdapter
         lifecycleScope.launch(Dispatchers.IO) {
-            interactor.getAllPlaylists().collect {
+            interactor.getAllPlaylists().collect { playlists ->
                 withContext(Dispatchers.Main) {
-                    binding.recyclerView.isVisible = it.isNotEmpty()
-                    showEmptyPlaylistMessage(it.isEmpty())
-                    playlistAdapter.updatePlayList(it)
+                    binding.recyclerView.isVisible = playlists.isNotEmpty()
+                    showEmptyPlaylistMessage(playlists.isEmpty())
+                    playlistAdapter.updatePlayList(playlists)
                 }
             }
         }
@@ -91,6 +91,7 @@ class PlaylistFragment : Fragment() {
 
 
 val interactor: PlaylistInteractor by inject()
+
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 500L
 

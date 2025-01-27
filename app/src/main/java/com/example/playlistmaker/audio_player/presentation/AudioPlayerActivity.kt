@@ -3,13 +3,11 @@ package com.example.playlistmaker.audio_player.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -18,7 +16,6 @@ import com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerActivity : AppCompatActivity() {
@@ -75,7 +72,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
 
         binding.btnAdd.setOnClickListener {
-            val bottomSheetFragment = PlaylistBottomSheetFragment()
+            val bottomSheetFragment = PlaylistBottomSheetFragment.newInstance(track)
             bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
     }
