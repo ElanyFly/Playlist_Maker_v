@@ -9,7 +9,11 @@
         android:id="@+id/searchFragment"
         android:name="com.example.playlistmaker.search.presentation.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.playlistmaker.settings.presentation.SettingsFragment"
@@ -20,11 +24,7 @@
         android:name="com.example.playlistmaker.media.presentation.MediaFragment"
         android:label="fragment_media"
         tools:layout="@layout/fragment_media" />
-    <activity
-        android:id="@+id/audioPlayerActivity"
-        android:name="com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity"
-        android:label="activity_audioplayer"
-        tools:layout="@layout/activity_audioplayer" />
+
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.example.playlistmaker.media.presentation.PlaylistFragment"
@@ -47,5 +47,14 @@
             android:id="@+id/action_playlistBottomSheetFragment_to_createPlaylistFragment2"
             app:destination="@id/createPlaylistFragment2" />
     </dialog>
+    <fragment
+        android:id="@+id/audioPlayerFragment"
+        android:name="com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment"
+        android:label="AudioPlayerFragment"
+        tools:layout="@layout/fragment_audioplayer">
+        <argument
+            android:name="track"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

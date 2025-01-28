@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.domain.models
 
+
 data class Track(
     val trackId: Int,
     val trackName: String,

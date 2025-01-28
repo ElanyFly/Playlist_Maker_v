@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.search.domain.models.Track
@@ -16,7 +15,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalStateException
 
 
 class FavoriteTracksFragment : Fragment() {
