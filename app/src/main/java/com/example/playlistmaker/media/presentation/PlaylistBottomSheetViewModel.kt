@@ -11,19 +11,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PlaylistBottomSheetViewModel(
-    private val interactor: PlaylistInteractor,
+    private val playlistInteractor: PlaylistInteractor,
     private val trackInteractor: TracksInteractor
 ): ViewModel() {
 
 
-    fun addTrackToPlaylist(playlistModel: PlaylistWithTracksEntity, track: Track) {
+    fun addTrackToPlaylist(
+        playlistModel: PlaylistWithTracksEntity,
+        track: Track,
+        isExistLambda: (Boolean) -> Unit
+    ) {
         val playlistJoin = PlaylistTrackJoin(
             playlistId = playlistModel.playlistEntity.playlistId,
             trackId = track.trackId
         )
         viewModelScope.launch(Dispatchers.IO) {
             trackInteractor.addIfNoTrack(track)
-            interactor.insertConnection(playlistJoin)
+
+            isExistLambda.invoke(
+                playlistInteractor.insertConnection(playlistJoin)
+            )
         }
 
     }

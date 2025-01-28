@@ -7,7 +7,7 @@ interface PlaylistRepository {
 
     suspend fun createNewPlaylist(playlist: PlaylistModel)
     //    suspend fun updatePlaylist(playlist: PlaylistModel)    //добавление и удаление треков вместе
-    suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin)
+    suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin): Boolean
     suspend fun deletePlaylist(playlist: PlaylistModel)
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoin)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>>

@@ -18,9 +18,6 @@ interface PlaylistDao {
     @Insert(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun createNewPlaylist(playlist: PlaylistEntity)
 
-//    @Insert(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun updatePlaylist(playlist: PlaylistEntity)
-
     @Insert(entity = PlaylistTrackJoin::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin)
 
@@ -37,9 +34,19 @@ interface PlaylistDao {
     @Query("SELECT * FROM playlist_table WHERE playlistId = :playlistId")
     suspend fun getPlaylistWithTracks(playlistId: Int)  : PlaylistWithTracksEntity
 
+    @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE playlistId = :playlistId AND trackId = :trackId LIMIT 1)")
+    suspend fun isConnectionExists(playlistId: Int, trackId: Int): Boolean
 
+//    @Query("SELECT * FROM ")
+//    fun isContains(playlistTrackJoin: PlaylistTrackJoin) {
+//        TODO("Not yet implemented")
+//    }
+
+//    @Insert(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun updatePlaylist(playlist: PlaylistEntity)
 //    @Query("SELECT * FROM playlist_table")        //not needed
 //    suspend fun getPlaylistTracksIds(): List<Int>
+
 //    @Query("SELECT * FROM saved_tracks INNER JOIN playlist_track_join ON trackId = trackId WHERE playlistId = :playlistId")
 //    suspend fun getTracksForPlaylist(playlistId: Int): List<TrackEntity>
 //

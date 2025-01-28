@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -45,8 +46,16 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
             return@PlaylistSmallAdapter
         }
         addTrackJob = lifecycleScope.launch {
-            viewModel.addTrackToPlaylist(playlistModel, track)
-            //show message added to playlist
+            viewModel.addTrackToPlaylist(playlistModel, track) {
+                val message = if (it) {
+                    "есть"
+                } else {
+                    "нема"
+                }
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            }
             dismiss()
         }
     }

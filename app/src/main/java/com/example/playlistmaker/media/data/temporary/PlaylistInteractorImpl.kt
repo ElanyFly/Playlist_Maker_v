@@ -11,8 +11,8 @@ class PlaylistInteractorImpl(
         playlistRepository.createNewPlaylist(playlist)
     }
 
-    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin) {
-        playlistRepository.insertConnection(playlistTrackJoin)
+    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin): Boolean {
+        return playlistRepository.insertConnection(playlistTrackJoin)
     }
 
     override suspend fun deletePlaylist(playlist: PlaylistModel) {

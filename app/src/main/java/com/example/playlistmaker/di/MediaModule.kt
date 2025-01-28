@@ -33,7 +33,7 @@ val mediaModule = module {
 
     viewModel<PlaylistBottomSheetViewModel> {
         PlaylistBottomSheetViewModel(
-            interactor = get(),
+            playlistInteractor = get(),
             trackInteractor = get()
         )
     }

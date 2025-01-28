@@ -19,9 +19,14 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin) {
-        withContext(Dispatchers.IO) {
+    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin): Boolean {
+        return withContext(Dispatchers.IO) {
+            val isExist = tracksDatabase.playlistDao().isConnectionExists(
+                playlistId = playlistTrackJoin.playlistId,
+                trackId = playlistTrackJoin.trackId
+            )
             tracksDatabase.playlistDao().insertConnection(playlistTrackJoin)
+            isExist
         }
     }
 
