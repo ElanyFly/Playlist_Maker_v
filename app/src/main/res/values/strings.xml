@@ -37,5 +37,6 @@
     <string name="playlist_description_hint">Описание</string>
     <string name="playlist_button">Создать</string>
     <string name="playlist_album_name_hint">Название*</string>
+    <string name="playlist_track_count">%1$s треков</string>
 
 </resources>

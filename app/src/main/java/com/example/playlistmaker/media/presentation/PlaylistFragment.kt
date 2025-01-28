@@ -38,7 +38,7 @@ class PlaylistFragment : Fragment() {
             return@PlaylistAdapter
         }
         moveJob = lifecycleScope.launch {
-            //move inside playlist
+            //move inside playlist //TODO
             //show message no playlist
             delay(CLICK_DEBOUNCE_DELAY)
         }
