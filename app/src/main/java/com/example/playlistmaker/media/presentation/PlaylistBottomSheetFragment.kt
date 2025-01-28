@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistBottomSheetBinding
 import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
@@ -85,7 +88,8 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         binding.btnNewPlaylist.setOnClickListener {
-            view.findNavController().navigate(R.id.action_global_createPlaylistFragment2)
+            dismiss()
+            requireParentFragment().findNavController().navigate(R.id.action_global_createPlaylistFragment2)
         }
 
 
