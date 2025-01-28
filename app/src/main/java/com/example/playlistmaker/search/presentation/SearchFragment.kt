@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.playlistmaker.R
+import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
 import kotlinx.coroutines.Job
@@ -41,8 +42,9 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         }
         moveJob = lifecycleScope.launch {
             viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
-//            AudioPlayerFragment.showActivity(requireContext(), track)
+            AudioPlayerFragment.newInstance(track)
             view?.findNavController()?.navigate(R.id.audioPlayerFragment)
+
             if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
                 showHistory(true)
             }

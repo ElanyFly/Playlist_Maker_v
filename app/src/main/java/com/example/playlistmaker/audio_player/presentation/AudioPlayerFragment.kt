@@ -14,8 +14,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentAudioplayerBinding
 import com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment
+import com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment.Companion
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
+import com.example.playlistmaker.utils.serialize
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment.STYLE_NORMAL
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerFragment : Fragment() {
@@ -24,7 +27,10 @@ class AudioPlayerFragment : Fragment() {
 
     private var _binding: FragmentAudioplayerBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
+
+   private lateinit var track: Track
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +39,13 @@ class AudioPlayerFragment : Fragment() {
         _binding = FragmentAudioplayerBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.getString(AudioPlayerFragment.TRACK_KEY)?.deserialize<Track>()?.let {
+//            track = it
+//        }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,17 +56,21 @@ class AudioPlayerFragment : Fragment() {
             insets
         }
 
-        val track = arguments?.getString(TRACK_ID)?.deserialize<Track>()
+        /*val track = arguments?.getString(TRACK_KEY)?.deserialize<Track>()
             ?: run {
                 view.findNavController().popBackStack()
                 return
-            }
+            }*/
+        track = _track ?: run {
+            view.findNavController().popBackStack()
+            return
+        }
 
         viewModel.playerState.observe(viewLifecycleOwner) { state ->
             if (state == null) return@observe
             setDataToView(state.track)
             setPlayTime(state.playTime)
-            when{
+            when {
                 state.isPlaying -> startPlayer()
                 state.isPaused -> pausePlayer()
                 state.isFinished -> pausePlayer()
@@ -141,7 +158,9 @@ class AudioPlayerFragment : Fragment() {
     }
 
     companion object {
+        private var _track: Track? = null
         private const val TRACK_ID = "track"
+        const val TRACK_KEY = "key_track"
 
 //        fun showActivity(context: Context, track: Track) {
 //            val trackString = track.serialize()
@@ -151,5 +170,12 @@ class AudioPlayerFragment : Fragment() {
 //            }
 //            context.startActivity(playerIntent)
 //        }
+
+        fun newInstance(track: Track) {
+            _track = track
+            /*arguments = Bundle().apply {
+                putString(TRACK_KEY, track.serialize())
+            }*/
+        }
     }
 }

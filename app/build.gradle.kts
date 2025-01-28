@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.playlistmaker"
     compileSdk = 35
 
@@ -62,7 +63,7 @@ dependencies {
     //okHttp
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
-    implementation("androidx.fragment:fragment-ktx:1.8.5")
+    //implementation("androidx.fragment:fragment-ktx:1.8.5")
 
     //koin
     implementation(libs.koin.android)
@@ -76,7 +77,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.navigation.fragment)
+    //implementation(libs.androidx.navigation.fragment)
 
     //coroutines
     implementation(libs.kotlinx.coroutines.android)
