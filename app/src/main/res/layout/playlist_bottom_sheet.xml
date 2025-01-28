@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="#00000000"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".media.presentation.PlaylistBottomSheetFragment">
 
     <LinearLayout
         android:id="@+id/bottomSheet"
@@ -28,7 +29,7 @@
             android:text="Добавить плейлист" />
 
         <Button
-            android:id="@+id/mediaBtnNewPlaylist"
+            android:id="@+id/btnNewPlaylist"
             style="@style/RefreshButton"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/refresh_button_height"

@@ -60,7 +60,7 @@ class PlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mediaBtnNewPlaylist.setOnClickListener { view ->
+        binding.btnNewPlaylist.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_global_createPlaylistFragment2)
         }
 

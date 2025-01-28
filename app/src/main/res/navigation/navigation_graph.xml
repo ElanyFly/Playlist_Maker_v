@@ -38,4 +38,14 @@
         tools:layout="@layout/fragment_create_playlist" />
     <action android:id="@+id/action_global_createPlaylistFragment2"
         app:destination="@id/createPlaylistFragment2"/>
+    <dialog
+        android:id="@+id/playlistBottomSheetFragment"
+        android:name="com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment"
+        android:label="playlist_bottom_sheet"
+        tools:layout="@layout/playlist_bottom_sheet" >
+        <action
+            android:id="@+id/action_playlistBottomSheetFragment_to_createPlaylistFragment2"
+            app:destination="@id/createPlaylistFragment2" />
+    </dialog>
+
 </navigation>
