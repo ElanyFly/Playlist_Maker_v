@@ -125,7 +125,7 @@ class CreatePlaylistFragment : Fragment() {
 
     private fun showExitDialog() {
 
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
         alertDialogBuilder.setTitle(getString(R.string.playlist_finish_creation))
         alertDialogBuilder.setMessage(getString(R.string.playlist_finish_message))
 
