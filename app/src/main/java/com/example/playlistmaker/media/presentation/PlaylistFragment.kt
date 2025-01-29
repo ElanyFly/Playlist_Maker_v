@@ -1,6 +1,5 @@
 package com.example.playlistmaker.media.presentation
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
+import com.example.playlistmaker.utils.dpToPx
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -39,7 +39,6 @@ class PlaylistFragment : Fragment() {
         }
         moveJob = lifecycleScope.launch {
             //move inside playlist //TODO
-            //show message no playlist
             delay(CLICK_DEBOUNCE_DELAY)
         }
     }
@@ -50,11 +49,6 @@ class PlaylistFragment : Fragment() {
     ): View? {
         _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    fun Int.dpToPx(): Int {
-        val density = Resources.getSystem().displayMetrics.density
-        return (this * density).toInt()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,15 +74,12 @@ class PlaylistFragment : Fragment() {
             }
         }
 
-
-
     }
 
     private fun showEmptyPlaylistMessage(isShown: Boolean) {
         binding.mediaEmptyPlaylistsImg.isVisible = isShown
         binding.mediaEmptyPlaylistsText.isVisible = isShown
     }
-
 
 val interactor: PlaylistInteractor by inject()
 

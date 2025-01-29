@@ -8,14 +8,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistBottomSheetBinding
 import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
@@ -48,9 +44,15 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
         addTrackJob = lifecycleScope.launch {
             viewModel.addTrackToPlaylist(playlistModel, track) {
                 val message = if (it) {
-                    "есть"
+                    getString(
+                        R.string.playlist_track_already_exist,
+                        playlistModel.playlistEntity.playListName
+                    ) //есть
                 } else {
-                    "нема"
+                    getString(
+                        R.string.playlist_track_successfully_added,
+                        playlistModel.playlistEntity.playListName
+                    )         //нет
                 }
                 lifecycleScope.launch(Dispatchers.Main) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

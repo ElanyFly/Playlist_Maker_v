@@ -56,13 +56,12 @@ class CreatePlaylistFragment: Fragment() {
                 fileUri = uri
                 binding.loadImage.setImageURI(uri)
                 loadTemporaryImage(uri)
-                Toast.makeText(requireContext(), "Картинка успешно загружена", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.playlist_image_successfully_loaded), Toast.LENGTH_SHORT).show()
             } else {
 
             }
         }
-
-
 
         binding.backArrow.setOnClickListener {
             findNavController().popBackStack()
