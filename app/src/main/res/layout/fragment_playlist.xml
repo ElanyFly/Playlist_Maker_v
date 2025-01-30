@@ -39,12 +39,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/padding_16dp"
+        android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/btnNewPlaylist"
+        android:paddingTop="64dp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:itemCount="5"
+        tools:itemCount="10"
         tools:listitem="@layout/playlist_view"
         android:visibility="visible"/>
 
