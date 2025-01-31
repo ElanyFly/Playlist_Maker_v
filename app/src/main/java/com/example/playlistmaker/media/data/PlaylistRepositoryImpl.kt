@@ -1,11 +1,12 @@
 package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toPlaylistEntity
+import com.example.playlistmaker.media.data.convertors.toPlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.TracksDatabase
-import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.PlaylistRepository
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
+import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,13 +22,14 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun insertConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity): Boolean {
+    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoinModel): Boolean {
         return withContext(Dispatchers.IO) {
             val isExist = tracksDatabase.playlistDao().isConnectionExists(
-                playlistId = playlistTrackJoinEntity.playlistId,
-                trackId = playlistTrackJoinEntity.trackId
+                playlistId = playlistTrackJoin.playlistId,
+                trackId = playlistTrackJoin.trackId
             )
-            tracksDatabase.playlistDao().insertConnection(playlistTrackJoinEntity)
+            tracksDatabase.playlistDao()
+                .insertConnection(playlistTrackJoin.toPlaylistTrackJoinEntity())
             isExist
         }
     }
@@ -38,9 +40,10 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun deleteConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity) {
+    override suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().deleteConnection(playlistTrackJoinEntity)
+            tracksDatabase.playlistDao()
+                .deleteConnection(playlistTrackJoin.toPlaylistTrackJoinEntity())
         }
     }
 
