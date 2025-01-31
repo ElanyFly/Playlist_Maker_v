@@ -1,6 +1,4 @@
-package com.example.playlistmaker.media.data.temporary
-
-import com.example.playlistmaker.search.domain.models.Track
+package com.example.playlistmaker.media.domain.db.model
 
 data class PlaylistModel (
     val playlistId: Int,

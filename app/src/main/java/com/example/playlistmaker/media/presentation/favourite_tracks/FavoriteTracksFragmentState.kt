@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.favourite_tracks
 
 import com.example.playlistmaker.search.domain.models.Track
 

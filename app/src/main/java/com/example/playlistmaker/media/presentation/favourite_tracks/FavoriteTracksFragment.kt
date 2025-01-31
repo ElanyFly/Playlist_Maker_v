@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.favourite_tracks
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,6 @@ import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
-import com.example.playlistmaker.utils.serialize
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -1,9 +1,7 @@
-package com.example.playlistmaker.media.data.temporary
+package com.example.playlistmaker.media.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
-import com.example.playlistmaker.media.data.db.entity.TrackEntity
 
 @Entity(
     tableName = "playlist_track_join",

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_activity_white"
     android:orientation="vertical"
-    tools:context=".media.presentation.CreatePlaylistFragment">
+    tools:context=".media.presentation.playlist.CreatePlaylistFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftGuideline"

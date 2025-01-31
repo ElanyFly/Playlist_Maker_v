@@ -7,10 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
-import com.example.playlistmaker.media.data.db.entity.TrackEntity
-import com.example.playlistmaker.media.data.temporary.PlaylistTrackJoin
-import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
-import kotlinx.coroutines.flow.Flow
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 
 @Dao
 interface PlaylistDao {

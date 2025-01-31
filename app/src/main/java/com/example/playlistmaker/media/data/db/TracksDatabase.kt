@@ -6,7 +6,7 @@ import com.example.playlistmaker.media.data.db.dao.PlaylistDao
 import com.example.playlistmaker.media.data.db.dao.TrackDao
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.db.entity.TrackEntity
-import com.example.playlistmaker.media.data.temporary.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
 
 @Database(version = 2, entities = [TrackEntity::class, PlaylistEntity::class, PlaylistTrackJoin::class])
 abstract class TracksDatabase: RoomDatabase() {

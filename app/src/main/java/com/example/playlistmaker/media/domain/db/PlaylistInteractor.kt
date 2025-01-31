@@ -1,5 +1,8 @@
-package com.example.playlistmaker.media.data.temporary
+package com.example.playlistmaker.media.domain.db
 
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
@@ -11,7 +14,7 @@ interface PlaylistInteractor {
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoin)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>>
     suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksEntity
-    suspend fun getTracksForPlaylist(playlistId: Int): List<Track>
-    suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel>
+//    suspend fun getTracksForPlaylist(playlistId: Int): List<Track>
+//    suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel>
 
 }

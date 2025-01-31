@@ -1,13 +1,13 @@
 package com.example.playlistmaker.di
 
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractorImpl
-import com.example.playlistmaker.media.data.temporary.PlaylistRepository
-import com.example.playlistmaker.media.data.temporary.PlaylistRepositoryImpl
-import com.example.playlistmaker.media.presentation.CreatePlaylistViewModel
-import com.example.playlistmaker.media.presentation.FavoriteTracksFragmentViewModel
-import com.example.playlistmaker.media.presentation.PlaylistBottomSheetViewModel
-import com.example.playlistmaker.media.presentation.PlaylistFragmentViewModel
+import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.media.domain.impl.PlaylistInteractorImpl
+import com.example.playlistmaker.media.domain.db.PlaylistRepository
+import com.example.playlistmaker.media.data.PlaylistRepositoryImpl
+import com.example.playlistmaker.media.presentation.playlist.CreatePlaylistViewModel
+import com.example.playlistmaker.media.presentation.favourite_tracks.FavoriteTracksFragmentViewModel
+import com.example.playlistmaker.audio_player.presentation.PlaylistBottomSheetViewModel
+import com.example.playlistmaker.media.presentation.playlist.PlaylistFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,7 +21,7 @@ val mediaModule = module {
 
     viewModel<PlaylistFragmentViewModel> {
         PlaylistFragmentViewModel(
-
+            playlistInteractor = get()
         )
     }
 

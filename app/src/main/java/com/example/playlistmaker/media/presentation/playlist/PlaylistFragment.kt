@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.playlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
+import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
 import com.example.playlistmaker.utils.dpToPx
@@ -63,7 +63,9 @@ class PlaylistFragment : Fragment() {
             spacingInner = 4.dpToPx(),
             spacingBottom = 16.dpToPx()
         ))
+
         binding.recyclerView.adapter = playlistAdapter
+
         lifecycleScope.launch(Dispatchers.IO) {
             interactor.getAllPlaylists().collect { playlists ->
                 withContext(Dispatchers.Main) {

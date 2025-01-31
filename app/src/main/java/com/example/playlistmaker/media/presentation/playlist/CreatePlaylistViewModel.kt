@@ -1,10 +1,9 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.playlist
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.data.temporary.PlaylistModel
+import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import kotlinx.coroutines.launch
 
 class CreatePlaylistViewModel(

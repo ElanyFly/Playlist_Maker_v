@@ -4,13 +4,12 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistViewBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 
 class PlaylistAdapter(
     private val onClick: (PlaylistWithTracksEntity) -> Unit
@@ -55,7 +54,6 @@ class PlaylistViewHolder(private val binding: PlaylistViewBinding) :
 
             playlistName.text = model.playlistEntity.playListName
             playlistTrackCount.text = pluralText
-
         }
 
         val coverUri: String = model.playlistEntity.coverUri

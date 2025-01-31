@@ -1,8 +1,8 @@
 package com.example.playlistmaker.media.data.convertors
 
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
-import com.example.playlistmaker.media.data.temporary.PlaylistModel
-import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 
 fun PlaylistModel.toPlaylistEntity(): PlaylistEntity {
     return PlaylistEntity(

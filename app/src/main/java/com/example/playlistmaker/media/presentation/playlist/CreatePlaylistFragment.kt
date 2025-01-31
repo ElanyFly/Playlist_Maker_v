@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.playlist
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistModel
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream

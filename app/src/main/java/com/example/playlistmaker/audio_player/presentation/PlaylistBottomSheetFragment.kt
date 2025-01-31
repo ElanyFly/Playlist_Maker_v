@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.audio_player.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistBottomSheetBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistSmallAdapter
+import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.audio_player.presentation.bsheet_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize

@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation.playlist_adapter
+package com.example.playlistmaker.audio_player.presentation.bsheet_adapter
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistSmallViewBinding
-import com.example.playlistmaker.databinding.PlaylistViewBinding
-import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 
 class PlaylistSmallAdapter(
     private val onClick: (PlaylistWithTracksEntity) -> Unit
@@ -45,10 +44,15 @@ class PlaylistSmallViewHolder(
 
     fun bind(model: PlaylistWithTracksEntity) {
         with(binding) {
+            val trackSize: Int = model.tracks.size
+            val pluralText = itemView.resources.getQuantityString(
+                R.plurals.track_count,
+                trackSize,
+                trackSize
+            )
+
             playlistName.text = model.playlistEntity.playListName
-            playlistTrackCount.text =
-                binding.root.context
-                    .getString(R.string.playlist_track_count, model.tracks.size.toString())
+            playlistTrackCount.text = pluralText
         }
 
         val coverUri: String = model.playlistEntity.coverUri

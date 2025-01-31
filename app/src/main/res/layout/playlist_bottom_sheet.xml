@@ -8,7 +8,7 @@
     android:background="#00000000"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".media.presentation.PlaylistBottomSheetFragment">
+    tools:context=".audio_player.presentation.PlaylistBottomSheetFragment">
 
     <LinearLayout
         android:id="@+id/bottomSheet"

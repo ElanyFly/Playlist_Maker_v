@@ -1,10 +1,10 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.audio_player.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.media.data.temporary.PlaylistInteractor
-import com.example.playlistmaker.media.data.temporary.PlaylistTrackJoin
-import com.example.playlistmaker.media.data.temporary.PlaylistWithTracksEntity
+import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers

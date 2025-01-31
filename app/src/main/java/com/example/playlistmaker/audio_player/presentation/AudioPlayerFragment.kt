@@ -13,12 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentAudioplayerBinding
-import com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment
-import com.example.playlistmaker.media.presentation.PlaylistBottomSheetFragment.Companion
 import com.example.playlistmaker.search.domain.models.Track
-import com.example.playlistmaker.utils.deserialize
-import com.example.playlistmaker.utils.serialize
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment.STYLE_NORMAL
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerFragment : Fragment() {
@@ -40,13 +35,6 @@ class AudioPlayerFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.getString(AudioPlayerFragment.TRACK_KEY)?.deserialize<Track>()?.let {
-//            track = it
-//        }
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,11 +44,6 @@ class AudioPlayerFragment : Fragment() {
             insets
         }
 
-        /*val track = arguments?.getString(TRACK_KEY)?.deserialize<Track>()
-            ?: run {
-                view.findNavController().popBackStack()
-                return
-            }*/
         track = _track ?: run {
             view.findNavController().popBackStack()
             return
@@ -162,20 +145,8 @@ class AudioPlayerFragment : Fragment() {
         private const val TRACK_ID = "track"
         const val TRACK_KEY = "key_track"
 
-//        fun showActivity(context: Context, track: Track) {
-//            val trackString = track.serialize()
-//            val playerIntent = Intent(context, AudioPlayerFragment::class.java).apply {
-//
-//                putExtra(TRACK_ID, trackString)
-//            }
-//            context.startActivity(playerIntent)
-//        }
-
         fun newInstance(track: Track) {
             _track = track
-            /*arguments = Bundle().apply {
-                putString(TRACK_KEY, track.serialize())
-            }*/
         }
     }
 }

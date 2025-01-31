@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.playlist
 
 sealed interface CreatePlaylistAction {
     data object LoadImage : CreatePlaylistAction
