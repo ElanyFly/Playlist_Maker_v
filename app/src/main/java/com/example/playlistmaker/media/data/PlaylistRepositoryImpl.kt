@@ -2,11 +2,12 @@ package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toPlaylistEntity
 import com.example.playlistmaker.media.data.convertors.toPlaylistTrackJoinEntity
+import com.example.playlistmaker.media.data.convertors.toPlaylistWithTracksModel
 import com.example.playlistmaker.media.data.db.TracksDatabase
-import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.PlaylistRepository
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -47,14 +48,14 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>> = flow {
-        val playlist = tracksDatabase.playlistDao().getAllPlaylists()
+    override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>> = flow {
+        val playlist = tracksDatabase.playlistDao().getAllPlaylists().map { it.toPlaylistWithTracksModel() }
         emit(playlist)
     }
 
-    override suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksEntity {
+    override suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel {
         return withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId)
+            tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId).toPlaylistWithTracksModel()
         }
     }
 

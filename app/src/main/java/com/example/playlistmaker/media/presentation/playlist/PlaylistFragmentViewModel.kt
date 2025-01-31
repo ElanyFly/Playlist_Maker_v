@@ -3,7 +3,6 @@ package com.example.playlistmaker.media.presentation.playlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
-import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

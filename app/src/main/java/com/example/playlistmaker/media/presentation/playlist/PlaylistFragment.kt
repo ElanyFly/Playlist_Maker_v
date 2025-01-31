@@ -11,17 +11,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
-import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
-import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
 import com.example.playlistmaker.utils.dpToPx
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -80,7 +76,7 @@ class PlaylistFragment : Fragment() {
 
     }
 
-    private fun setPlaylist(playlists: List<PlaylistWithTracksEntity> = emptyList()) {
+    private fun setPlaylist(playlists: List<PlaylistWithTracksModel> = emptyList()) {
         binding.recyclerView.isVisible = playlists.isNotEmpty()
         showEmptyPlaylistMessage(playlists.isEmpty())
         playlistAdapter.updatePlayList(playlists)

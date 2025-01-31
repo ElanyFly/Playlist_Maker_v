@@ -8,13 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.PlaylistSmallViewBinding
-import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 
 class PlaylistSmallAdapter(
-    private val onClick: (PlaylistWithTracksEntity) -> Unit
+    private val onClick: (PlaylistWithTracksModel) -> Unit
 ) : RecyclerView.Adapter<PlaylistSmallViewHolder>() {
 
-    private var playlist: List<PlaylistWithTracksEntity> = emptyList()
+    private var playlist: List<PlaylistWithTracksModel> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistSmallViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
@@ -32,7 +32,7 @@ class PlaylistSmallAdapter(
         }
     }
 
-    fun updatePlayList(playlists: List<PlaylistWithTracksEntity>) {
+    fun updatePlayList(playlists: List<PlaylistWithTracksModel>) {
         playlist = playlists
         notifyDataSetChanged()
     }
@@ -42,20 +42,20 @@ class PlaylistSmallViewHolder(
     private val binding: PlaylistSmallViewBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(model: PlaylistWithTracksEntity) {
+    fun bind(model: PlaylistWithTracksModel) {
         with(binding) {
-            val trackSize: Int = model.tracks.size
+            val trackSize: Int = model.playlistTracks.size
             val pluralText = itemView.resources.getQuantityString(
                 R.plurals.track_count,
                 trackSize,
                 trackSize
             )
 
-            playlistName.text = model.playlistEntity.playListName
+            playlistName.text = model.playListName
             playlistTrackCount.text = pluralText
         }
 
-        val coverUri: String = model.playlistEntity.coverUri
+        val coverUri: String = model.coverUri
         val test = Drawable.createFromPath(coverUri)
         Glide.with(itemView.context)
             .load(test)

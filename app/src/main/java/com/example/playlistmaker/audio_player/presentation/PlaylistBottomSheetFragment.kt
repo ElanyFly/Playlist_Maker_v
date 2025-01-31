@@ -46,12 +46,12 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
                 val message = if (it) {
                     getString(
                         R.string.playlist_track_already_exist,
-                        playlistModel.playlistEntity.playListName
+                        playlistModel.playListName
                     ) //есть
                 } else {
                     getString(
                         R.string.playlist_track_successfully_added,
-                        playlistModel.playlistEntity.playListName
+                        playlistModel.playListName
                     )         //нет
                 }
                 lifecycleScope.launch(Dispatchers.Main) {
