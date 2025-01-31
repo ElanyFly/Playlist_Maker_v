@@ -21,7 +21,7 @@ import androidx.room.ForeignKey
         )
     ]
 )
-data class PlaylistTrackJoin(
+data class PlaylistTrackJoinEntity(
     val playlistId: Int,
     val trackId: Int
 )

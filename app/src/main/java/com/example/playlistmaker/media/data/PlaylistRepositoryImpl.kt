@@ -2,15 +2,15 @@ package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toPlaylistEntity
 import com.example.playlistmaker.media.data.db.TracksDatabase
-import com.example.playlistmaker.media.domain.db.model.PlaylistModel
-import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.PlaylistRepository
-import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+
 class PlaylistRepositoryImpl(
     private val tracksDatabase: TracksDatabase
 ) : PlaylistRepository {
@@ -21,13 +21,13 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin): Boolean {
+    override suspend fun insertConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity): Boolean {
         return withContext(Dispatchers.IO) {
             val isExist = tracksDatabase.playlistDao().isConnectionExists(
-                playlistId = playlistTrackJoin.playlistId,
-                trackId = playlistTrackJoin.trackId
+                playlistId = playlistTrackJoinEntity.playlistId,
+                trackId = playlistTrackJoinEntity.trackId
             )
-            tracksDatabase.playlistDao().insertConnection(playlistTrackJoin)
+            tracksDatabase.playlistDao().insertConnection(playlistTrackJoinEntity)
             isExist
         }
     }
@@ -38,9 +38,9 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoin) {
+    override suspend fun deleteConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().deleteConnection(playlistTrackJoin)
+            tracksDatabase.playlistDao().deleteConnection(playlistTrackJoinEntity)
         }
     }
 

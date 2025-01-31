@@ -3,7 +3,7 @@ package com.example.playlistmaker.audio_player.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
-import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
@@ -21,7 +21,7 @@ class PlaylistBottomSheetViewModel(
         track: Track,
         isExistLambda: (Boolean) -> Unit
     ) {
-        val playlistJoin = PlaylistTrackJoin(
+        val playlistJoin = PlaylistTrackJoinEntity(
             playlistId = playlistModel.playlistEntity.playlistId,
             trackId = track.trackId
         )

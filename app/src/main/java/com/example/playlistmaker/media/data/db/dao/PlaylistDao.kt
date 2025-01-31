@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
-import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 
 @Dao
@@ -16,14 +16,14 @@ interface PlaylistDao {
     @Insert(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun createNewPlaylist(playlist: PlaylistEntity)
 
-    @Insert(entity = PlaylistTrackJoin::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin)
+    @Insert(entity = PlaylistTrackJoinEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity)
 
     @Delete
     suspend fun deletePlaylist(playlist: PlaylistEntity)
 
-    @Delete(entity = PlaylistTrackJoin::class)
-    suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoin)
+    @Delete(entity = PlaylistTrackJoinEntity::class)
+    suspend fun deleteConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity)
 
     @Query("SELECT * FROM playlist_table ORDER BY timestamp DESC")
     fun getAllPlaylists(): List<PlaylistWithTracksEntity>

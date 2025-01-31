@@ -1,11 +1,10 @@
 package com.example.playlistmaker.media.domain.impl
 
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
-import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoin
+import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.domain.db.PlaylistRepository
-import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 class PlaylistInteractorImpl(
@@ -16,16 +15,16 @@ class PlaylistInteractorImpl(
         playlistRepository.createNewPlaylist(playlist)
     }
 
-    override suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoin): Boolean {
-        return playlistRepository.insertConnection(playlistTrackJoin)
+    override suspend fun insertConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity): Boolean {
+        return playlistRepository.insertConnection(playlistTrackJoinEntity)
     }
 
     override suspend fun deletePlaylist(playlist: PlaylistModel) {
         playlistRepository.deletePlaylist(playlist)
     }
 
-    override suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoin) {
-        playlistRepository.deleteConnection(playlistTrackJoin)
+    override suspend fun deleteConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity) {
+        playlistRepository.deleteConnection(playlistTrackJoinEntity)
     }
 
     override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksEntity>> {
