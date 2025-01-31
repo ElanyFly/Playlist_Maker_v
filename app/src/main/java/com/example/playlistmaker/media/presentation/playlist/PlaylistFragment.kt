@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
+import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
@@ -47,6 +48,7 @@ class PlaylistFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.getAllPlaylists()
         _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -66,16 +68,22 @@ class PlaylistFragment : Fragment() {
 
         binding.recyclerView.adapter = playlistAdapter
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            interactor.getAllPlaylists().collect { playlists ->
-                withContext(Dispatchers.Main) {
-                    binding.recyclerView.isVisible = playlists.isNotEmpty()
-                    showEmptyPlaylistMessage(playlists.isEmpty())
-                    playlistAdapter.updatePlayList(playlists)
+        lifecycleScope.launch {
+            viewModel.state.collect { playlistState ->
+                when(playlistState) {
+                    PlaylistState.Empty -> setPlaylist()
+                    is PlaylistState.ShowContent -> setPlaylist(playlists = playlistState.playlists)
                 }
             }
         }
 
+
+    }
+
+    private fun setPlaylist(playlists: List<PlaylistWithTracksEntity> = emptyList()) {
+        binding.recyclerView.isVisible = playlists.isNotEmpty()
+        showEmptyPlaylistMessage(playlists.isEmpty())
+        playlistAdapter.updatePlayList(playlists)
     }
 
     private fun showEmptyPlaylistMessage(isShown: Boolean) {
@@ -83,7 +91,7 @@ class PlaylistFragment : Fragment() {
         binding.mediaEmptyPlaylistsText.isVisible = isShown
     }
 
-val interactor: PlaylistInteractor by inject()
+//val interactor: PlaylistInteractor by inject()
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 500L
