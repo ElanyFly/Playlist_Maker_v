@@ -35,7 +35,7 @@ class PlaylistFragment : Fragment() {
             return@PlaylistAdapter
         }
         moveJob = lifecycleScope.launch {
-            //move inside playlist //TODO
+            //move inside playlist next sprint
             delay(CLICK_DEBOUNCE_DELAY)
         }
     }
@@ -86,8 +86,6 @@ class PlaylistFragment : Fragment() {
         binding.mediaEmptyPlaylistsImg.isVisible = isShown
         binding.mediaEmptyPlaylistsText.isVisible = isShown
     }
-
-//val interactor: PlaylistInteractor by inject()
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 500L

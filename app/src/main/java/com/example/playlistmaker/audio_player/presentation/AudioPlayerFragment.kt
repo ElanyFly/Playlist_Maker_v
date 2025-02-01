@@ -142,8 +142,6 @@ class AudioPlayerFragment : Fragment() {
 
     companion object {
         private var _track: Track? = null
-        private const val TRACK_ID = "track"
-        const val TRACK_KEY = "key_track"
 
         fun newInstance(track: Track) {
             _track = track

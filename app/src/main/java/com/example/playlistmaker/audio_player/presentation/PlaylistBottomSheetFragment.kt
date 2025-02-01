@@ -42,17 +42,17 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
             return@PlaylistSmallAdapter
         }
         addTrackJob = lifecycleScope.launch {
-            viewModel.addTrackToPlaylist(playlistModel, track) {
-                val message = if (it) {
+            viewModel.addTrackToPlaylist(playlistModel, track) { isTrackAddedBefore ->
+                val message = if (isTrackAddedBefore) {
                     getString(
                         R.string.playlist_track_already_exist,
                         playlistModel.playListName
-                    ) //есть
+                    )
                 } else {
                     getString(
                         R.string.playlist_track_successfully_added,
                         playlistModel.playListName
-                    )         //нет
+                    )
                 }
                 lifecycleScope.launch(Dispatchers.Main) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -102,7 +102,6 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
             requireParentFragment().findNavController().navigate(R.id.action_global_createPlaylistFragment2)
         }
-
 
     }
 

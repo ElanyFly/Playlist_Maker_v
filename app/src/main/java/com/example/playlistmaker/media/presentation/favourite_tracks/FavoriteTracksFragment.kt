@@ -35,7 +35,6 @@ class FavoriteTracksFragment : Fragment() {
             return@TrackAdapter
         }
         moveJob = lifecycleScope.launch {
-//            AudioPlayerActivity.showActivity(requireContext(), track)
             AudioPlayerFragment.newInstance(track)
             view?.findNavController()?.navigate(R.id.audioPlayerFragment)
 
@@ -47,6 +46,7 @@ class FavoriteTracksFragment : Fragment() {
         super.onStart()
         viewModel.getContent()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,15 +88,12 @@ class FavoriteTracksFragment : Fragment() {
         trackAdapter.updateTrackList(trackList)
     }
 
-
     companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 500L
 
         fun newInstance() = FavoriteTracksFragment().apply {
             arguments = Bundle().apply {
-
             }
         }
-
-        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 }

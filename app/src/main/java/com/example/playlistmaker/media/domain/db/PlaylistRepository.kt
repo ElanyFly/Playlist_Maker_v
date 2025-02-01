@@ -12,8 +12,5 @@ interface PlaylistRepository {
     suspend fun deletePlaylist(playlist: PlaylistModel)
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>>
-    suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel //todo make model
-//    suspend fun getTracksForPlaylist(playlistId: Int): List<Track>
-//    suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel>
-
+    suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel
 }

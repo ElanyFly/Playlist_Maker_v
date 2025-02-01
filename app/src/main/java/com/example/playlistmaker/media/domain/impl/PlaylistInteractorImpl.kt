@@ -1,14 +1,11 @@
 package com.example.playlistmaker.media.domain.impl
 
-import com.example.playlistmaker.media.data.convertors.toPlaylistModel
-import com.example.playlistmaker.media.data.convertors.toPlaylistWithTracksModel
-import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.domain.db.PlaylistRepository
+import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class PlaylistInteractorImpl(
     private val playlistRepository: PlaylistRepository
@@ -37,12 +34,4 @@ class PlaylistInteractorImpl(
     override suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel {
         return playlistRepository.getPlaylistWithTracks(playlistId)
     }
-
-//    override suspend fun getTracksForPlaylist(playlistId: Int): List<Track> {
-//        return playlistRepository.getTracksForPlaylist(playlistId)
-//    }
-//
-//    override suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel> {
-//        return playlistRepository.getPlaylistsForTracks(trackId)
-//    }
 }

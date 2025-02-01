@@ -8,6 +8,7 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,12 +19,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
-import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
-import android.widget.Toast as Toast
 
 class CreatePlaylistFragment : Fragment() {
 
@@ -117,7 +116,7 @@ class CreatePlaylistFragment : Fragment() {
                 getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
-        
+
     }
 
     private fun showExitDialog() {
@@ -163,13 +162,4 @@ class CreatePlaylistFragment : Fragment() {
             .compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
     }
 
-
-    companion object {
-
-        fun newInstance() = CreatePlaylistFragment().apply {
-            arguments = Bundle().apply {
-
-            }
-        }
-    }
 }

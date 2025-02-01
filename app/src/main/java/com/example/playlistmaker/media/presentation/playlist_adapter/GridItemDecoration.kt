@@ -15,7 +15,6 @@ class GridItemDecoration(private val spacingInner: Int, private val spacingBotto
     ) {
         outRect.left = spacingInner
         outRect.right = spacingInner
-//        outRect.top = spacingInner
         outRect.bottom = spacingBottom
     }
 }

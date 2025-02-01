@@ -13,7 +13,4 @@ interface PlaylistInteractor {
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>>
     suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel
-//    suspend fun getTracksForPlaylist(playlistId: Int): List<Track>
-//    suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel>
-
 }

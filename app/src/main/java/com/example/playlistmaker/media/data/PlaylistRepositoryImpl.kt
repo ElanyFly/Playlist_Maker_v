@@ -59,17 +59,5 @@ class PlaylistRepositoryImpl(
         }
     }
 
-//    override suspend fun getTracksForPlaylist(playlistId: Int): List<Track> {
-//        return withContext(Dispatchers.IO) { emptyList()
-////            tracksDatabase.playlistDao().getTracksForPlaylist(playlistId).map { it.toTrack() }
-//        }
-//    }
-//
-//    override suspend fun getPlaylistsForTracks(trackId: Int): List<PlaylistModel> {
-//        return withContext(Dispatchers.IO) { emptyList()
-////            tracksDatabase.playlistDao().getPlaylistsForTracks(trackId).map { it.toPlaylistModel() }
-//        }
-//    }
-
 }
 
