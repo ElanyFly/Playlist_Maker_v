@@ -16,9 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/myBaseTheme"
         tools:targetApi="31">
-        <activity
-            android:name=".audio_player.presentation.AudioPlayerActivity"
-            android:exported="false" />
+
         <activity
             android:name=".main.presentation.MainActivity"
             android:exported="true"

@@ -55,6 +55,8 @@ class CreatePlaylistFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) {
                 showExitDialog()
+            } else {
+                findNavController().popBackStack()
             }
         }
 
@@ -105,6 +107,9 @@ class CreatePlaylistFragment : Fragment() {
         }
 
         binding.btnCreatePlaylist.setOnClickListener {
+            if (inputPlaylistName.isBlank()){
+                return@setOnClickListener
+            }
             fileUri?.let { saveImageToPrivateStorage(it) }
 
             viewModel.createPlaylist(
