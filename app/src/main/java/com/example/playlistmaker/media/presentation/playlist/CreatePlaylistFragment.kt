@@ -107,20 +107,17 @@ class CreatePlaylistFragment : Fragment() {
 
         binding.btnCreatePlaylist.setOnClickListener {
             fileUri?.let { saveImageToPrivateStorage(it) }
-            val newPlaylist = PlaylistModel(
-                playlistId = 0,
+
+            viewModel.createPlaylist(
                 playListName = inputPlaylistName,
                 playListDescription = inputPlaylistDescription,
                 coverUri = coverUri?.path ?: "",
-                playlistTrackAmount = 0
             )
-            viewModel.createPlaylist(newPlaylist)
             Toast.makeText(context,
-                getString(R.string.Playlist_is_created, newPlaylist.playListName), Toast.LENGTH_SHORT).show()
+                getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
-
-
+        
     }
 
     private fun showExitDialog() {

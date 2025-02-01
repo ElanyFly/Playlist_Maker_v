@@ -10,30 +10,19 @@ class CreatePlaylistViewModel(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
-
-    fun makeAction(action: CreatePlaylistAction) {
-        when(action) {
-            is CreatePlaylistAction.AddNewPlaylistToDb -> handleAddNewPlaylistToDb(action)
-            CreatePlaylistAction.LoadImage -> handleLoadImage()
-        }
-    }
-
-    private fun handleLoadImage() {
-
-    }
-
-    private fun handleAddNewPlaylistToDb(action: CreatePlaylistAction.AddNewPlaylistToDb) {
-
-    }
-
-    fun createPlaylist(playlist: PlaylistModel) {
+    fun createPlaylist(playListName: String, playListDescription: String, coverUri: String) {
         viewModelScope.launch {
+            val newPlaylist = PlaylistModel(
+                playlistId = 0,
+                playListName = playListName,
+                playListDescription = playListDescription,
+                coverUri = coverUri,
+                playlistTrackAmount = 0
+            )
             playlistInteractor.createNewPlaylist(
-                playlist = playlist
+                playlist = newPlaylist
             )
         }
     }
-    fun getPlaylists(){
-//        playlistInteractor.getAllPlaylists()
-    }
+
 }
