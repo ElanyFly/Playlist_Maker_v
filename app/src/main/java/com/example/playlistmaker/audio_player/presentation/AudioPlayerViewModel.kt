@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 class AudioPlayerViewModel(
     private val mediaPlayer: PlayerControl,
     private val tracksInteractor: TracksInteractor,
-    private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
     private val _playerState = MutableLiveData<AudioPlayerState>(AudioPlayerState.defaultState)

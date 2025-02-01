@@ -22,7 +22,7 @@ interface TrackDao {
     @Query("SELECT * FROM saved_tracks WHERE isFavourite IS 1 ORDER BY timestamp DESC")
     suspend fun getAllTracksInFav(): List<TrackEntity>
 
-    @Query("SELECT EXISTS(SELECT 1 FROM saved_tracks WHERE trackId = :trackId)")
+    @Query("SELECT EXISTS(SELECT 1 FROM saved_tracks WHERE trackId = :trackId AND isFavourite IS 1)")
     suspend fun getFavStatus(trackId: Int): Boolean
 
     @Query("SELECT trackId FROM saved_tracks")
