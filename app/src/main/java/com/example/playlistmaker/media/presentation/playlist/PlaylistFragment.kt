@@ -64,15 +64,12 @@ class PlaylistFragment : Fragment() {
 
         binding.recyclerView.adapter = playlistAdapter
 
-        lifecycleScope.launch {
-            viewModel.state.collect { playlistState ->
-                when(playlistState) {
-                    PlaylistState.Empty -> setPlaylist()
-                    is PlaylistState.ShowContent -> setPlaylist(playlists = playlistState.playlists)
-                }
+        viewModel.state.observe(viewLifecycleOwner) { playlistState ->
+            when(playlistState) {
+                PlaylistState.Empty -> setPlaylist()
+                is PlaylistState.ShowContent -> setPlaylist(playlists = playlistState.playlists)
             }
         }
-
 
     }
 

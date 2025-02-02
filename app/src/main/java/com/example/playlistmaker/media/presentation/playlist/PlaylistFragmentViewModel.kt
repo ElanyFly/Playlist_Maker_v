@@ -1,5 +1,7 @@
 package com.example.playlistmaker.media.presentation.playlist
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
@@ -14,9 +16,9 @@ class PlaylistFragmentViewModel(
     private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<PlaylistState>(PlaylistState.Empty)
-    val state: StateFlow<PlaylistState>
-        get() = _state.asStateFlow()
+    private val _state = MutableLiveData<PlaylistState>(PlaylistState.Empty)
+    val state: LiveData<PlaylistState>
+        get() = _state
 
     fun getAllPlaylists() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -26,7 +28,7 @@ class PlaylistFragmentViewModel(
                 } else {
                     PlaylistState.Empty
                 }
-                _state.update { newState }
+                _state.postValue(newState)
             }
         }
     }
