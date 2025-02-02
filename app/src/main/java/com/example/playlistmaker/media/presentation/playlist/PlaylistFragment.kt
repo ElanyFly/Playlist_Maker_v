@@ -1,13 +1,18 @@
 package com.example.playlistmaker.media.presentation.playlist
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
@@ -15,6 +20,7 @@ import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
 import com.example.playlistmaker.utils.dpToPx
+import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,11 +55,13 @@ class PlaylistFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNewPlaylist.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_global_createPlaylistFragment2)
+            navigateToDestination(R.id.createPlaylistFragment)
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)

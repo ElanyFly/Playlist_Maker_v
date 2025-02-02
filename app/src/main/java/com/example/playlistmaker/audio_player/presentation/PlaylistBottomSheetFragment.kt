@@ -15,6 +15,7 @@ import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.audio_player.presentation.bsheet_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
+import com.example.playlistmaker.utils.navigateToDestination
 import com.example.playlistmaker.utils.serialize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -37,7 +38,7 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var track: Track
 
     private var addTrackJob: Job? = null
-    private val playlistAdapter: PlaylistSmallAdapter = PlaylistSmallAdapter  { playlistModel ->
+    private val playlistAdapter: PlaylistSmallAdapter = PlaylistSmallAdapter { playlistModel ->
         if (addTrackJob != null && addTrackJob?.isActive == true) {
             return@PlaylistSmallAdapter
         }
@@ -99,8 +100,8 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         binding.btnNewPlaylist.setOnClickListener {
+            navigateToDestination(R.id.createPlaylistFragment)
             dismiss()
-            requireParentFragment().findNavController().navigate(R.id.action_global_createPlaylistFragment2)
         }
 
     }
