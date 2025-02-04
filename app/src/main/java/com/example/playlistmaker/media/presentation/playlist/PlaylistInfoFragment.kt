@@ -64,17 +64,15 @@ class PlaylistInfoFragment: Fragment() {
             trackCount.text = pluralText
             getCover(playlistWithTracks)
         }
-
-
     }
 
     private fun totalTrackTime(playlistWithTracks: PlaylistWithTracksModel): String {
         val time = playlistWithTracks.playlistTracks.mapNotNull {
-            it.trackTime.toLongOrNull()
+            it.trackTime
         }.sum()
 
         val timeString = SimpleDateFormat("mm", Locale.getDefault()).format(time)
-        return timeString
+        return "$timeString минут"
     }
 
     private fun getCover(playlistWithTracks: PlaylistWithTracksModel) {
