@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.presentation
+package com.example.playlistmaker.media.presentation.favourite_tracks
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.playlistmaker.R
-import com.example.playlistmaker.audio_player.presentation.AudioPlayerActivity
+import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
@@ -16,7 +17,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalStateException
 
 
 class FavoriteTracksFragment : Fragment() {
@@ -35,7 +35,9 @@ class FavoriteTracksFragment : Fragment() {
             return@TrackAdapter
         }
         moveJob = lifecycleScope.launch {
-            AudioPlayerActivity.showActivity(requireContext(), track)
+            AudioPlayerFragment.newInstance(track)
+            view?.findNavController()?.navigate(R.id.audioPlayerFragment)
+
             delay(CLICK_DEBOUNCE_DELAY)
         }
     }
@@ -44,6 +46,7 @@ class FavoriteTracksFragment : Fragment() {
         super.onStart()
         viewModel.getContent()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +54,6 @@ class FavoriteTracksFragment : Fragment() {
     ): View {
         _binding = FragmentFavoriteTracksBinding.inflate(inflater, container, false)
         return binding.root
-//        inflater.inflate(R.layout.fragment_favorite_tracks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,15 +88,12 @@ class FavoriteTracksFragment : Fragment() {
         trackAdapter.updateTrackList(trackList)
     }
 
-
     companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 500L
 
         fun newInstance() = FavoriteTracksFragment().apply {
             arguments = Bundle().apply {
-
             }
         }
-
-        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 }

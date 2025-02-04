@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.playlistmaker"
     compileSdk = 35
 
@@ -62,7 +63,6 @@ dependencies {
     //okHttp
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
-    implementation("androidx.fragment:fragment-ktx:1.8.5")
 
     //koin
     implementation(libs.koin.android)
@@ -76,16 +76,14 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.navigation.fragment)
 
     //coroutines
     implementation(libs.kotlinx.coroutines.android)
 
     //room ksp
-    val room_version = "2.5.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

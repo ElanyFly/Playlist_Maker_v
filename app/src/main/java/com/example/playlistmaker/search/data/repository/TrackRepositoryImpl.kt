@@ -1,7 +1,7 @@
 package com.example.playlistmaker.search.data.repository
 
 import android.util.Log
-import com.example.playlistmaker.media.data.db.FavTracksDatabase
+import com.example.playlistmaker.media.data.db.TracksDatabase
 import com.example.playlistmaker.search.data.mappers.toTrackList
 import com.example.playlistmaker.search.data.network.TrackAPIService
 import com.example.playlistmaker.search.data.network.call
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 class TrackRepositoryImpl(
     private val apiService: TrackAPIService,
     private val sharedPreferencesHistory: SharedPreferencesHistory,
-    private val favTracksDatabase: FavTracksDatabase
+    private val tracksDatabase: TracksDatabase
 ) : TrackRepository {
 
     private var historyList: List<Track> = sharedPreferencesHistory.getHistory()
@@ -44,7 +44,7 @@ class TrackRepositoryImpl(
     }
 
     private suspend fun getFavTracksInfo(): List<Int> {
-        return favTracksDatabase.trackDao().getTrackIDsInFav()
+        return tracksDatabase.trackDao().getTrackIDsInFav()
     }
 
     override fun clearHistoryList() {

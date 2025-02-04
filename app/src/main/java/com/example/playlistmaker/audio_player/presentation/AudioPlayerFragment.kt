@@ -1,37 +1,42 @@
 package com.example.playlistmaker.audio_player.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import com.example.playlistmaker.databinding.FragmentAudioplayerBinding
 import com.example.playlistmaker.search.domain.models.Track
-import com.example.playlistmaker.utils.deserialize
-import com.example.playlistmaker.utils.serialize
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AudioPlayerActivity : AppCompatActivity() {
+class AudioPlayerFragment : Fragment() {
 
     private val viewModel: AudioPlayerViewModel by viewModel()
 
-    private var _binding: ActivityAudioplayerBinding? = null
+    private var _binding: FragmentAudioplayerBinding? = null
     private val binding
-        get() = _binding ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
+        get() = _binding
+            ?: throw IllegalStateException("Binding for ActivityAudioBinding must not be null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_audioplayer)
+   private lateinit var track: Track
 
-        _binding = ActivityAudioplayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentAudioplayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.audioPlayerMain) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -39,21 +44,20 @@ class AudioPlayerActivity : AppCompatActivity() {
             insets
         }
 
-        val track = intent.getStringExtra(TRACK_ID)?.deserialize<Track>()
-            ?: run {
-                finish()
-                return
-            }
+        track = _track ?: run {
+            view.findNavController().popBackStack()
+            return
+        }
 
-        viewModel.playerState.observe(this) { state ->
+        viewModel.playerState.observe(viewLifecycleOwner) { state ->
             if (state == null) return@observe
             setDataToView(state.track)
-                setPlayTime(state.playTime)
-                when{
-                    state.isPlaying -> startPlayer()
-                    state.isPaused -> pausePlayer()
-                    state.isFinished -> pausePlayer()
-                }
+            setPlayTime(state.playTime)
+            when {
+                state.isPlaying -> startPlayer()
+                state.isPaused -> pausePlayer()
+                state.isFinished -> pausePlayer()
+            }
         }
 
         preparePlayer(track)
@@ -63,11 +67,16 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
 
         binding.backArrow.setOnClickListener {
-            finish()
+            view.findNavController().popBackStack()
         }
 
         binding.btnLike.setOnClickListener {
             viewModel.makeAction(AudioPlayerAction.pressLikeBtn(track))
+        }
+
+        binding.btnAdd.setOnClickListener {
+            val bottomSheetFragment = PlaylistBottomSheetFragment.newInstance(track)
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
     }
 
@@ -132,15 +141,10 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TRACK_ID = "track_id"
+        private var _track: Track? = null
 
-        fun showActivity(context: Context, track: Track) {
-            val trackString = track.serialize()
-            val playerIntent = Intent(context, AudioPlayerActivity::class.java).apply {
-
-                putExtra(TRACK_ID, trackString)
-            }
-            context.startActivity(playerIntent)
+        fun newInstance(track: Track) {
+            _track = track
         }
     }
 }

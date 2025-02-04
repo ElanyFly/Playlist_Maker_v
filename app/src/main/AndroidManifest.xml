@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".common.App"
@@ -15,13 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/myBaseTheme"
         tools:targetApi="31">
-        <activity
-            android:name=".audio_player.presentation.AudioPlayerActivity"
-            android:exported="false" />
+
         <activity
             android:name=".main.presentation.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
