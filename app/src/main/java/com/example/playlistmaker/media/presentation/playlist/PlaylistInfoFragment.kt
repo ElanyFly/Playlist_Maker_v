@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistInfoBinding
@@ -47,6 +48,9 @@ class PlaylistInfoFragment: Fragment() {
             setPlaylistInfo(playlistWithTracks)
         }
 
+        binding.backArrow.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
 
     }
 
