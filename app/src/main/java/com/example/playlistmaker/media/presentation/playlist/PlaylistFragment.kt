@@ -1,18 +1,13 @@
 package com.example.playlistmaker.media.presentation.playlist
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
@@ -41,7 +36,8 @@ class PlaylistFragment : Fragment() {
             return@PlaylistAdapter
         }
         moveJob = lifecycleScope.launch {
-            //move inside playlist next sprint
+            PlaylistInfoFragment.newInstance(playlistModel.playlistId)
+            view?.findNavController()?.navigate(R.id.playlistInfoFragment)
             delay(CLICK_DEBOUNCE_DELAY)
         }
     }

@@ -30,7 +30,7 @@ interface PlaylistDao {
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlistId = :playlistId")
-    suspend fun getPlaylistWithTracks(playlistId: Int)  : PlaylistWithTracksEntity
+    suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksEntity
 
     @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE playlistId = :playlistId AND trackId = :trackId LIMIT 1)")
     suspend fun isConnectionExists(playlistId: Int, trackId: Int): Boolean
