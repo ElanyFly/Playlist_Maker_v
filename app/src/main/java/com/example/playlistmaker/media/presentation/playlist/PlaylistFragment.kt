@@ -37,7 +37,7 @@ class PlaylistFragment : Fragment() {
         }
         moveJob = lifecycleScope.launch {
             PlaylistInfoFragment.newInstance(playlistModel.playlistId)
-            view?.findNavController()?.navigate(R.id.playlistInfoFragment)
+            navigateToDestination(R.id.playlistInfoFragment2)
             delay(CLICK_DEBOUNCE_DELAY)
         }
     }

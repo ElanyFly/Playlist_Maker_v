@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistInfoBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlaylistInfoFragment: Fragment() {
 
@@ -57,7 +60,7 @@ class PlaylistInfoFragment: Fragment() {
         with(binding) {
             playlistName.text = playlistWithTracks.playListName
             playlistDescription.text = playlistWithTracks.playListDescription
-            totalTrackTime.text = "ddd"
+            totalTrackTime.text = totalTrackTime(playlistWithTracks)
             trackCount.text = pluralText
             getCover(playlistWithTracks)
         }
@@ -65,8 +68,22 @@ class PlaylistInfoFragment: Fragment() {
 
     }
 
+    private fun totalTrackTime(playlistWithTracks: PlaylistWithTracksModel): String {
+        val time = playlistWithTracks.playlistTracks.mapNotNull {
+            it.trackTime.toLongOrNull()
+        }.sum()
+
+        val timeString = SimpleDateFormat("mm", Locale.getDefault()).format(time)
+        return timeString
+    }
+
     private fun getCover(playlistWithTracks: PlaylistWithTracksModel) {
-        TODO("Not yet implemented")
+        val cover = playlistWithTracks.coverUri
+        Glide.with(this)
+            .load(cover)
+            .placeholder(R.drawable.placeholder_45)
+            .centerCrop()
+            .into(binding.coverUri)
     }
 
 

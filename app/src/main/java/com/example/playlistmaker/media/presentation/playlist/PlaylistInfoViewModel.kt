@@ -20,9 +20,6 @@ class PlaylistInfoViewModel(
     val playlistWithTracks: LiveData<PlaylistWithTracksModel>
         get() = _playlistWithTracks
 
-    private var currentPlaylist: PlaylistWithTracksModel? = null
-    private var playlistJob: Job? = null
-
 
     fun getPlaylistWithTracks(playlistId: Int) {
 
@@ -41,34 +38,22 @@ class PlaylistInfoViewModel(
             _playlistWithTracks.postValue(currentPlaylist)
         }
 
-//        var playlistInfo: PlaylistWithTracksModel? =
-//            viewModelScope.async {
-//                val playlistThis = playlistInteractor.getPlaylistWithTracks(playlistId)
-//                _playlistWithTracks.value?.copy(
-//                    playlistId = playlistThis.playlistId,
-//                    playListName = playlistThis.playListName,
-//                    playListDescription = playlistThis.playListDescription,
-//                    coverUri = playlistThis.coverUri,
-//                    playlistTrackAmount = playlistThis.playlistTrackAmount,
-//                    playlistTracks = playlistThis.playlistTracks
-//                )
-//            }.await()
-//        return playlistInfo!!
+        /*viewModelScope.launch {
+            val playlist = async {
+                val playlist = playlistInteractor.getPlaylistWithTracks(playlistId)
+                val currentPlaylist = playlist.copy(
+                    playlistId = playlist.playlistId,
+                    playListName = playlist.playListName,
+                    playListDescription = playlist.playListDescription,
+                    coverUri = playlist.coverUri,
+                    playlistTrackAmount = playlist.playlistTrackAmount,
+                    playlistTracks = playlist.playlistTracks
+                )
+                currentPlaylist
+            }
+            _playlistWithTracks.postValue(playlist.await())
+        }*/
 
     }
-
-
-//        return PlaylistWithTracksModel(
-//            playlistId = 0,
-//            playListName = "sdf",
-//            playListDescription = "wer",
-//            coverUri = "",
-//            playlistTrackAmount = 2,
-//            playlistTracks = emptyList()
-//
-//        )
-
-
-
 
 }
