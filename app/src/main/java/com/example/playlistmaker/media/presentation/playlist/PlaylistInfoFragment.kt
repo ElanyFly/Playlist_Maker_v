@@ -70,9 +70,13 @@ class PlaylistInfoFragment: Fragment() {
         val time = playlistWithTracks.playlistTracks.mapNotNull {
             it.trackTime
         }.sum()
-
         val timeString = SimpleDateFormat("mm", Locale.getDefault()).format(time)
-        return "$timeString минут"
+        val pluralMinutes = resources.getQuantityString(
+            R.plurals.minutes,
+            timeString.toInt(),
+            timeString.toInt()
+        )
+        return pluralMinutes
     }
 
     private fun getCover(playlistWithTracks: PlaylistWithTracksModel) {
