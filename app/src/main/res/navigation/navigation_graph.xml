@@ -72,5 +72,10 @@
         android:name="com.example.playlistmaker.media.presentation.playlist.PlaylistInfoFragment"
         android:label="fragment_playlist_info"
         tools:layout="@layout/fragment_playlist_info" />
+    <fragment
+        android:id="@+id/trackShowBsFragment2"
+        android:name="com.example.playlistmaker.media.presentation.playlist.TrackShowBsFragment"
+        android:label="fragment_track_show_bs"
+        tools:layout="@layout/fragment_track_show_bs" />
 
 </navigation>

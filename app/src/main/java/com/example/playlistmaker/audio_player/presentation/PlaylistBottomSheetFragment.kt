@@ -8,11 +8,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
+import com.example.playlistmaker.audio_player.presentation.bsheet_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.databinding.PlaylistBottomSheetBinding
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
-import com.example.playlistmaker.audio_player.presentation.bsheet_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.navigateToDestination

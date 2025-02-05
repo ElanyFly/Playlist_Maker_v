@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistInfoBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
+import com.example.playlistmaker.search.domain.models.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlaylistInfoFragment: Fragment() {
+class PlaylistInfoFragment : Fragment() {
 
     private val viewModel: PlaylistInfoViewModel by viewModel()
 
@@ -25,13 +25,14 @@ class PlaylistInfoFragment: Fragment() {
             ?: throw IllegalStateException("Binding for FragmentPlaylistInfo must not be null")
 
     private var playlistId: Int? = null
+    private var trackList: List<Track> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPlaylistInfoBinding.inflate(inflater,container,false)
+        _binding = FragmentPlaylistInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,11 +47,21 @@ class PlaylistInfoFragment: Fragment() {
         viewModel.getPlaylistWithTracks(playlistId!!)
         viewModel.playlistWithTracks.observe(viewLifecycleOwner) { playlistWithTracks ->
             setPlaylistInfo(playlistWithTracks)
+            trackList = playlistWithTracks.playlistTracks
+            if (trackList.isNotEmpty()) {
+                val trackShowBsFragment = TrackShowBsFragment.newInstance(trackList)
+                trackShowBsFragment.show(parentFragmentManager, trackShowBsFragment.tag)
+            }
         }
 
         binding.backArrow.setOnClickListener {
             view.findNavController().popBackStack()
         }
+
+//        if (trackList.isNotEmpty()) {
+//            val trackShowBsFragment = TrackShowBsFragment.newInstance(trackList)
+//            trackShowBsFragment.show(parentFragmentManager, trackShowBsFragment.tag)
+//        }
 
     }
 

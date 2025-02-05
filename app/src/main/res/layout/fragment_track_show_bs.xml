@@ -11,13 +11,13 @@
     tools:context=".media.presentation.playlist.TrackShowBsFragment">
 
     <LinearLayout
-        android:id="@+id/bottomSheet"
+        android:id="@+id/bottomSheetTrackShow"
         android:layout_width="match_parent"
-        android:minHeight="500dp"
         android:layout_height="match_parent"
         android:gravity="top|center_horizontal"
         android:orientation="vertical"
         android:background="@drawable/botttom_sheet_shape"
+        app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView

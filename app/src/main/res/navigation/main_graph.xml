@@ -21,5 +21,14 @@
         android:id="@+id/playlistInfoFragment2"
         android:name="com.example.playlistmaker.media.presentation.playlist.PlaylistInfoFragment"
         android:label="fragment_playlist_info"
-        tools:layout="@layout/fragment_playlist_info" />
+        tools:layout="@layout/fragment_playlist_info" >
+        <action
+            android:id="@+id/action_playlistInfoFragment2_to_trackShowBsFragment"
+            app:destination="@id/trackShowBsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackShowBsFragment"
+        android:name="com.example.playlistmaker.media.presentation.playlist.TrackShowBsFragment"
+        android:label="fragment_track_show_bs"
+        tools:layout="@layout/fragment_track_show_bs" />
 </navigation>
