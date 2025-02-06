@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -36,6 +37,22 @@ class PlaylistInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val fragment = parentFragmentManager.findFragmentByTag(TrackShowBsFragment.TAG)
+                if (fragment is TrackShowBsFragment) {
+                    fragment.dismiss()
+                    view?.findNavController()?.popBackStack()
+                } else {
+                    view?.findNavController()?.popBackStack()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +72,14 @@ class PlaylistInfoFragment : Fragment() {
         }
 
         binding.backArrow.setOnClickListener {
-            view.findNavController().popBackStack()
+//            view.findNavController().popBackStack()
+            val fragment = parentFragmentManager.findFragmentByTag(TrackShowBsFragment.TAG)
+            if (fragment is TrackShowBsFragment) {
+                fragment.dismiss()
+                view.findNavController().popBackStack()
+            } else {
+                view.findNavController().popBackStack()
+            }
         }
 
 //        if (trackList.isNotEmpty()) {

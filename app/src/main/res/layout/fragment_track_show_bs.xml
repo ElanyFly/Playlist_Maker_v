@@ -14,10 +14,13 @@
         android:id="@+id/bottomSheetTrackShow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:minHeight="270dp"
         android:gravity="top|center_horizontal"
         android:orientation="vertical"
         android:background="@drawable/botttom_sheet_shape"
         app:behavior_hideable="false"
+        app:behavior_peekHeight="270dp"
+        app:behavior_skipCollapsed="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <ImageView
