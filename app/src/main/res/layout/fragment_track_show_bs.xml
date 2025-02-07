@@ -1,46 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheetTrackShow"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00000000"
-    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    android:background="@drawable/botttom_sheet_shape"
+    android:gravity="top|center_horizontal"
+    android:minHeight="270dp"
     android:orientation="vertical"
-    tools:context=".media.presentation.playlist.TrackShowBsFragment">
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="300dp"
+    app:behavior_skipCollapsed="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <LinearLayout
-        android:id="@+id/bottomSheetTrackShow"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_8dp"
+        android:layout_marginBottom="@dimen/padding_12dp"
+        android:src="@drawable/bs_top"
+        app:tint="@color/tumbler_track_off" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="270dp"
-        android:gravity="top|center_horizontal"
-        android:orientation="vertical"
-        android:background="@drawable/botttom_sheet_shape"
-        app:behavior_hideable="false"
-        app:behavior_peekHeight="270dp"
-        app:behavior_skipCollapsed="true"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bs_top"
-            android:layout_marginTop="@dimen/padding_8dp"
-            android:layout_marginBottom="@dimen/padding_12dp"
-            app:tint="@color/tumbler_track_off"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/track_view" />
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
+        tools:listitem="@layout/track_view" />
 
 
-
-    </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
