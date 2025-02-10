@@ -35,8 +35,8 @@ class TrackShowBsAdapter(
         }
     }
 
-    fun updateTrackList(searchResult: List<Track>) {
-        trackList = searchResult
+    fun updateTrackList(trackList: List<Track>) {
+        this.trackList = trackList
         notifyDataSetChanged()
     }
 }

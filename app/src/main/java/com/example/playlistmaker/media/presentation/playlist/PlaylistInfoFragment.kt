@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
@@ -59,7 +61,7 @@ class PlaylistInfoFragment : Fragment() {
             }
         },
         onLongClick = { track ->
-            viewModel.deleteTrackFromPlaylist(track)
+            showDeleteTrackDialog(track)
         },
 
         )
@@ -150,6 +152,25 @@ class PlaylistInfoFragment : Fragment() {
             .placeholder(R.drawable.placeholder_45)
             .centerCrop()
             .into(binding.coverUri)
+    }
+
+    private fun showDeleteTrackDialog(track: Track) {
+
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+        alertDialogBuilder.setTitle("Удалить трек")
+        alertDialogBuilder.setMessage("Вы уверены, что хотите удалить трек из плейлиста?")
+
+        alertDialogBuilder.setPositiveButton("Удалить") { dialog, with ->
+            viewModel.deleteTrackFromPlaylist(track)
+        }
+
+        alertDialogBuilder.setNegativeButton(getString(R.string.playlist_finish_cancel)) { dialog, with ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+
     }
 
 
