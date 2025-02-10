@@ -44,20 +44,25 @@ class PlaylistInfoFragment : Fragment() {
 
     private var moveJob: Job? = null
 
-    private val trackAdapter: TrackShowBsAdapter = TrackShowBsAdapter() { track ->
+    private val trackAdapter: TrackShowBsAdapter = TrackShowBsAdapter(
+        onClick = { track ->
 
-        if (moveJob != null && moveJob?.isActive == true) {
-            return@TrackShowBsAdapter
-        }
-        moveJob = lifecycleScope.launch {
+            if (moveJob != null && moveJob?.isActive == true) {
+                return@TrackShowBsAdapter
+            }
+            moveJob = lifecycleScope.launch {
 
-            AudioPlayerFragment.newInstance(track)
-            navigateToDestination(R.id.audioPlayerFragment)
-            delay(Constants.CLICK_DEBOUNCE_DELAY)
-//            dismiss()
-        }
+                AudioPlayerFragment.newInstance(track)
+                view?.findNavController()?.navigate(R.id.action_global_audioPlayerFragment)
+//            navigateToDestination(R.id.action_global_audioPlayerFragment)
+                delay(Constants.CLICK_DEBOUNCE_DELAY)
+            }
+        },
+        onLongClick = { track ->
+            viewModel.deleteTrackFromPlaylist(track)
+        },
 
-    }
+        )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -126,9 +131,9 @@ class PlaylistInfoFragment : Fragment() {
     }
 
     private fun totalTrackTime(playlistWithTracks: PlaylistWithTracksModel): String {
-        val time = playlistWithTracks.playlistTracks.mapNotNull {
+        val time = playlistWithTracks.playlistTracks.sumOf {
             it.trackTime
-        }.sum()
+        }
         val timeString = SimpleDateFormat("mm", Locale.getDefault()).format(time)
         val pluralMinutes = resources.getQuantityString(
             R.plurals.minutes,

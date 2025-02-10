@@ -8,7 +8,8 @@ import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackViewHolder
 
 class TrackShowBsAdapter(
-    private val onClick: (Track) -> Unit
+    private val onClick: (Track) -> Unit,
+    private val onLongClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
     private var trackList: List<Track> = emptyList()
@@ -28,9 +29,10 @@ class TrackShowBsAdapter(
         holder.itemView.setOnClickListener {
             onClick.invoke(trackList[position])
         }
-//        holder.itemView.setOnLongClickListener {
-//
-//        }
+        holder.itemView.setOnLongClickListener {
+            onLongClick.invoke(trackList[position])
+            true
+        }
     }
 
     fun updateTrackList(searchResult: List<Track>) {
