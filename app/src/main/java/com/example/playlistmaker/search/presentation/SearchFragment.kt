@@ -142,17 +142,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         binding.btnClearHistory.isVisible = isShown
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(INPUT_TEXT_KEY, savedText)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val text = savedInstanceState?.getString(INPUT_TEXT_KEY) ?: ""
-        savedText = text
-        binding.inputText.setText(text)
-    }
 
     private fun hideKeyboard(view: View) {
         val inputMethodManager =
