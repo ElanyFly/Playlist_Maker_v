@@ -55,8 +55,8 @@ class PlaylistInfoFragment : Fragment() {
             moveJob = lifecycleScope.launch {
 
                 AudioPlayerFragment.newInstance(track)
-                view?.findNavController()?.navigate(R.id.action_global_audioPlayerFragment)
-//            navigateToDestination(R.id.action_global_audioPlayerFragment)
+//                view?.findNavController()?.navigate(R.id.audioPlayerFragment2)
+            navigateToDestination(R.id.audioPlayerFragment2)
                 delay(Constants.CLICK_DEBOUNCE_DELAY)
             }
         },

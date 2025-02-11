@@ -22,4 +22,9 @@
         android:name="com.example.playlistmaker.media.presentation.playlist.PlaylistInfoFragment"
         android:label="fragment_playlist_info"
         tools:layout="@layout/fragment_playlist_info" />
+    <fragment
+        android:id="@+id/audioPlayerFragment2"
+        android:name="com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment"
+        android:label="fragment_audioplayer"
+        tools:layout="@layout/fragment_audioplayer" />
 </navigation>
