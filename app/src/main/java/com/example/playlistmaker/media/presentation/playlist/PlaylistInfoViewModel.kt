@@ -11,6 +11,11 @@ import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -26,20 +31,10 @@ class PlaylistInfoViewModel(
     fun getPlaylistWithTracks(playlistId: Int) {
 
         viewModelScope.launch {
-            val playlist: PlaylistWithTracksModel = withContext(Dispatchers.IO) {
-                playlistInteractor.getPlaylistWithTracks(playlistId)
-            }
-            val currentPlaylist = playlist.copy(
-                playlistId = playlist.playlistId,
-                playListName = playlist.playListName,
-                playListDescription = playlist.playListDescription,
-                coverUri = playlist.coverUri,
-                playlistTrackAmount = playlist.playlistTrackAmount,
-                playlistTracks = playlist.playlistTracks
-            )
-            _playlistWithTracks.postValue(currentPlaylist)
+                playlistInteractor.getPlaylistWithTracks(playlistId).collect {
+                    _playlistWithTracks.postValue(it)
+                }
         }
-
     }
 
     fun deleteTrackFromPlaylist(track: Track) {

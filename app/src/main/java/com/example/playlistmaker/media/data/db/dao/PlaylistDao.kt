@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaylistDao {
@@ -30,7 +31,7 @@ interface PlaylistDao {
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlistId = :playlistId")
-    suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksEntity
+    fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksEntity>
 
     @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE playlistId = :playlistId AND trackId = :trackId LIMIT 1)")
     suspend fun isConnectionExists(playlistId: Int, trackId: Int): Boolean
