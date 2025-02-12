@@ -25,6 +25,10 @@ class TracksInteractorImpl(
         tracksRepository.updateFavouriteStatus(trackId, isFavourite)
     }
 
+    override suspend fun isTrackExists(trackId: Int): Boolean {
+        return tracksRepository.isTrackExists(trackId)
+    }
+
 //    override suspend fun deleteTrackFromFav(track: Track) {
 //        addTrack(track.copy(isFavorite = false))
 //    }

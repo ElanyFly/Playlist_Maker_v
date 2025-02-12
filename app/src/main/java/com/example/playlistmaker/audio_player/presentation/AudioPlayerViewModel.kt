@@ -49,14 +49,19 @@ class AudioPlayerViewModel(
             val currentTrackNew = currentTrackM.copy(
                 isFavorite = isFavourite
             )
+            val isTrackExist = tracksInteractor.isTrackExists(currentTrackNew.trackId)
 
-            if (currentTrackNew.isFavorite) {
-                tracksInteractor.addTrack(currentTrackNew)
+            if (!isFavourite){
+                tracksInteractor.updateFavouriteStatus(currentTrackNew.trackId, false)
             } else {
-                tracksInteractor.deleteTrackFromFav(currentTrackNew)
+                tracksInteractor.updateFavouriteStatus(currentTrackNew.trackId, true)
+                if (!isTrackExist){
+                    tracksInteractor.addTrack(currentTrackNew)
+                }
             }
             currentTrack = currentTrackNew
             handleState(track = currentTrackNew)
+
         }
 
     }

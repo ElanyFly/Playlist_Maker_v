@@ -38,6 +38,12 @@ class TracksRepositoryImpl(
         }
     }
 
+    override suspend fun isTrackExists(trackId: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().isTrackExists(trackId)
+        }
+    }
+
 //    override suspend fun deleteTrackFromFav(track: Track) {
 //        withContext(Dispatchers.IO) {
 //            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())

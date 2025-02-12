@@ -25,6 +25,9 @@ interface TrackDao {
     @Query("UPDATE saved_tracks SET isFavourite = :isFavourite WHERE trackId = :trackId")
     suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean)
 
+    @Query("SELECT EXISTS(SELECT 1 FROM saved_tracks WHERE trackId = :trackId LIMIT 1)")
+    suspend fun isTrackExists(trackId: Int): Boolean
+
 //    @Delete
 //    suspend fun deleteTrackFromFav(track: TrackEntity)
 
