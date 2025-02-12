@@ -26,11 +26,23 @@ class TracksRepositoryImpl(
         }
     }
 
-    override suspend fun deleteTrackFromFav(track: Track) {
+    override suspend fun deleteTrackById(trackId: Int) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
+            tracksDatabase.trackDao().deleteTrackById(trackId)
         }
     }
+
+    override suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().updateFavouriteStatus(trackId, isFavourite)
+        }
+    }
+
+//    override suspend fun deleteTrackFromFav(track: Track) {
+//        withContext(Dispatchers.IO) {
+//            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
+//        }
+//    }
 
     override fun getFavTracksList(): Flow<List<Track>> = flow {
         val trackList = tracksDatabase.trackDao().getAllTracksInFav()

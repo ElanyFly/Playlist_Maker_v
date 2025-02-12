@@ -7,7 +7,10 @@ interface TracksRepository {
 
     suspend fun addTrack(track: Track)
     suspend fun addIfNoTrack(track: Track)
-    suspend fun deleteTrackFromFav(track: Track)
+    suspend fun deleteTrackById(trackId: Int)
+    suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean)
+
+//    suspend fun deleteTrackFromFav(track: Track)
     fun getFavTracksList(): Flow<List<Track>>
     suspend fun getFavStatus(trackId: Int): Boolean
 }
