@@ -157,10 +157,10 @@ class PlaylistInfoFragment : Fragment() {
     private fun showDeleteTrackDialog(track: Track) {
 
         val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
-        alertDialogBuilder.setTitle("Удалить трек")
-        alertDialogBuilder.setMessage("Вы уверены, что хотите удалить трек из плейлиста?")
+        alertDialogBuilder.setTitle(getString(R.string.playlist_info_delete_track_q))
+        alertDialogBuilder.setMessage(getString(R.string.playlist_info_delete_message))
 
-        alertDialogBuilder.setPositiveButton("Удалить") { dialog, with ->
+        alertDialogBuilder.setPositiveButton(getString(R.string.playlist_info_delete_agree)) { dialog, with ->
             viewModel.deleteTrackFromPlaylist(track)
         }
 

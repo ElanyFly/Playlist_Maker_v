@@ -36,4 +36,7 @@ interface PlaylistDao {
     @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE playlistId = :playlistId AND trackId = :trackId LIMIT 1)")
     suspend fun isConnectionExists(playlistId: Int, trackId: Int): Boolean
 
+    @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE trackId = :trackId LIMIT 1)")
+    suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean
+
 }

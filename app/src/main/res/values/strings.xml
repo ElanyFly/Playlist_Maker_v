@@ -47,6 +47,9 @@
     <string name="playlist_finish">Завершить</string>
     <string name="playlist_finish_cancel">Отмена</string>
     <string name="Playlist_is_created">Плейлист %1$s создан</string>
+    <string name="playlist_info_delete_track_q">Удалить трек</string>
+    <string name="playlist_info_delete_message">Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="playlist_info_delete_agree">Удалить</string>
 
     <plurals name="track_count">
         <item quantity="one">%d трек</item>

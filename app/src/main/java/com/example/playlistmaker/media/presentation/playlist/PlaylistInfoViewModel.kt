@@ -5,22 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
+import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.search.domain.models.Track
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PlaylistInfoViewModel(
-    private val playlistInteractor: PlaylistInteractor
+    private val playlistInteractor: PlaylistInteractor,
+    private val tracksInteractor: TracksInteractor
 ) : ViewModel() {
 
     private var _playlistWithTracks = MutableLiveData<PlaylistWithTracksModel>()
@@ -42,6 +35,11 @@ class PlaylistInfoViewModel(
             val connection =
                 playlistWithTracks.value?.let { PlaylistTrackJoinModel(it.playlistId, track.trackId) } ?: return@launch
             playlistInteractor.deleteConnection(connection)
+            val isElsewhere = playlistInteractor.isTrackInAnyPlaylist(trackId = track.trackId)
+            val isInfav = tracksInteractor.isTrackExistsInFav(trackId = track.trackId)
+            if (!isElsewhere && !isInfav) {
+                tracksInteractor.deleteTrackById(trackId = track.trackId)
+            }
         }
     }
 

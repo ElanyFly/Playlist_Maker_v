@@ -61,5 +61,9 @@ class PlaylistRepositoryImpl(
         }
     }
 
+    override suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean {
+        return tracksDatabase.playlistDao().isTrackInAnyPlaylist(trackId)
+    }
+
 }
 

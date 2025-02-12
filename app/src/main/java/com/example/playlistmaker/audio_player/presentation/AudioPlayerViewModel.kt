@@ -49,7 +49,7 @@ class AudioPlayerViewModel(
             val currentTrackNew = currentTrackM.copy(
                 isFavorite = isFavourite
             )
-            val isTrackExist = tracksInteractor.isTrackExists(currentTrackNew.trackId)
+            val isTrackExist = tracksInteractor.isTrackExistsInFav(currentTrackNew.trackId)
 
             if (!isFavourite){
                 tracksInteractor.updateFavouriteStatus(currentTrackNew.trackId, false)
