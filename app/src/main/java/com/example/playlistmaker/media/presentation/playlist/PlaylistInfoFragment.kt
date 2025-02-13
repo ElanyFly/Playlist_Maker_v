@@ -136,7 +136,7 @@ class PlaylistInfoFragment : Fragment() {
         val time = playlistWithTracks.playlistTracks.sumOf {
             it.trackTime
         }
-        val timeString = SimpleDateFormat("mm", Locale.getDefault()).format(time)
+        val timeString = time/1000/60
         val pluralMinutes = resources.getQuantityString(
             R.plurals.minutes,
             timeString.toInt(),
