@@ -33,5 +33,5 @@
     <dimen name="font_22sp">22sp</dimen>
     <dimen name="font_26sp">26sp</dimen>
 
-    <dimen name="bottom_sheet_peek_height">270dp</dimen>
+    <dimen name="playlist_bs_peek_height">270dp</dimen>
 </resources>

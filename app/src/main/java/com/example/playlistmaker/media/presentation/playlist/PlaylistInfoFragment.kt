@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
@@ -26,8 +25,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class PlaylistInfoFragment : Fragment() {
 
@@ -39,7 +36,6 @@ class PlaylistInfoFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentPlaylistInfo must not be null")
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-
 
     private var playlistId: Int? = null
     private var trackList: List<Track> = emptyList()
@@ -55,15 +51,13 @@ class PlaylistInfoFragment : Fragment() {
             moveJob = lifecycleScope.launch {
 
                 AudioPlayerFragment.newInstance(track)
-//                view?.findNavController()?.navigate(R.id.audioPlayerFragment2)
-            navigateToDestination(R.id.audioPlayerFragment2)
+                navigateToDestination(R.id.audioPlayerFragment2)
                 delay(Constants.CLICK_DEBOUNCE_DELAY)
             }
         },
         onLongClick = { track ->
             showDeleteTrackDialog(track)
         },
-
         )
 
     override fun onCreateView(
@@ -85,7 +79,7 @@ class PlaylistInfoFragment : Fragment() {
 
         val bottomSheet = view.findViewById<LinearLayout>(R.id.bottomSheetTrackShow)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
-        val minHeightBs = resources.getDimensionPixelSize(R.dimen.bottom_sheet_peek_height)
+        val minHeightBs = resources.getDimensionPixelSize(R.dimen.playlist_bs_peek_height)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewTrackSHow)
         recyclerView.adapter = trackAdapter
@@ -95,18 +89,7 @@ class PlaylistInfoFragment : Fragment() {
             setPlaylistInfo(playlistWithTracks)
             trackList = playlistWithTracks.playlistTracks
             trackAdapter.updateTrackList(playlistWithTracks.playlistTracks)
-
-            if (trackList.isNotEmpty()) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                bottomSheetBehavior.isHideable = false
-                bottomSheet.minimumHeight = minHeightBs
-                bottomSheetBehavior.peekHeight = minHeightBs
-
-            } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheet.isVisible = false
-            }
-
+            bottomSheetExtraction(bottomSheet)
         }
 
         binding.backArrow.setOnClickListener {
@@ -114,6 +97,18 @@ class PlaylistInfoFragment : Fragment() {
 
         }
 
+    }
+
+    private fun bottomSheetExtraction(bottomSheet: LinearLayout) {
+        if (trackList.isNotEmpty()) {
+            bottomSheetBehavior.peekHeight =
+                resources.getDimensionPixelSize(R.dimen.playlist_bs_peek_height)
+            bottomSheetBehavior.isHideable = false
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheet.isVisible = false
+        }
     }
 
     private fun setPlaylistInfo(playlistWithTracks: PlaylistWithTracksModel) {
@@ -136,7 +131,7 @@ class PlaylistInfoFragment : Fragment() {
         val time = playlistWithTracks.playlistTracks.sumOf {
             it.trackTime
         }
-        val timeString = time/1000/60
+        val timeString = time / 1000 / 60
         val pluralMinutes = resources.getQuantityString(
             R.plurals.minutes,
             timeString.toInt(),
