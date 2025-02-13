@@ -27,18 +27,6 @@ class PlaylistBottomSheetViewModel(
                 _playlists.postValue(it)
             }
         }
-
-
-        /*
-        lifecycleScope.launch(Dispatchers.IO) {
-            interactor.getAllPlaylists().collect {
-                withContext(Dispatchers.Main) {
-                    binding.recyclerView.isVisible = it.isNotEmpty()
-                    playlistAdapter.updatePlayList(it)
-                }
-            }
-        }
-        * */
     }
 
     fun addTrackToPlaylist(

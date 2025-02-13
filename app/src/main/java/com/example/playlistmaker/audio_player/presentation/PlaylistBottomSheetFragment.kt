@@ -62,7 +62,7 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = PlaylistBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -78,8 +78,8 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bottomSheet = dialog?.findViewById<LinearLayout>(R.id.bottomSheet)
-        val behavior = BottomSheetBehavior.from(bottomSheet!!)
+        val bottomSheet = dialog?.findViewById<LinearLayout>(R.id.bottomSheet) ?: return
+        val behavior = BottomSheetBehavior.from(bottomSheet)
         behavior.skipCollapsed = true
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
 

@@ -43,4 +43,6 @@ class PlaylistInfoViewModel(
         }
     }
 
+    fun getCurrentPlaylist(): PlaylistWithTracksModel? = playlistWithTracks.value
+
 }

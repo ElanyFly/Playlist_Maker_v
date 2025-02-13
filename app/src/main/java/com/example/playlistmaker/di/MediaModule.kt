@@ -7,6 +7,7 @@ import com.example.playlistmaker.media.data.PlaylistRepositoryImpl
 import com.example.playlistmaker.media.presentation.playlist.CreatePlaylistViewModel
 import com.example.playlistmaker.media.presentation.favourite_tracks.FavoriteTracksFragmentViewModel
 import com.example.playlistmaker.audio_player.presentation.PlaylistBottomSheetViewModel
+import com.example.playlistmaker.media.presentation.playlist.MenuBSViewModel
 import com.example.playlistmaker.media.presentation.playlist.PlaylistFragmentViewModel
 import com.example.playlistmaker.media.presentation.playlist.PlaylistInfoViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -43,6 +44,12 @@ val mediaModule = module {
         PlaylistInfoViewModel(
             playlistInteractor = get(),
             tracksInteractor = get()
+        )
+    }
+
+    viewModel<MenuBSViewModel> {
+        MenuBSViewModel(
+
         )
     }
 
