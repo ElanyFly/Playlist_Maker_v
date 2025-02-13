@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.bsheet_adapter.PlaylistSmallAdapter
 import com.example.playlistmaker.databinding.PlaylistBottomSheetBinding
-import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.navigateToDestination
@@ -21,8 +20,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
@@ -61,9 +58,7 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
     }
-
-    val interactor: PlaylistInteractor by inject()
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -89,13 +84,11 @@ class PlaylistBottomSheetFragment : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         binding.recyclerView.adapter = playlistAdapter
-        lifecycleScope.launch(Dispatchers.IO) {
-            interactor.getAllPlaylists().collect {
-                withContext(Dispatchers.Main) {
-                    binding.recyclerView.isVisible = it.isNotEmpty()
-                    playlistAdapter.updatePlayList(it)
-                }
-            }
+
+        viewModel.getAllPlaylists()
+        viewModel.playlists.observe(viewLifecycleOwner) { playlists ->
+            binding.recyclerView.isVisible = playlists.isNotEmpty()
+            playlistAdapter.updatePlayList(playlists)
         }
 
         binding.btnNewPlaylist.setOnClickListener {
