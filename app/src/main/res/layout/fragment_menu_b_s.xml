@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".media.presentation.playlist.MenuBSFragment">
+
+    <LinearLayout
+        android:id="@+id/menuBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/botttom_sheet_shape"
+        android:gravity="top|center_horizontal"
+        android:minHeight="500dp"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_8dp"
+            android:layout_marginBottom="@dimen/padding_12dp"
+            android:src="@drawable/bs_top"
+            app:tint="@color/tumbler_track_off" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/track_view_layout_height_61dp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+            tools:background="@color/bg_activity_white">
+
+            <ImageView
+                android:id="@+id/playlistCover"
+                android:layout_width="@dimen/track_view_image_size_45dp"
+                android:layout_height="@dimen/track_view_image_size_45dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/padding_12dp"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/padding_8dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_6dp">
+
+                <TextView
+                    android:id="@+id/playlistName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/text_dark"
+                    android:textSize="@dimen/font_16sp"
+                    tools:text="Лучшие хитьы" />
+
+
+                <TextView
+                    android:id="@+id/playlistTrackCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/light_grey"
+                    android:textSize="@dimen/track_view_small_text_11sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_default="wrap"
+                    tools:text="109 треков" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sharePlaylist"
+            style="@style/PrefLayout">
+
+            <TextView
+
+                style="@style/PrefText"
+                android:text="@string/menu_share" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editPlaylistInfo"
+            style="@style/PrefLayout">
+
+            <TextView
+
+                style="@style/PrefText"
+                android:text="@string/menu_edit_playlist" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deletePlaylist"
+            style="@style/PrefLayout">
+
+            <TextView
+
+                style="@style/PrefText"
+                android:text="@string/menu_delete_playlist" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -62,5 +62,10 @@
         <item quantity="few">%d минуты</item>
         <item quantity="many">%d минут</item>
     </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_edit_playlist">Редактировать информацию</string>
+    <string name="menu_delete_playlist">Удалить плейлист</string>
 
 </resources>

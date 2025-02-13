@@ -79,7 +79,6 @@ class PlaylistInfoFragment : Fragment() {
 
         val bottomSheet = view.findViewById<LinearLayout>(R.id.bottomSheetTrackShow)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
-        val minHeightBs = resources.getDimensionPixelSize(R.dimen.playlist_bs_peek_height)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewTrackSHow)
         recyclerView.adapter = trackAdapter
