@@ -13,6 +13,7 @@ import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
+import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,7 +41,7 @@ class FavoriteTracksFragment : Fragment() {
 //            view?.findNavController()?.navigate(R.id.audioPlayerFragment2)
             navigateToDestination(R.id.audioPlayerFragment2)
 
-            delay(CLICK_DEBOUNCE_DELAY)
+            delay(Constants.CLICK_DEBOUNCE_DELAY)
         }
     }
 
@@ -91,8 +92,6 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 500L
-
         fun newInstance() = FavoriteTracksFragment().apply {
             arguments = Bundle().apply {
             }

@@ -14,6 +14,7 @@ import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
+import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.dpToPx
 import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
@@ -38,7 +39,7 @@ class PlaylistFragment : Fragment() {
         moveJob = lifecycleScope.launch {
             PlaylistInfoFragment.newInstance(playlistModel.playlistId)
             navigateToDestination(R.id.playlistInfoFragment2)
-            delay(CLICK_DEBOUNCE_DELAY)
+            delay(Constants.CLICK_DEBOUNCE_DELAY)
         }
     }
 
@@ -89,8 +90,6 @@ class PlaylistFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 500L
-
         fun newInstance() = PlaylistFragment().apply {
             arguments = Bundle().apply {
 
