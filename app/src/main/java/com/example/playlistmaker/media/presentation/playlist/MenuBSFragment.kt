@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMenuBSBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
@@ -44,8 +45,32 @@ class MenuBSFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        dialog?.window?.setNavigationBarContrastEnforced(false)
+        setPlaylistData()
 
+    }
+
+    private fun setPlaylistData() {
+        val trackSize: Int = currentPlaylist.playlistTracks.size
+        val pluralText = resources.getQuantityString(
+            R.plurals.track_count,
+            trackSize,
+            trackSize
+        )
+        with(binding) {
+            getCover()
+            playlistName.text = currentPlaylist.playListName
+            playlistTrackCount.text = pluralText
+        }
+
+    }
+
+    private fun getCover() {
+        val cover = currentPlaylist.coverUri
+        Glide.with(this)
+            .load(cover)
+            .placeholder(R.drawable.placeholder_45)
+            .centerCrop()
+            .into(binding.playlistCover)
     }
 
 
