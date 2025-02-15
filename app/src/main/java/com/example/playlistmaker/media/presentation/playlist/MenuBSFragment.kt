@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMenuBSBinding
@@ -46,6 +47,18 @@ class MenuBSFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setPlaylistData()
+
+        binding.sharePlaylist.setOnClickListener {
+            if (currentPlaylist.playlistTracks.isEmpty()) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.playlist_nothing_to_share),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                viewModel.sharePlaylist(currentPlaylist)
+            }
+        }
 
     }
 
