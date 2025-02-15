@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -58,7 +59,7 @@ class PlaylistInfoFragment : Fragment() {
         onLongClick = { track ->
             showDeleteTrackDialog(track)
         },
-        )
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,7 +97,15 @@ class PlaylistInfoFragment : Fragment() {
         }
 
         binding.shareIcon.setOnClickListener {
-            viewModel.sharePlaylist()
+            if (trackList.isEmpty()) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.playlist_nothing_to_share),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                viewModel.sharePlaylist()
+            }
         }
 
         binding.tripleIcon.setOnClickListener {

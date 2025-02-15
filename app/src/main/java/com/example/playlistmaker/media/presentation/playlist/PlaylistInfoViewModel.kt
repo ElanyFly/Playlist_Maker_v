@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.presentation.playlist
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +12,13 @@ import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class PlaylistInfoViewModel(
     private val playlistInteractor: PlaylistInteractor,
     private val tracksInteractor: TracksInteractor,
-    private val intentNavigation: SharingInteractor
+    private val sharingInteractor: SharingInteractor
 ) : ViewModel() {
 
     private var _playlistWithTracks = MutableLiveData<PlaylistWithTracksModel>()
@@ -48,7 +51,7 @@ class PlaylistInfoViewModel(
     fun getCurrentPlaylist(): PlaylistWithTracksModel? = playlistWithTracks.value
 
     fun sharePlaylist() {
-        intentNavigation.sharePlaylist(
+        sharingInteractor.sharePlaylist(
             playlistWithTracks.value ?: return
         )
     }

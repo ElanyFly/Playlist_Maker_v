@@ -44,13 +44,14 @@ val mediaModule = module {
         PlaylistInfoViewModel(
             playlistInteractor = get(),
             tracksInteractor = get(),
-            intentNavigation = get(),
+            sharingInteractor = get(),
         )
     }
 
     viewModel<MenuBSViewModel> {
         MenuBSViewModel(
-
+            playlistInteractor = get(),
+            sharingInteractor = get()
         )
     }
 
