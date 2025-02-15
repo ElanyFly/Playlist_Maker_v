@@ -95,6 +95,10 @@ class PlaylistInfoFragment : Fragment() {
             view.findNavController().popBackStack()
         }
 
+        binding.shareIcon.setOnClickListener {
+            viewModel.sharePlaylist()
+        }
+
         binding.tripleIcon.setOnClickListener {
             val playlist = viewModel.getCurrentPlaylist() ?: return@setOnClickListener
             val menuBSFragment = MenuBSFragment.newInstance(playlist)

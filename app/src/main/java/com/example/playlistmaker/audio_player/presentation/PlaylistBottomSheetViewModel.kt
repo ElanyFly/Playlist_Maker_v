@@ -22,7 +22,7 @@ class PlaylistBottomSheetViewModel(
         get() = _playlists
 
     fun getAllPlaylists() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             playlistInteractor.getAllPlaylists().collect{
                 _playlists.postValue(it)
             }

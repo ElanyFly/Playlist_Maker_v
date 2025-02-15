@@ -43,7 +43,8 @@ val mediaModule = module {
     viewModel<PlaylistInfoViewModel> {
         PlaylistInfoViewModel(
             playlistInteractor = get(),
-            tracksInteractor = get()
+            tracksInteractor = get(),
+            intentNavigation = get(),
         )
     }
 

@@ -1,5 +1,6 @@
 package com.example.playlistmaker.sharing.domain.Impl
 
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.sharing.data.IntentNavigation
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 import com.example.playlistmaker.sharing.domain.SharingResources
@@ -20,6 +21,10 @@ class SharingInteractorImpl(
 
     override fun openAgreement() {
         intentNavigator.openAgreement(getAgreementLink())
+    }
+
+    override fun sharePlaylist(playlist: PlaylistWithTracksModel) {
+        intentNavigator.sharePlaylist(playlist)
     }
 
     private fun getShareAppLink(): String {

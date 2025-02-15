@@ -3,7 +3,9 @@ package com.example.playlistmaker.sharing.data.impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.sharing.data.IntentNavigation
+import com.example.playlistmaker.sharing.data.utils.toPlaylistShare
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
 class IntentNavigationImpl(
@@ -45,6 +47,23 @@ class IntentNavigationImpl(
             Uri.parse(url)
         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(showAgreement)
+    }
+
+    override fun sharePlaylist(playlist: PlaylistWithTracksModel) {
+        val textToSend: String = playlist.toPlaylistShare()
+
+        val sendIntent = Intent(
+            Intent.ACTION_SEND
+        ).apply {
+            putExtra(Intent.EXTRA_TEXT, textToSend)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(
+            sendIntent, null
+        ).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(shareIntent)
     }
 }
 

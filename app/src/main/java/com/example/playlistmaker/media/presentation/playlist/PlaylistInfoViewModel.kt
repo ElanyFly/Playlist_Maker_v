@@ -9,11 +9,13 @@ import com.example.playlistmaker.media.domain.db.TracksInteractor
 import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.sharing.domain.SharingInteractor
 import kotlinx.coroutines.launch
 
 class PlaylistInfoViewModel(
     private val playlistInteractor: PlaylistInteractor,
-    private val tracksInteractor: TracksInteractor
+    private val tracksInteractor: TracksInteractor,
+    private val intentNavigation: SharingInteractor
 ) : ViewModel() {
 
     private var _playlistWithTracks = MutableLiveData<PlaylistWithTracksModel>()
@@ -44,5 +46,11 @@ class PlaylistInfoViewModel(
     }
 
     fun getCurrentPlaylist(): PlaylistWithTracksModel? = playlistWithTracks.value
+
+    fun sharePlaylist() {
+        intentNavigation.sharePlaylist(
+            playlistWithTracks.value ?: return
+        )
+    }
 
 }
