@@ -15,5 +15,9 @@ class MenuBSViewModel(
         sharingInteractor.sharePlaylist(playlist)
     }
 
+    fun deletePlaylist(playlist: PlaylistWithTracksModel) {
+        TODO("Not yet implemented")
+    }
+
 
 }

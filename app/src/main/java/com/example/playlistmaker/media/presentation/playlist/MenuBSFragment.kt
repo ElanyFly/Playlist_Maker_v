@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMenuBSBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
+import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.serialize
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -60,6 +62,10 @@ class MenuBSFragment : BottomSheetDialogFragment() {
             }
         }
 
+        binding.deletePlaylist.setOnClickListener {
+            showDeletePlaylistDialog(currentPlaylist)
+        }
+
     }
 
     private fun setPlaylistData() {
@@ -84,6 +90,25 @@ class MenuBSFragment : BottomSheetDialogFragment() {
             .placeholder(R.drawable.placeholder_45)
             .centerCrop()
             .into(binding.playlistCover)
+    }
+
+    private fun showDeletePlaylistDialog(playlist: PlaylistWithTracksModel) {
+
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+        alertDialogBuilder.setTitle(getString(R.string.menu_playlist_delete_header))
+        alertDialogBuilder.setMessage(getString(R.string.menu_playlist_delete_message))
+
+        alertDialogBuilder.setPositiveButton(getString(R.string.menu_playlist_delete_yes)) { dialog, with ->
+            viewModel.deletePlaylist(playlist)
+        }
+
+        alertDialogBuilder.setNegativeButton(getString(R.string.menu_playlist_delete_no)) { dialog, with ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+
     }
 
 

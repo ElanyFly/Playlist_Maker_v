@@ -68,5 +68,9 @@
     <string name="menu_edit_playlist">Редактировать информацию</string>
     <string name="menu_delete_playlist">Удалить плейлист</string>
     <string name="playlist_nothing_to_share">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="menu_playlist_delete_header">Удалить плейлист</string>
+    <string name="menu_playlist_delete_message">Хотите удалить плейлист?</string>
+    <string name="menu_playlist_delete_yes">Да</string>
+    <string name="menu_playlist_delete_no">нет</string>
 
 </resources>
