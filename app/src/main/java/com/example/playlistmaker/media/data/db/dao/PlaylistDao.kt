@@ -20,8 +20,8 @@ interface PlaylistDao {
     @Insert(entity = PlaylistTrackJoinEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity)
 
-    @Delete
-    suspend fun deletePlaylist(playlist: PlaylistEntity)
+    @Query("DELETE FROM playlist_table WHERE playlistId = :playlistId")
+    suspend fun deletePlaylist(playlistId: Int)
 
     @Delete(entity = PlaylistTrackJoinEntity::class)
     suspend fun deleteConnection(playlistTrackJoinEntity: PlaylistTrackJoinEntity)

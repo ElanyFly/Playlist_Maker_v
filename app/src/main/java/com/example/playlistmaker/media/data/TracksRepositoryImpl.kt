@@ -26,6 +26,12 @@ class TracksRepositoryImpl(
         }
     }
 
+    override suspend fun deleteOrphanedTracks() {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().deleteOrphanedTracks()
+        }
+    }
+
     override suspend fun deleteTrackById(trackId: Int) {
         withContext(Dispatchers.IO) {
             tracksDatabase.trackDao().deleteTrackById(trackId)

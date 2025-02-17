@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 
 class PlaylistRepositoryImpl(
@@ -36,9 +37,9 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun deletePlaylist(playlist: PlaylistModel) {
+    override suspend fun deletePlaylist(playlistId: Int) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().deletePlaylist(playlist.toPlaylistEntity())
+            tracksDatabase.playlistDao().deletePlaylist(playlistId)
         }
     }
 
@@ -51,12 +52,12 @@ class PlaylistRepositoryImpl(
 
     override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>> = flow {
         val playlist =
-            tracksDatabase.playlistDao().getAllPlaylists().map { it.toPlaylistWithTracksModel() }
+            tracksDatabase.playlistDao().getAllPlaylists().mapNotNull { it.toPlaylistWithTracksModel() }
         emit(playlist)
     }
 
     override suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel> {
-        return tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId).map {
+        return tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId).mapNotNull {
             it.toPlaylistWithTracksModel()
         }
     }

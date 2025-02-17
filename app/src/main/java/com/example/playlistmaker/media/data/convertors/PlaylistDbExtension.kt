@@ -24,7 +24,8 @@ fun PlaylistTrackJoinModel.toPlaylistTrackJoinEntity(): PlaylistTrackJoinEntity 
     )
 }
 
-fun PlaylistWithTracksEntity.toPlaylistWithTracksModel(): PlaylistWithTracksModel {
+fun PlaylistWithTracksEntity?.toPlaylistWithTracksModel(): PlaylistWithTracksModel? {
+    this ?: return null
     return PlaylistWithTracksModel(
         playlistId = playlistEntity.playlistId,
         playListName = playlistEntity.playListName,

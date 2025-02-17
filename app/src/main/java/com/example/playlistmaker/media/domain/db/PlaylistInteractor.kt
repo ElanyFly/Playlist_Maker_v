@@ -9,7 +9,7 @@ interface PlaylistInteractor {
 
     suspend fun createNewPlaylist(playlist: PlaylistModel)
     suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoinModel): Boolean
-    suspend fun deletePlaylist(playlist: PlaylistModel)
+    suspend fun deletePlaylist(playlistId: Int)
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>>
     suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel>

@@ -11,13 +11,21 @@ import com.example.playlistmaker.media.data.db.entity.TrackEntity
 interface TrackDao {
 
     @Insert(entity = TrackEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addTrack (track: TrackEntity)
+    suspend fun addTrack(track: TrackEntity)
 
     @Insert(entity = TrackEntity::class, onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addIfNoTrack (track: TrackEntity)
+    suspend fun addIfNoTrack(track: TrackEntity)
 
-//    @Delete(entity = TrackEntity::class)
-//    suspend fun deleteTrackFromBase(track: TrackEntity)
+    @Query(
+        """
+    DELETE FROM saved_tracks
+    WHERE trackId NOT IN (
+        SELECT trackId FROM playlist_track_join
+    )
+    AND isFavourite = 0
+"""
+    )
+    suspend fun deleteOrphanedTracks()
 
     @Query("DELETE FROM saved_tracks WHERE trackId = :trackId")
     suspend fun deleteTrackById(trackId: Int)
@@ -27,9 +35,6 @@ interface TrackDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM saved_tracks WHERE trackId = :trackId LIMIT 1)")
     suspend fun isTrackExists(trackId: Int): Boolean
-
-//    @Delete
-//    suspend fun deleteTrackFromFav(track: TrackEntity)
 
     @Query("SELECT * FROM saved_tracks WHERE isFavourite IS 1 ORDER BY timestamp DESC")
     suspend fun getAllTracksInFav(): List<TrackEntity>
