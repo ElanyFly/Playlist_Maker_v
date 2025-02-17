@@ -10,14 +10,14 @@ class CreatePlaylistViewModel(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
-    fun createPlaylist(playListName: String, playListDescription: String, coverUri: String) {
+    fun createPlaylist(playListName: String, playListDescription: String, coverUri: String, playlistId: Int = 0, playlistTrackAmount: Int = 0) {
         viewModelScope.launch {
             val newPlaylist = PlaylistModel(
-                playlistId = 0,
+                playlistId = playlistId,
                 playListName = playListName,
                 playListDescription = playListDescription,
                 coverUri = coverUri,
-                playlistTrackAmount = 0
+                playlistTrackAmount = playlistTrackAmount
             )
             playlistInteractor.createNewPlaylist(
                 playlist = newPlaylist

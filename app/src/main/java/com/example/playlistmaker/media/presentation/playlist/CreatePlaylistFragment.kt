@@ -13,12 +13,15 @@ import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
+import com.example.playlistmaker.utils.deserialize
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -35,6 +38,8 @@ class CreatePlaylistFragment : Fragment() {
 
     private var inputPlaylistName: String = ""
     private var inputPlaylistDescription: String = ""
+    private var playlistId = 0
+    private var playlistTrackAmount = 0
 
     private var filePath: File? = null
     private var fileUri: Uri? = null
@@ -45,8 +50,21 @@ class CreatePlaylistFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val editPlaylist = arguments?.getString("playlist")?.deserialize<PlaylistWithTracksModel>()
         _binding = FragmentCreatePlaylistBinding.inflate(inflater, container, false)
+        setFieldsToEdit(editPlaylist)
         return binding.root
+    }
+
+    private fun setFieldsToEdit(editPlaylist: PlaylistWithTracksModel?) {
+        editPlaylist ?: return
+        playlistId = editPlaylist.playlistId
+        playlistTrackAmount = editPlaylist.playlistTrackAmount
+        inputPlaylistName = editPlaylist.playListName
+        inputPlaylistDescription = editPlaylist.playListDescription
+        coverUri = File(editPlaylist.coverUri)
+        val uri = coverUri?.toUri()
+        binding.loadImage.setImageURI(uri)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,6 +134,8 @@ class CreatePlaylistFragment : Fragment() {
                 playListName = inputPlaylistName,
                 playListDescription = inputPlaylistDescription,
                 coverUri = coverUri?.path ?: "",
+                playlistId = playlistId,
+                playlistTrackAmount = playlistTrackAmount,
             )
             Toast.makeText(context,
                 getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()

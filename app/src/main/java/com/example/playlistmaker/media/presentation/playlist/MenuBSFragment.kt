@@ -12,6 +12,7 @@ import com.example.playlistmaker.databinding.FragmentMenuBSBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
+import com.example.playlistmaker.utils.navigateToDestination
 import com.example.playlistmaker.utils.serialize
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,6 +65,14 @@ class MenuBSFragment : BottomSheetDialogFragment() {
 
         binding.deletePlaylist.setOnClickListener {
             showDeletePlaylistDialog(currentPlaylist)
+        }
+
+        binding.editPlaylistInfo.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("playlist", currentPlaylist.serialize())
+            }
+            navigateToDestination(R.id.createPlaylistFragment, bundle)
+            dismiss()
         }
 
     }
