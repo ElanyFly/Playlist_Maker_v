@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
@@ -65,6 +66,9 @@ class CreatePlaylistFragment : Fragment() {
         coverUri = File(editPlaylist.coverUri)
         val uri = coverUri?.toUri()
         binding.loadImage.setImageURI(uri)
+        binding.loadIcon.isVisible = false
+        binding.textInputPlaylistEditText.setText(inputPlaylistName)
+        binding.textInputDescriptionEditText.setText(inputPlaylistDescription)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
