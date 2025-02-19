@@ -1,6 +1,7 @@
 package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toPlaylistEntity
+import com.example.playlistmaker.media.data.convertors.toPlaylistModel
 import com.example.playlistmaker.media.data.convertors.toPlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.convertors.toPlaylistWithTracksModel
 import com.example.playlistmaker.media.data.db.TracksDatabase
@@ -52,7 +53,8 @@ class PlaylistRepositoryImpl(
 
     override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>> = flow {
         val playlist =
-            tracksDatabase.playlistDao().getAllPlaylists().mapNotNull { it.toPlaylistWithTracksModel() }
+            tracksDatabase.playlistDao().getAllPlaylists()
+                .mapNotNull { it.toPlaylistWithTracksModel() }
         emit(playlist)
     }
 
@@ -70,6 +72,11 @@ class PlaylistRepositoryImpl(
         withContext(Dispatchers.IO) {
             tracksDatabase.playlistDao().updatePlaylist(playlist.toPlaylistEntity())
         }
+    }
+
+    override suspend fun getPlaylistById(playlistId: Int): PlaylistModel {
+        return tracksDatabase.playlistDao().getPlaylistById(playlistId).toPlaylistModel()
+
     }
 
 }

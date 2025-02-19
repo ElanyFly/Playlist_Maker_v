@@ -11,6 +11,8 @@ class CreatePlaylistViewModel(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
+    private lateinit var playlistToChange: PlaylistModel
+
     fun createPlaylist(playListName: String, playListDescription: String, coverUri: String) {
         viewModelScope.launch {
             val newPlaylist = PlaylistModel(
@@ -27,14 +29,21 @@ class CreatePlaylistViewModel(
     }
 
     fun updatePlaylist(playlistToEdit: PlaylistWithTracksModel, playListName: String, playListDescription: String, coverUri: String) {
-        val updatedPlaylist: PlaylistWithTracksModel = playlistToEdit.copy(
-            playListName = playListName,
-            playListDescription = playListDescription,
-            coverUri = coverUri,
 
-        )
+        viewModelScope.launch {
+            playlistToChange = playlistInteractor.getPlaylistById(playlistToEdit.playlistId)
 
-        playlistInteractor.updatePlaylist(updatedPlaylist)
+            val updatedPlaylist = playlistToChange.copy(
+                playListName = playListName,
+                playListDescription = playListDescription,
+                coverUri = coverUri,
+
+                )
+
+            playlistInteractor.updatePlaylist(updatedPlaylist)
+        }
+
+
     }
 
 }

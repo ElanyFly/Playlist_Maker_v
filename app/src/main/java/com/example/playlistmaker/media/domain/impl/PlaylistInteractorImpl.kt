@@ -42,4 +42,8 @@ class PlaylistInteractorImpl(
     override suspend fun updatePlaylist(playlist: PlaylistModel) {
         return playlistRepository.updatePlaylist(playlist)
     }
+
+    override suspend fun getPlaylistById(playlistId: Int): PlaylistModel {
+        return playlistRepository.getPlaylistById(playlistId)
+    }
 }

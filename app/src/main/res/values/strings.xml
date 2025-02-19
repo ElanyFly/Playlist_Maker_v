@@ -72,5 +72,7 @@
     <string name="menu_playlist_delete_message">Хотите удалить плейлист?</string>
     <string name="menu_playlist_delete_yes">Да</string>
     <string name="menu_playlist_delete_no">нет</string>
+    <string name="create_playlist_edit_header">Редактировать</string>
+    <string name="create_playlist_save_edited">Сохранить</string>
 
 </resources>

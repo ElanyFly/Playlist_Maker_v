@@ -1,5 +1,6 @@
 package com.example.playlistmaker.media.domain.db
 
+import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistTrackJoinModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
@@ -15,4 +16,5 @@ interface PlaylistRepository {
     suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel>
     suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean
     suspend fun updatePlaylist(playlist: PlaylistModel)
+    suspend fun getPlaylistById(playlistId: Int): PlaylistModel
 }

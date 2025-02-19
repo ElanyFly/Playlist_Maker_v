@@ -67,8 +67,8 @@ class CreatePlaylistFragment : Fragment() {
         coverUri = File(editPlaylist.coverUri)
         val uri = coverUri?.toUri()
 
-        binding.screenHeader.text = "Редактировать"
-        binding.btnCreatePlaylist.text = "Сохранить"
+        binding.screenHeader.text = getString(R.string.create_playlist_edit_header)
+        binding.btnCreatePlaylist.text = getString(R.string.create_playlist_save_edited)
 
         binding.loadImage.setImageURI(uri)
         binding.loadIcon.isVisible = false
