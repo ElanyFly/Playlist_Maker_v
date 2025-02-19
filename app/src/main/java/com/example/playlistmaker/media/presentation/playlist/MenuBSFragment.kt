@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMenuBSBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
-import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.utils.deserialize
 import com.example.playlistmaker.utils.navigateToDestination
 import com.example.playlistmaker.utils.serialize
@@ -109,6 +110,8 @@ class MenuBSFragment : BottomSheetDialogFragment() {
 
         alertDialogBuilder.setPositiveButton(getString(R.string.menu_playlist_delete_yes)) { dialog, with ->
             viewModel.deletePlaylist(playlist)
+            dismiss()
+            findNavController().popBackStack()
         }
 
         alertDialogBuilder.setNegativeButton(getString(R.string.menu_playlist_delete_no)) { dialog, with ->

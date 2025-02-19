@@ -71,7 +71,9 @@ class CreatePlaylistFragment : Fragment() {
         binding.btnCreatePlaylist.text = getString(R.string.create_playlist_save_edited)
 
         binding.loadImage.setImageURI(uri)
-        binding.loadIcon.isVisible = false
+        if (editPlaylist.coverUri.isNotBlank()) {
+            binding.loadIcon.isVisible = false
+        }
         binding.textInputPlaylistEditText.setText(inputPlaylistName)
         binding.textInputDescriptionEditText.setText(inputPlaylistDescription)
     }
