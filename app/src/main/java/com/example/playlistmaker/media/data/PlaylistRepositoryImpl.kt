@@ -66,5 +66,11 @@ class PlaylistRepositoryImpl(
         return tracksDatabase.playlistDao().isTrackInAnyPlaylist(trackId)
     }
 
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.playlistDao().updatePlaylist(playlist.toPlaylistEntity())
+        }
+    }
+
 }
 

@@ -14,4 +14,5 @@ interface PlaylistInteractor {
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>>
     suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel>
     suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean
+    suspend fun updatePlaylist(playlist: PlaylistModel)
 }

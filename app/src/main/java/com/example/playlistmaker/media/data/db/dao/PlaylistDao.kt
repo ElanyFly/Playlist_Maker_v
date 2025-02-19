@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.playlistmaker.media.data.db.entity.PlaylistEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.db.entity.PlaylistWithTracksEntity
@@ -38,5 +39,9 @@ interface PlaylistDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM playlist_track_join WHERE trackId = :trackId LIMIT 1)")
     suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean
+
+    @Update
+    suspend fun updatePlaylist(playlist: PlaylistEntity)
+
 
 }

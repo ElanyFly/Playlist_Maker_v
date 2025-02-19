@@ -4,25 +4,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import kotlinx.coroutines.launch
 
 class CreatePlaylistViewModel(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
-    fun createPlaylist(playListName: String, playListDescription: String, coverUri: String, playlistId: Int = 0, playlistTrackAmount: Int = 0) {
+    fun createPlaylist(playListName: String, playListDescription: String, coverUri: String) {
         viewModelScope.launch {
             val newPlaylist = PlaylistModel(
-                playlistId = playlistId,
+                playlistId = 0,
                 playListName = playListName,
                 playListDescription = playListDescription,
                 coverUri = coverUri,
-                playlistTrackAmount = playlistTrackAmount
+                playlistTrackAmount = 0
             )
             playlistInteractor.createNewPlaylist(
                 playlist = newPlaylist
             )
         }
+    }
+
+    fun updatePlaylist(playlistToEdit: PlaylistWithTracksModel, playListName: String, playListDescription: String, coverUri: String) {
+        val updatedPlaylist: PlaylistWithTracksModel = playlistToEdit.copy(
+            playListName = playListName,
+            playListDescription = playListDescription,
+            coverUri = coverUri,
+
+        )
+
+        playlistInteractor.updatePlaylist(updatedPlaylist)
     }
 
 }

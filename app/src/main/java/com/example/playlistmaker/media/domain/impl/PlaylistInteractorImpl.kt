@@ -38,4 +38,8 @@ class PlaylistInteractorImpl(
     override suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean {
         return playlistRepository.isTrackInAnyPlaylist(trackId)
     }
+
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        return playlistRepository.updatePlaylist(playlist)
+    }
 }
