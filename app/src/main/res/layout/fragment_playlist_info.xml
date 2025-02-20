@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/arrow_back"
-                app:tint="@color/text_dark" />
+                app:tint="@color/text_activity_main" />
 
         </FrameLayout>
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/padding_16dp"
             android:layout_marginTop="@dimen/padding_24dp"
-            android:textColor="@color/text_dark"
+            android:textColor="@color/text_activity_main"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/coverUri"
             tools:text="Best Songs Whatever " />
@@ -101,7 +101,7 @@
                 app:layout_constraintEnd_toStartOf="@id/trackCount"
                 app:layout_constraintStart_toEndOf="@id/totalTrackTime"
                 app:layout_constraintTop_toTopOf="@id/totalTrackTime"
-                app:tint="@color/text_dark" />
+                app:tint="@color/text_activity_main" />
 
             <TextView
                 android:id="@+id/trackCount"
@@ -128,7 +128,7 @@
             android:src="@drawable/share_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/innerConstraint"
-            app:tint="@color/text_dark" />
+            app:tint="@color/text_activity_main" />
 
         <ImageView
             android:id="@+id/tripleIcon"
@@ -140,7 +140,7 @@
             android:src="@drawable/triple_icon"
             app:layout_constraintStart_toEndOf="@id/shareIcon"
             app:layout_constraintTop_toBottomOf="@id/innerConstraint"
-            app:tint="@color/text_dark" />
+            app:tint="@color/text_activity_main" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/fragment_track_show_bs"/>
