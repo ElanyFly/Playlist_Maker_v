@@ -82,7 +82,7 @@ class CreatePlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) {
+            if ((binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) && (playlistToEdit == null)) {
                 showExitDialog()
             } else {
                 findNavController().popBackStack()
@@ -105,7 +105,7 @@ class CreatePlaylistFragment : Fragment() {
             }
 
         binding.backArrow.setOnClickListener {
-            if (binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) {
+            if ((binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) && (playlistToEdit == null)) {
                 showExitDialog()
             } else {
             findNavController().popBackStack()
