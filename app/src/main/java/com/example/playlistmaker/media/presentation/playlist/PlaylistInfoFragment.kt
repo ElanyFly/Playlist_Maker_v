@@ -1,9 +1,12 @@
 package com.example.playlistmaker.media.presentation.playlist
 
+import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -79,11 +82,11 @@ class PlaylistInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backArrow.setOnApplyWindowInsetsListener() { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.playlistInfo) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(v.paddingLeft, systemBars.top+150, v.paddingRight, v.paddingBottom)
-            v.marginTop = systemBars.top
-            v.layoutParams = ViewGroup.LayoutParams()
+
+            (binding.backArrow.layoutParams as? MarginLayoutParams)?.topMargin =
+                systemBars.top + requireContext().resources.getDimensionPixelSize(R.dimen.padding_14dp)
             insets
         }
 
@@ -207,5 +210,14 @@ class PlaylistInfoFragment : Fragment() {
         fun newInstance(playlistId: Int) {
             _playlistId = playlistId
         }
+    }
+
+
+    private fun dpToPx(context: Context, dp: Float): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            context.resources.displayMetrics
+        ).toInt()
     }
 }
