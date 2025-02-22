@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -69,17 +70,23 @@ class PlaylistInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlaylistInfoBinding.inflate(inflater, container, false)
+
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        ViewCompat.setOnApplyWindowInsetsListener(binding.playlistInfo) { v, insets ->
+
+        binding.backArrow.setOnApplyWindowInsetsListener() { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(v.paddingLeft, systemBars.top+150, v.paddingRight, v.paddingBottom)
+            v.marginTop = systemBars.top
+            v.layoutParams = ViewGroup.LayoutParams()
             insets
         }
+
 
         playlistId = _playlistId ?: kotlin.run {
             view.findNavController().popBackStack()
