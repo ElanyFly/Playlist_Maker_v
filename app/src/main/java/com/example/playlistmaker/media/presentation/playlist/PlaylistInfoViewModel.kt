@@ -49,4 +49,11 @@ class PlaylistInfoViewModel(
         )
     }
 
+    fun deletePlaylist(playlist: PlaylistWithTracksModel) {
+        viewModelScope.launch {
+            playlistInteractor.deletePlaylist(playlist.playlistId)
+            tracksInteractor.deleteOrphanedTracks()
+        }
+    }
+
 }

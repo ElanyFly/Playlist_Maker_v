@@ -50,9 +50,7 @@ val mediaModule = module {
 
     viewModel<MenuBSViewModel> {
         MenuBSViewModel(
-            playlistInteractor = get(),
             sharingInteractor = get(),
-            tracksInteractor = get()
         )
     }
 

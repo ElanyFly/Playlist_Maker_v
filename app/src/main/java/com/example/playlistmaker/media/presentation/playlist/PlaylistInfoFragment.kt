@@ -14,10 +14,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
@@ -80,7 +80,7 @@ class PlaylistInfoFragment : Fragment() {
 
         return binding.root
     }
-
+    private var menuBSFragment: MenuBSFragment? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -131,9 +131,37 @@ class PlaylistInfoFragment : Fragment() {
 
         binding.tripleIcon.setOnClickListener {
             val playlist = viewModel.getCurrentPlaylist() ?: return@setOnClickListener
-            val menuBSFragment = MenuBSFragment.newInstance(playlist)
-            menuBSFragment.show(parentFragmentManager, menuBSFragment.tag)
+            MenuBSFragment.newInstance(
+                playlistInfo = playlist,
+                onDelete = {
+                    showDeletePlaylistDialog(playlist)
+                    menuBSFragment?.dismiss()
+                }
+            ).let {
+                menuBSFragment = it
+                it.show(parentFragmentManager, menuBSFragment?.tag)
+            }
         }
+
+    }
+
+    private fun showDeletePlaylistDialog(playlist: PlaylistWithTracksModel) {
+
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
+        alertDialogBuilder.setTitle(getString(R.string.menu_playlist_delete_header))
+        alertDialogBuilder.setMessage(getString(R.string.menu_playlist_delete_message))
+
+        alertDialogBuilder.setPositiveButton(getString(R.string.menu_playlist_delete_yes)) { dialog, with ->
+            viewModel.deletePlaylist(playlist)
+            findNavController().popBackStack()
+        }
+
+        alertDialogBuilder.setNegativeButton(getString(R.string.menu_playlist_delete_no)) { dialog, with ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
 
     }
 

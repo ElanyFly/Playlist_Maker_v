@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentMenuBSBinding
@@ -66,7 +63,7 @@ class MenuBSFragment : BottomSheetDialogFragment() {
         }
 
         binding.deletePlaylist.setOnClickListener {
-            showDeletePlaylistDialog(currentPlaylist)
+            _onDelete.invoke()
         }
 
         binding.editPlaylistInfo.setOnClickListener {
@@ -103,33 +100,12 @@ class MenuBSFragment : BottomSheetDialogFragment() {
             .into(binding.playlistCover)
     }
 
-    private fun showDeletePlaylistDialog(playlist: PlaylistWithTracksModel) {
-
-        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.MyAlertDialogTheme)
-        alertDialogBuilder.setTitle(getString(R.string.menu_playlist_delete_header))
-        alertDialogBuilder.setMessage(getString(R.string.menu_playlist_delete_message))
-
-        alertDialogBuilder.setPositiveButton(getString(R.string.menu_playlist_delete_yes)) { dialog, with ->
-            viewModel.deletePlaylist(playlist)
-            dismiss()
-            findNavController().popBackStack()
-        }
-
-        alertDialogBuilder.setNegativeButton(getString(R.string.menu_playlist_delete_no)) { dialog, with ->
-            dialog.dismiss()
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-
-    }
-
-
     companion object {
 
         private const val PLAYLIST_KEY = "playlist_info"
-
-        fun newInstance(playlistInfo: PlaylistWithTracksModel) = MenuBSFragment().apply {
+        private var _onDelete: () -> Unit = {}
+        fun newInstance(playlistInfo: PlaylistWithTracksModel, onDelete: () -> Unit) = MenuBSFragment().apply {
+            _onDelete = onDelete
             arguments = Bundle().apply {
                 putString(PLAYLIST_KEY, playlistInfo.serialize())
             }
