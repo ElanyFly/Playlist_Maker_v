@@ -53,6 +53,7 @@ class MenuBSFragment : BottomSheetDialogFragment() {
         setPlaylistData()
 
         binding.sharePlaylist.setOnClickListener {
+            dismiss()
             if (currentPlaylist.playlistTracks.isEmpty()) {
                 Toast.makeText(
                     context,
