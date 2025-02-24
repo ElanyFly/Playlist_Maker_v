@@ -11,7 +11,7 @@
     app:behavior_hideable="true"
     app:behavior_skipCollapsed="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
+    
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +19,16 @@
         android:layout_marginBottom="@dimen/padding_12dp"
         android:src="@drawable/bs_top"
         app:tint="@color/tumbler_track_off" />
+
+    <TextView
+        android:id="@+id/emptyListMessage"
+        style="@style/ErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_24dp"
+        android:textAlignment="center"
+        android:text="@string/track_show_bs_empty_massage"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTrackSHow"

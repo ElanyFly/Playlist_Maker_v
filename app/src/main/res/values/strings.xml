@@ -74,5 +74,6 @@
     <string name="menu_playlist_delete_no">нет</string>
     <string name="create_playlist_edit_header">Редактировать</string>
     <string name="create_playlist_save_edited">Сохранить</string>
+    <string name="track_show_bs_empty_massage">В этом плейлисте \nнет треков</string>
 
 </resources>

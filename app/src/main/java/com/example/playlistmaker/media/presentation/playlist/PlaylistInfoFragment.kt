@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
@@ -43,6 +44,7 @@ class PlaylistInfoFragment : Fragment() {
             ?: throw IllegalStateException("Binding for FragmentPlaylistInfo must not be null")
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var emptyMessage: TextView
 
     private var playlistId: Int? = null
     private var trackList: List<Track> = emptyList()
@@ -99,6 +101,7 @@ class PlaylistInfoFragment : Fragment() {
         val bottomSheet = view.findViewById<LinearLayout>(R.id.bottomSheetTrackShow)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet!!)
 
+        emptyMessage = view.findViewById(R.id.emptyListMessage)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewTrackSHow)
         recyclerView.adapter = trackAdapter
 
@@ -140,9 +143,11 @@ class PlaylistInfoFragment : Fragment() {
                 resources.getDimensionPixelSize(R.dimen.playlist_bs_peek_height)
             bottomSheetBehavior.isHideable = false
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            emptyMessage.isVisible = false
         } else {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheet.isVisible = false
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            bottomSheetBehavior.isHideable = false
+            emptyMessage.isVisible = true
         }
     }
 
