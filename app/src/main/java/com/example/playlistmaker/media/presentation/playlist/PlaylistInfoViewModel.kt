@@ -37,11 +37,7 @@ class PlaylistInfoViewModel(
             val connection =
                 playlistWithTracks.value?.let { PlaylistTrackJoinModel(it.playlistId, track.trackId) } ?: return@launch
             playlistInteractor.deleteConnection(connection)
-            val isElsewhere = playlistInteractor.isTrackInAnyPlaylist(trackId = track.trackId)
-            val isInFav = tracksInteractor.isTrackExistsInFav(trackId = track.trackId)
-            if (!isElsewhere && !isInFav) {
-                tracksInteractor.deleteTrackById(trackId = track.trackId)
-            }
+            tracksInteractor.deleteOrphanedTracks()
         }
     }
 
