@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
 import com.example.playlistmaker.media.domain.db.model.PlaylistModel
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreatePlaylistViewModel(
@@ -30,7 +31,8 @@ class CreatePlaylistViewModel(
 
     fun updatePlaylist(playlistToEdit: PlaylistWithTracksModel, playListName: String, playListDescription: String, coverUri: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+
             playlistToChange = playlistInteractor.getPlaylistById(playlistToEdit.playlistId)
 
             val updatedPlaylist = playlistToChange.copy(

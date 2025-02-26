@@ -153,16 +153,16 @@ class CreatePlaylistFragment : Fragment() {
                     playListDescription = inputPlaylistDescription,
                     coverUri = coverUri?.path ?: "",
                 )
+                Toast.makeText(context,
+                    getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
+
             } else {
                 viewModel.updatePlaylist(playlistToEdit ?: return@setOnClickListener,
                     playListName = inputPlaylistName,
                     playListDescription = inputPlaylistDescription,
                     coverUri = coverUri?.path ?: "", )
+
             }
-
-
-            Toast.makeText(context,
-                getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
 
