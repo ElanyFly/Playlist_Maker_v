@@ -12,7 +12,6 @@ val audioPlayerModule = module {
         AudioPlayerViewModel(
             mediaPlayer = get(),
             tracksInteractor = get(),
-            playlistInteractor = get(),
         )
     }
 

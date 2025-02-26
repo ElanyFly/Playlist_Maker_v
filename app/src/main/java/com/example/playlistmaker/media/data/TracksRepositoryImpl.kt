@@ -50,12 +50,6 @@ class TracksRepositoryImpl(
         }
     }
 
-//    override suspend fun deleteTrackFromFav(track: Track) {
-//        withContext(Dispatchers.IO) {
-//            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
-//        }
-//    }
-
     override fun getFavTracksList(): Flow<List<Track>> = flow {
         val trackList = tracksDatabase.trackDao().getAllTracksInFav()
         emit(trackList.map { trackEntity ->

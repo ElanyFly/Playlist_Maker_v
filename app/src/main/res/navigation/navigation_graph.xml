@@ -77,11 +77,6 @@
             android:id="@+id/action_playlistInfoFragment_to_audioPlayerFragment"
             app:destination="@id/audioPlayerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/trackShowBsFragment2"
-        android:name="com.example.playlistmaker.media.presentation.playlist.TrackShowBsFragment"
-        android:label="fragment_track_show_bs"
-        tools:layout="@layout/fragment_track_show_bs" />
     <action
         android:id="@+id/action_global_audioPlayerFragment"
         app:destination="@id/audioPlayerFragment" />

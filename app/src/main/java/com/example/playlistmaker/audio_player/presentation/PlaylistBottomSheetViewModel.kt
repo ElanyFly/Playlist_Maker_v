@@ -17,7 +17,7 @@ class PlaylistBottomSheetViewModel(
     private val trackInteractor: TracksInteractor
 ) : ViewModel() {
 
-    private var _playlists = MutableLiveData<List<PlaylistWithTracksModel>>()
+    private val _playlists = MutableLiveData<List<PlaylistWithTracksModel>>()
     val playlists: LiveData<List<PlaylistWithTracksModel>>
         get() = _playlists
 
