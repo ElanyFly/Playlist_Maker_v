@@ -50,6 +50,7 @@ class PlaylistInfoFragment : Fragment() {
     private var trackList: List<Track> = emptyList()
 
     private var moveJob: Job? = null
+    private var menuBSFragment: MenuBSFragment? = null
 
     private val trackAdapter: TrackShowBsAdapter = TrackShowBsAdapter(
         onClick = { track ->
@@ -75,23 +76,18 @@ class PlaylistInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlaylistInfoBinding.inflate(inflater, container, false)
-
-
-
         return binding.root
     }
-    private var menuBSFragment: MenuBSFragment? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.playlistInfo) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
             (binding.backArrow.layoutParams as? MarginLayoutParams)?.topMargin =
                 systemBars.top + requireContext().resources.getDimensionPixelSize(R.dimen.padding_14dp)
             insets
         }
-
 
         playlistId = _playlistId ?: kotlin.run {
             view.findNavController().popBackStack()
@@ -245,12 +241,4 @@ class PlaylistInfoFragment : Fragment() {
         }
     }
 
-
-    private fun dpToPx(context: Context, dp: Float): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            context.resources.displayMetrics
-        ).toInt()
-    }
 }

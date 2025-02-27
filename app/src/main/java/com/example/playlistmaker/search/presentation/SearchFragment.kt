@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentSearchBinding
@@ -47,7 +46,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         moveJob = lifecycleScope.launch {
             viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
             AudioPlayerFragment.newInstance(track)
-//            view?.findNavController()?.navigate(R.id.audioPlayerFragment2)
             navigateToDestination(R.id.audioPlayerFragment2)
 
 
@@ -175,7 +173,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
 
     companion object {
-        private const val INPUT_TEXT_KEY = "INPUT_TEXT"
         private const val INPUT_DELAY = 2000L
     }
 }

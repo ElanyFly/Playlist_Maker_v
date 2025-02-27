@@ -39,13 +39,10 @@ class CreatePlaylistViewModel(
                 playListName = playListName,
                 playListDescription = playListDescription,
                 coverUri = coverUri,
-
                 )
 
             playlistInteractor.updatePlaylist(updatedPlaylist)
         }
-
-
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.playlistmaker.sharing.data
 
-import android.app.Activity
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.sharing.domain.model.EmailData
 
