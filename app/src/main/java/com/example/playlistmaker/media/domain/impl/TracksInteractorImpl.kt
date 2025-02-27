@@ -17,8 +17,20 @@ class TracksInteractorImpl(
         tracksRepository.addTrack(track)
     }
 
-    override suspend fun deleteTrackFromFav(track: Track) {
-        addTrack(track.copy(isFavorite = false))
+    override suspend fun deleteOrphanedTracks() {
+        tracksRepository.deleteOrphanedTracks()
+    }
+
+    override suspend fun deleteTrackById(trackId: Int) {
+        tracksRepository.deleteTrackById(trackId)
+    }
+
+    override suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean) {
+        tracksRepository.updateFavouriteStatus(trackId, isFavourite)
+    }
+
+    override suspend fun isTrackExistsInFav(trackId: Int): Boolean {
+        return tracksRepository.isTrackExists(trackId)
     }
 
     override suspend fun getFavStatus(trackId: Int): Boolean {

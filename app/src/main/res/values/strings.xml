@@ -47,11 +47,33 @@
     <string name="playlist_finish">Завершить</string>
     <string name="playlist_finish_cancel">Отмена</string>
     <string name="Playlist_is_created">Плейлист %1$s создан</string>
+    <string name="playlist_info_delete_track_q">Удалить трек</string>
+    <string name="playlist_info_delete_message">Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="playlist_info_delete_agree">Удалить</string>
 
     <plurals name="track_count">
         <item quantity="one">%d трек</item>
         <item quantity="few">%d трека</item>
         <item quantity="many">%d треков</item>
     </plurals>
+
+    <plurals name="minutes">
+        <item quantity="one">%d минута</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минут</item>
+    </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_edit_playlist">Редактировать информацию</string>
+    <string name="menu_delete_playlist">Удалить плейлист</string>
+    <string name="playlist_nothing_to_share">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="menu_playlist_delete_header">Удалить плейлист</string>
+    <string name="menu_playlist_delete_message">Хотите удалить плейлист?</string>
+    <string name="menu_playlist_delete_yes">Да</string>
+    <string name="menu_playlist_delete_no">нет</string>
+    <string name="create_playlist_edit_header">Редактировать</string>
+    <string name="create_playlist_save_edited">Сохранить</string>
+    <string name="track_show_bs_empty_massage">В этом плейлисте \nнет треков</string>
 
 </resources>

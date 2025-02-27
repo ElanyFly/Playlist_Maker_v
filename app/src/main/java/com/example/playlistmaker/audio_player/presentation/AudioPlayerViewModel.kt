@@ -42,7 +42,7 @@ class AudioPlayerViewModel(
         }
     }
 
-    fun handlePressLikeBtn(action: AudioPlayerAction.pressLikeBtn) {
+    private fun handlePressLikeBtn(action: AudioPlayerAction.pressLikeBtn) {
         val currentTrackM = currentTrack ?: return
         viewModelScope.launch {
             val isFavourite = !currentTrackM.isFavorite
@@ -50,13 +50,18 @@ class AudioPlayerViewModel(
                 isFavorite = isFavourite
             )
 
-            if (currentTrackNew.isFavorite) {
-                tracksInteractor.addTrack(currentTrackNew)
+            if (!isFavourite){
+                tracksInteractor.updateFavouriteStatus(currentTrackNew.trackId, false)
+                tracksInteractor.deleteOrphanedTracks()
+
             } else {
-                tracksInteractor.deleteTrackFromFav(currentTrackNew)
+                tracksInteractor.updateFavouriteStatus(currentTrackNew.trackId, true)
+                tracksInteractor.addIfNoTrack(currentTrackNew)
+
             }
             currentTrack = currentTrackNew
             handleState(track = currentTrackNew)
+
         }
 
     }

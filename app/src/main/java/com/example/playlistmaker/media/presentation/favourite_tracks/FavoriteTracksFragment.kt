@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
+import com.example.playlistmaker.utils.Constants
+import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,9 +37,9 @@ class FavoriteTracksFragment : Fragment() {
         }
         moveJob = lifecycleScope.launch {
             AudioPlayerFragment.newInstance(track)
-            view?.findNavController()?.navigate(R.id.audioPlayerFragment)
+            navigateToDestination(R.id.audioPlayerFragment2)
 
-            delay(CLICK_DEBOUNCE_DELAY)
+            delay(Constants.CLICK_DEBOUNCE_DELAY)
         }
     }
 
@@ -89,8 +90,6 @@ class FavoriteTracksFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 500L
-
         fun newInstance() = FavoriteTracksFragment().apply {
             arguments = Bundle().apply {
             }

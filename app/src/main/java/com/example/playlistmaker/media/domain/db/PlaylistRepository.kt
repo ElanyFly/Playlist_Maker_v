@@ -9,8 +9,11 @@ interface PlaylistRepository {
 
     suspend fun createNewPlaylist(playlist: PlaylistModel)
     suspend fun insertConnection(playlistTrackJoin: PlaylistTrackJoinModel): Boolean
-    suspend fun deletePlaylist(playlist: PlaylistModel)
+    suspend fun deletePlaylist(playlistId: Int)
     suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel)
     suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>>
-    suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel
+    suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel>
+    suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean
+    suspend fun updatePlaylist(playlist: PlaylistModel)
+    suspend fun getPlaylistById(playlistId: Int): PlaylistModel
 }

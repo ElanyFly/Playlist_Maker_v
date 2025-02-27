@@ -20,6 +20,14 @@
         android:background="@drawable/botttom_sheet_shape"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bs_top"
+            android:layout_marginTop="@dimen/padding_8dp"
+            android:layout_marginBottom="@dimen/padding_12dp"
+            app:tint="@color/tumbler_track_off"/>
+
         <TextView
             style="@style/ErrorMessage"
             android:layout_width="wrap_content"

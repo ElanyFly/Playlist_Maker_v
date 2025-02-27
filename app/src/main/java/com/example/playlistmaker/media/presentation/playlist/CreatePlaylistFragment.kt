@@ -13,12 +13,15 @@ import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
+import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
+import com.example.playlistmaker.utils.deserialize
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -35,25 +38,51 @@ class CreatePlaylistFragment : Fragment() {
 
     private var inputPlaylistName: String = ""
     private var inputPlaylistDescription: String = ""
+    private var playlistId = 0
+    private var playlistTrackAmount = 0
 
     private var filePath: File? = null
     private var fileUri: Uri? = null
     private var coverUri: File? = null
+
+    private var playlistToEdit: PlaylistWithTracksModel? = null
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        playlistToEdit = arguments?.getString("playlist")?.deserialize<PlaylistWithTracksModel>()
         _binding = FragmentCreatePlaylistBinding.inflate(inflater, container, false)
+        setFieldsToEdit(playlistToEdit)
         return binding.root
+    }
+
+    private fun setFieldsToEdit(editPlaylist: PlaylistWithTracksModel?) {
+        editPlaylist ?: return
+        playlistId = editPlaylist.playlistId
+        playlistTrackAmount = editPlaylist.playlistTrackAmount
+        inputPlaylistName = editPlaylist.playListName
+        inputPlaylistDescription = editPlaylist.playListDescription
+        coverUri = File(editPlaylist.coverUri)
+        val uri = coverUri?.toUri()
+
+        binding.screenHeader.text = getString(R.string.create_playlist_edit_header)
+        binding.btnCreatePlaylist.text = getString(R.string.create_playlist_save_edited)
+
+        binding.loadImage.setImageURI(uri)
+        if (editPlaylist.coverUri.isNotBlank()) {
+            binding.loadIcon.isVisible = false
+        }
+        binding.textInputPlaylistEditText.setText(inputPlaylistName)
+        binding.textInputDescriptionEditText.setText(inputPlaylistDescription)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) {
+            if ((binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) && (playlistToEdit == null)) {
                 showExitDialog()
             } else {
                 findNavController().popBackStack()
@@ -76,7 +105,7 @@ class CreatePlaylistFragment : Fragment() {
             }
 
         binding.backArrow.setOnClickListener {
-            if (binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) {
+            if ((binding.loadImage.drawable != null || inputPlaylistName.isNotBlank() || inputPlaylistDescription.isNotBlank()) && (playlistToEdit == null)) {
                 showExitDialog()
             } else {
             findNavController().popBackStack()
@@ -85,6 +114,12 @@ class CreatePlaylistFragment : Fragment() {
 
         binding.loadImage.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        if (binding.textInputPlaylistEditText.text?.isNotBlank() ?: return ) {
+            binding.btnCreatePlaylist.setBackgroundColor(
+                requireContext().getColor(R.color.tumbler_head)
+            )
         }
 
         binding.textInputPlaylistEditText.doAfterTextChanged {
@@ -112,13 +147,22 @@ class CreatePlaylistFragment : Fragment() {
             }
             fileUri?.let { saveImageToPrivateStorage(it) }
 
-            viewModel.createPlaylist(
-                playListName = inputPlaylistName,
-                playListDescription = inputPlaylistDescription,
-                coverUri = coverUri?.path ?: "",
-            )
-            Toast.makeText(context,
-                getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
+            if (playlistToEdit == null) {
+                viewModel.createPlaylist(
+                    playListName = inputPlaylistName,
+                    playListDescription = inputPlaylistDescription,
+                    coverUri = coverUri?.path ?: "",
+                )
+                Toast.makeText(context,
+                    getString(R.string.Playlist_is_created, inputPlaylistName), Toast.LENGTH_SHORT).show()
+
+            } else {
+                viewModel.updatePlaylist(playlistToEdit ?: return@setOnClickListener,
+                    playListName = inputPlaylistName,
+                    playListDescription = inputPlaylistDescription,
+                    coverUri = coverUri?.path ?: "", )
+
+            }
             findNavController().popBackStack()
         }
 

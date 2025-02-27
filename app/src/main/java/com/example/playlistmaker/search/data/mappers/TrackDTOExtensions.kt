@@ -10,7 +10,7 @@ fun TrackDTO.toTrack(): Track? {
         trackId = trackId ?: return null,
         trackName = trackName ?: return null,
         artistName = artistName ?: return null,
-        trackTime = trackTime?.toLong()?.convertMS() ?: "",
+        trackTime = trackTime?.toLongOrNull() ?: 0,
         pictureURL = pictureURL ?: "",
         collectionName = collectionName ?: "",
         releaseDate = releaseDate ?: "",

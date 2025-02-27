@@ -9,14 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.audio_player.presentation.AudioPlayerFragment
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.search.presentation.track_adapter.TrackAdapter
+import com.example.playlistmaker.utils.Constants
+import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,12 +46,13 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         moveJob = lifecycleScope.launch {
             viewModel.makeAction(SearchAction.AddTrackToHistoryList(track))
             AudioPlayerFragment.newInstance(track)
-            view?.findNavController()?.navigate(R.id.audioPlayerFragment)
+            navigateToDestination(R.id.audioPlayerFragment2)
+
 
             if (binding.inputText.hasFocus() && binding.inputText.text.isEmpty()) {
                 showHistory(true)
             }
-            delay(CLICK_DEBOUNCE_DELAY)
+            delay(Constants.CLICK_DEBOUNCE_DELAY)
         }
 
     }
@@ -64,6 +68,13 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.search) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
         viewModel.makeAction(SearchAction.RestoreHistoryCache)
 
         binding.clearIcon.setOnClickListener {
@@ -139,17 +150,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         binding.btnClearHistory.isVisible = isShown
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(INPUT_TEXT_KEY, savedText)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val text = savedInstanceState?.getString(INPUT_TEXT_KEY) ?: ""
-        savedText = text
-        binding.inputText.setText(text)
-    }
 
     private fun hideKeyboard(view: View) {
         val inputMethodManager =
@@ -173,8 +173,6 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
 
     companion object {
-        private const val INPUT_TEXT_KEY = "INPUT_TEXT"
         private const val INPUT_DELAY = 2000L
-        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 }

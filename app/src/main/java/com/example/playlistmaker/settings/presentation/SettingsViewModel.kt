@@ -6,8 +6,8 @@ import com.example.playlistmaker.settings.domain.ThemeInteractor
 import com.example.playlistmaker.sharing.domain.SharingInteractor
 
 class SettingsViewModel(
-    val intentNavigation: SharingInteractor,
-    val themeInteractor: ThemeInteractor
+    private val intentNavigation: SharingInteractor,
+    private val themeInteractor: ThemeInteractor
 ) : ViewModel() {
 
 

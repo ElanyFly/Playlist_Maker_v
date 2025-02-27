@@ -17,6 +17,16 @@ fun PlaylistModel.toPlaylistEntity(): PlaylistEntity {
     )
 }
 
+fun PlaylistEntity.toPlaylistModel(): PlaylistModel {
+    return PlaylistModel(
+        playlistId = playlistId,
+        playListName = playListName,
+        playListDescription = playListDescription,
+        coverUri = coverUri,
+        playlistTrackAmount = playlistTrackAmount,
+    )
+}
+
 fun PlaylistTrackJoinModel.toPlaylistTrackJoinEntity(): PlaylistTrackJoinEntity {
     return PlaylistTrackJoinEntity(
         playlistId = playlistId,
@@ -24,7 +34,8 @@ fun PlaylistTrackJoinModel.toPlaylistTrackJoinEntity(): PlaylistTrackJoinEntity 
     )
 }
 
-fun PlaylistWithTracksEntity.toPlaylistWithTracksModel(): PlaylistWithTracksModel {
+fun PlaylistWithTracksEntity?.toPlaylistWithTracksModel(): PlaylistWithTracksModel? {
+    this ?: return null
     return PlaylistWithTracksModel(
         playlistId = playlistEntity.playlistId,
         playListName = playlistEntity.playListName,
@@ -34,5 +45,22 @@ fun PlaylistWithTracksEntity.toPlaylistWithTracksModel(): PlaylistWithTracksMode
         playlistTracks = tracks.map {
             it.toTrack()
         }
+    )
+}
+
+fun PlaylistWithTracksModel?.toPlaylistWithTracksEntity(): PlaylistWithTracksEntity? {
+    this ?: return null
+    return PlaylistWithTracksEntity(
+        playlistEntity = PlaylistEntity(
+            playlistId = playlistId,
+            playListName = playListName,
+            playListDescription = playListDescription,
+            coverUri = coverUri,
+            playlistTrackAmount = playlistTrackAmount,
+            timestamp = 0
+        ), tracks = playlistTracks.map {
+            it.toTrackEntity()
+        }
+
     )
 }

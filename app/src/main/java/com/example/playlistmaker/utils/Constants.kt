@@ -5,6 +5,6 @@ object Constants {
     const val PLAYER_TIME_DEFAULT = "00:00"
     const val BASE_URL = "https://itunes.apple.com"
     const val DATABASE_NAME = "database.db"
-
+    const val CLICK_DEBOUNCE_DELAY = 500L
 
 }

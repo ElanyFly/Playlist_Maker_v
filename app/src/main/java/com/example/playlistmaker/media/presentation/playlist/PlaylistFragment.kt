@@ -1,24 +1,19 @@
 package com.example.playlistmaker.media.presentation.playlist
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import com.example.playlistmaker.media.presentation.playlist_adapter.GridItemDecoration
 import com.example.playlistmaker.media.presentation.playlist_adapter.PlaylistAdapter
+import com.example.playlistmaker.utils.Constants
 import com.example.playlistmaker.utils.dpToPx
 import com.example.playlistmaker.utils.navigateToDestination
 import kotlinx.coroutines.Job
@@ -41,8 +36,9 @@ class PlaylistFragment : Fragment() {
             return@PlaylistAdapter
         }
         moveJob = lifecycleScope.launch {
-            //move inside playlist next sprint
-            delay(CLICK_DEBOUNCE_DELAY)
+            PlaylistInfoFragment.newInstance(playlistModel.playlistId)
+            navigateToDestination(R.id.playlistInfoFragment2)
+            delay(Constants.CLICK_DEBOUNCE_DELAY)
         }
     }
 
@@ -93,8 +89,6 @@ class PlaylistFragment : Fragment() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 500L
-
         fun newInstance() = PlaylistFragment().apply {
             arguments = Bundle().apply {
 

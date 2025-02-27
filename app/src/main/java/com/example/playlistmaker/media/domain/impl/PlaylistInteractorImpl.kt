@@ -19,8 +19,8 @@ class PlaylistInteractorImpl(
         return playlistRepository.insertConnection(playlistTrackJoin)
     }
 
-    override suspend fun deletePlaylist(playlist: PlaylistModel) {
-        playlistRepository.deletePlaylist(playlist)
+    override suspend fun deletePlaylist(playlistId: Int) {
+        playlistRepository.deletePlaylist(playlistId)
     }
 
     override suspend fun deleteConnection(playlistTrackJoin: PlaylistTrackJoinModel) {
@@ -31,7 +31,19 @@ class PlaylistInteractorImpl(
         return playlistRepository.getAllPlaylists()
     }
 
-    override suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel {
+    override suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel> {
         return playlistRepository.getPlaylistWithTracks(playlistId)
+    }
+
+    override suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean {
+        return playlistRepository.isTrackInAnyPlaylist(trackId)
+    }
+
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        return playlistRepository.updatePlaylist(playlist)
+    }
+
+    override suspend fun getPlaylistById(playlistId: Int): PlaylistModel {
+        return playlistRepository.getPlaylistById(playlistId)
     }
 }

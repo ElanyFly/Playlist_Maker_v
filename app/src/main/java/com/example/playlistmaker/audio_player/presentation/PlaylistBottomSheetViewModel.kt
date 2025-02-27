@@ -1,5 +1,7 @@
 package com.example.playlistmaker.audio_player.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.PlaylistInteractor
@@ -13,8 +15,19 @@ import kotlinx.coroutines.launch
 class PlaylistBottomSheetViewModel(
     private val playlistInteractor: PlaylistInteractor,
     private val trackInteractor: TracksInteractor
-): ViewModel() {
+) : ViewModel() {
 
+    private val _playlists = MutableLiveData<List<PlaylistWithTracksModel>>()
+    val playlists: LiveData<List<PlaylistWithTracksModel>>
+        get() = _playlists
+
+    fun getAllPlaylists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistInteractor.getAllPlaylists().collect{
+                _playlists.postValue(it)
+            }
+        }
+    }
 
     fun addTrackToPlaylist(
         playlistModel: PlaylistWithTracksModel,

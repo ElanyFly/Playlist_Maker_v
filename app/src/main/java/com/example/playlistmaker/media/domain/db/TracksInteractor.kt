@@ -7,7 +7,10 @@ interface TracksInteractor {
 
     fun getFavTracksList(): Flow<List<Track>>
     suspend fun addTrack(track: Track)
-    suspend fun deleteTrackFromFav(track: Track)
+    suspend fun deleteOrphanedTracks()
+    suspend fun deleteTrackById(trackId: Int)
+    suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean)
+    suspend fun isTrackExistsInFav(trackId: Int): Boolean
     suspend fun getFavStatus(trackId: Int): Boolean
     suspend fun addIfNoTrack(track: Track)
 }

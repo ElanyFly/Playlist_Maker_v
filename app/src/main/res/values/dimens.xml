@@ -32,4 +32,6 @@
     <dimen name="font_19sp">22sp</dimen>
     <dimen name="font_22sp">22sp</dimen>
     <dimen name="font_26sp">26sp</dimen>
+
+    <dimen name="playlist_bs_peek_height">270dp</dimen>
 </resources>

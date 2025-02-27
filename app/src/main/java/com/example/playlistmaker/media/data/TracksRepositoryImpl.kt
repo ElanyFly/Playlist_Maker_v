@@ -26,9 +26,27 @@ class TracksRepositoryImpl(
         }
     }
 
-    override suspend fun deleteTrackFromFav(track: Track) {
+    override suspend fun deleteOrphanedTracks() {
         withContext(Dispatchers.IO) {
-            tracksDatabase.trackDao().deleteTrackFromFav(track.toTrackEntity())
+            tracksDatabase.trackDao().deleteOrphanedTracks()
+        }
+    }
+
+    override suspend fun deleteTrackById(trackId: Int) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().deleteTrackById(trackId)
+        }
+    }
+
+    override suspend fun updateFavouriteStatus(trackId: Int, isFavourite: Boolean) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().updateFavouriteStatus(trackId, isFavourite)
+        }
+    }
+
+    override suspend fun isTrackExists(trackId: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            tracksDatabase.trackDao().isTrackExists(trackId)
         }
     }
 

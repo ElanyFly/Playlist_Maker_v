@@ -7,6 +7,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.TrackViewBinding
 import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.utils.convertMS
 
 class TrackViewHolder(private val binding: TrackViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -14,7 +15,7 @@ class TrackViewHolder(private val binding: TrackViewBinding) : RecyclerView.View
         with(binding) {
             trackName.text = model.trackName
             artistName.text = model.artistName
-            trackTime.text = model.trackTime
+            trackTime.text = model.trackTime.convertMS()
         }
 
         val coverUrl: String = model.pictureURL

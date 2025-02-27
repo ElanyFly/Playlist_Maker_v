@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentAudioplayerBinding
 import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.utils.convertMS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerFragment : Fragment() {
@@ -99,8 +100,8 @@ class AudioPlayerFragment : Fragment() {
 
             trackName.text = track.trackName
             groupName.text = track.artistName
-            audioTrackTime.text = track.trackTime
-            audioYear.text = track.releaseDate.substringBefore("-") ?: ""
+            audioTrackTime.text = track.trackTime.convertMS()
+            audioYear.text = track.releaseDate.substringBefore("-")
             audioGenre.text = track.primaryGenreName
             audioCountry.text = track.country
 

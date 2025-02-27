@@ -1,6 +1,7 @@
 package com.example.playlistmaker.media.data
 
 import com.example.playlistmaker.media.data.convertors.toPlaylistEntity
+import com.example.playlistmaker.media.data.convertors.toPlaylistModel
 import com.example.playlistmaker.media.data.convertors.toPlaylistTrackJoinEntity
 import com.example.playlistmaker.media.data.convertors.toPlaylistWithTracksModel
 import com.example.playlistmaker.media.data.db.TracksDatabase
@@ -11,6 +12,7 @@ import com.example.playlistmaker.media.domain.db.model.PlaylistWithTracksModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 
 class PlaylistRepositoryImpl(
@@ -35,9 +37,9 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    override suspend fun deletePlaylist(playlist: PlaylistModel) {
+    override suspend fun deletePlaylist(playlistId: Int) {
         withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().deletePlaylist(playlist.toPlaylistEntity())
+            tracksDatabase.playlistDao().deletePlaylist(playlistId)
         }
     }
 
@@ -49,14 +51,31 @@ class PlaylistRepositoryImpl(
     }
 
     override suspend fun getAllPlaylists(): Flow<List<PlaylistWithTracksModel>> = flow {
-        val playlist = tracksDatabase.playlistDao().getAllPlaylists().map { it.toPlaylistWithTracksModel() }
+        val playlist =
+            tracksDatabase.playlistDao().getAllPlaylists()
+                .mapNotNull { it.toPlaylistWithTracksModel() }
         emit(playlist)
     }
 
-    override suspend fun getPlaylistWithTracks(playlistId: Int): PlaylistWithTracksModel {
-        return withContext(Dispatchers.IO) {
-            tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId).toPlaylistWithTracksModel()
+    override suspend fun getPlaylistWithTracks(playlistId: Int): Flow<PlaylistWithTracksModel> {
+        return tracksDatabase.playlistDao().getPlaylistWithTracks(playlistId).mapNotNull {
+            it.toPlaylistWithTracksModel()
         }
+    }
+
+    override suspend fun isTrackInAnyPlaylist(trackId: Int): Boolean {
+        return tracksDatabase.playlistDao().isTrackInAnyPlaylist(trackId)
+    }
+
+    override suspend fun updatePlaylist(playlist: PlaylistModel) {
+        withContext(Dispatchers.IO) {
+            tracksDatabase.playlistDao().updatePlaylist(playlist.toPlaylistEntity())
+        }
+    }
+
+    override suspend fun getPlaylistById(playlistId: Int): PlaylistModel {
+        return tracksDatabase.playlistDao().getPlaylistById(playlistId).toPlaylistModel()
+
     }
 
 }
